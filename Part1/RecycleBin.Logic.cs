@@ -14,6 +14,7 @@ namespace Part1
             : base(nextID, input, shift)
         {
             DeletedTime = deletedTime;
+
         }
     }
 
