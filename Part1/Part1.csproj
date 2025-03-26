@@ -80,6 +80,8 @@
       <DependentUpon>Part1DB.tt</DependentUpon>
     </Compile>
     <Compile Include="RecycleBin.Logic.cs" />
+    <Compile Include="RecycleBinRepository.cs" />
+    <Compile Include="RecycleBinService.cs" />
     <Compile Include="StringProcessing.cs">
       <DependentUpon>Part1DB.tt</DependentUpon>
     </Compile>

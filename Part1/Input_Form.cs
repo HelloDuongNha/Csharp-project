@@ -16,12 +16,17 @@ namespace Part1
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.comboBox1.SelectedIndex = 1;
+            uppercaseBTN.Location = new Point(-1000, -1000);
+            //DeleteBTN.Location = new Point(220, 20);
 
 
             StringService.InitializeToolTips(encodeBTN, IncreaseBTN, DecreaseBTN, DeleteBTN, ResetBTN);
             StringService.SetupDataGridView(textBoxS, textBoxN, dataGridView);
-            StringService.LoadAllDataFromDB(textBoxS, textBoxN, dataGridView);
+            StringService.LoadAllDataFromDB(dataGridView);
             StringService.CountRecords(toolStripStatusLabel1);
+
+            RecycleBinService.SetupDataGridView(textBoxS, textBoxN, BinGridView);
+            RecycleBinService.LoadAllDataFromDB(BinGridView);
             //StringService.addBinding(textBoxS, textBoxN, dataGridView);
         }
 
@@ -70,7 +75,19 @@ namespace Part1
 
         private void DeleteBTN_Click(object sender, EventArgs e)
         {
+            if (dataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a row before deleting!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return; // Không thực hiện tiếp nếu không có hàng nào được chọn
+            }
+            RecycleBinService.AddToRecycleBin(dataGridView, BinGridView);
             StringService.DeleteDataByID(dataGridView, textBoxS, textBoxN, toolStripStatusLabel1);
+
+            //RecycleBinService.AddToRecycleBin(dataGridView, textBoxS, textBoxN);
+
+
+            RecycleBinService.SetupDataGridView(textBoxS, textBoxN, BinGridView);
+            RecycleBinService.LoadAllDataFromDB(BinGridView);
         }
 
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -78,6 +95,7 @@ namespace Part1
             if (e.RowIndex >= 0)
             {
                 StringService.addBinding(textBoxS, textBoxN, dataGridView);
+                StringService.CheckAndUpdateDeleteButton(dataGridView, DeleteBTN);
             }
 
         }
@@ -121,6 +139,14 @@ namespace Part1
         {
             textBoxN.Text = trackBar1.Value.ToString(); 
             StringService.UpdateRadioButton(trackBar1.Value, radioButton0, radioButton10, radioButton25, radioButtonOther);
+        }
+
+        private void BinGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                RecycleBinService.addBinding(BinS_Textbox, BinN_Textbox, CreatedTimeTB, DeletedTimeTB, CreatedDateTB, DeletedDateTB, BinGridView);
+            }
         }
     }
 }

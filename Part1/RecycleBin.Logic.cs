@@ -16,6 +16,36 @@ namespace Part1
             DeletedTime = deletedTime;
 
         }
+
+        public void Display()
+        {
+            // Display the recycle bin
+        }
+
+        public void Restore()
+        {
+            // Restore the deleted item
+        }
+
+        public void Delete()
+        {
+            // Delete the item
+        }
+
+        public void ClearAll()
+        {
+            // Clear all the recycle bin
+        }
+
+        public void RestoreAll()
+        {
+            // Restore all items in the recycle bin
+        }
+
+        public void AddToBin()
+        {
+            // Add an item to the recycle bin
+        }
     }
 
 }

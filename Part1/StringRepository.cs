@@ -16,8 +16,9 @@ namespace Part1
         public static void SetData(List<object> data) { originalData = data; }
         public static List<object> GetAllData() { return originalData; }
 
+
         #region method
-        public static void Load_Data(TextBox textBoxS, TextBox textBoxN, DataGridView dataGridView)
+        public static void Load_Data(DataGridView dataGridView)
         {
             dataGridView.Rows.Clear();
             originalData.Clear();
@@ -81,7 +82,7 @@ namespace Part1
                 db.SaveChanges();
             }
 
-            Load_Data(textBoxS, textBoxN, dataGridView);
+            Load_Data(dataGridView);
         }
 
         public static void Delete_Data(int id)

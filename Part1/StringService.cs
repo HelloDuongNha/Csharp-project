@@ -67,7 +67,7 @@ namespace Part1.classes
             // Cột Time
             DataGridViewTextBoxColumn createdAtColumn = new DataGridViewTextBoxColumn();
             createdAtColumn.Name = "Time";
-            createdAtColumn.HeaderText = "Time";
+            createdAtColumn.HeaderText = "Created at";
             createdAtColumn.Width = 130;
             createdAtColumn.ReadOnly = true;
             createdAtColumn.DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss"; // Định dạng ngày giờ
@@ -358,15 +358,37 @@ namespace Part1.classes
             }
         }
 
+        public static void CheckAndUpdateDeleteButton(DataGridView dataGridView, Button deleteBTN)
+        {
+            // Kiểm tra xem DataGridView có focus không và có ít nhất một hàng/ô được chọn không
+            bool hasSelection = (dataGridView.Focused || dataGridView.ContainsFocus) &&
+                                (dataGridView.SelectedRows.Count > 0 || dataGridView.SelectedCells.Count > 0);
+
+            if (hasSelection)
+            {
+                // Hiển thị nút Delete tại vị trí mong muốn
+                deleteBTN.Location = new Point(220, 50);
+                deleteBTN.Visible = true;
+                deleteBTN.BringToFront();
+            }
+            else
+            {
+                // Ẩn nút Delete ra ngoài màn hình
+                deleteBTN.Location = new Point(-1000, -1000);
+                deleteBTN.Visible = false;
+            }
+        }
+
+
         public static void ClearTextBoxes(TextBox textBoxS, TextBox textBoxN)
         {
             textBoxS.Clear();
             textBoxN.Text = "0";
         }
 
-        public static void LoadAllDataFromDB(TextBox textBoxS, TextBox textBoxN, DataGridView dataGridView)
+        public static void LoadAllDataFromDB(DataGridView dataGridView)
         {
-            StringRepository.Load_Data(textBoxS, textBoxN, dataGridView);
+            StringRepository.Load_Data(dataGridView);
         }
 
         public static void addBinding(TextBox textBoxS, TextBox textBoxN, DataGridView dataGridView)
@@ -392,7 +414,7 @@ namespace Part1.classes
             // If search box is empty, load all data from DB and clear the label
             if (string.IsNullOrWhiteSpace(searchText))
             {
-                LoadAllDataFromDB(textBoxS, textBoxN, dataGridView);
+                LoadAllDataFromDB(dataGridView);
                 UpdateSearchLabel(SearchWrnLbl, 0, searchText);
                 return;
             }
@@ -456,14 +478,8 @@ namespace Part1.classes
 
         public static void DeleteDataByID(DataGridView dataGridView, TextBox textBoxS, TextBox textBoxN, ToolStripLabel toolStripStatusLabel1)
         {
-            if (dataGridView.SelectedCells.Count == 0)
-            {
-                MessageBox.Show("Please select a row before deleting!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
             int rowIndex = dataGridView.SelectedCells[0].RowIndex;
-            object cellValue = dataGridView.Rows[rowIndex].Cells[0].Value;
+            object cellValue = dataGridView.Rows[rowIndex].Cells["ID"].Value;
 
             if (cellValue == null)
             {
@@ -483,7 +499,7 @@ namespace Part1.classes
             if (confirm != DialogResult.Yes) return;
 
             StringRepository.Delete_Data(id);
-            StringRepository.Load_Data(textBoxS, textBoxN, dataGridView);
+            StringRepository.Load_Data(dataGridView);
             CountRecords(toolStripStatusLabel1);
             ClearTextBoxes(textBoxS, textBoxN);
 
@@ -502,7 +518,7 @@ namespace Part1.classes
             if (confirm != DialogResult.Yes) return;
 
             StringRepository.TruncateTable();
-            StringRepository.Load_Data(textBoxS, textBoxN, dataGridView);
+            StringRepository.Load_Data(dataGridView);
             CountRecords(toolStripStatusLabel1);
             ClearTextBoxes(textBoxS, textBoxN);
 

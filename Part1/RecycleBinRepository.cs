@@ -1,0 +1,148 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Part1.classes;
+//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
+namespace Part1
+{
+    public static class RecycleBinRepository
+    {
+        private static List<object> DeletedData = new List<object>();
+        public static void SetData(List<object> data) { DeletedData = data; }
+        public static List<object> GetAllData() { return DeletedData; }
+
+
+        #region method
+        public static void Load_Data(DataGridView BinGridView)
+        {
+            BinGridView.Rows.Clear();
+            DeletedData.Clear();
+            using (var db = new Part1DB_Entities())
+            {
+                var data = from c in db.RecycleBins
+                           orderby c.DeletedTime descending
+                           select new { ID = c.Id, S = c.InputS, N = c.InputN, T = c.Time, DT =c.DeletedTime };
+                foreach (var item in data)
+                {
+                    BinGridView.Rows.Add(item.ID, item.S, item.N, item.T, item.DT);
+                    DeletedData.Add(item);
+                }
+                //StringService.addBinding(textBoxS, textBoxN, dataGridView);
+                SetData(DeletedData);
+                // if u want to get all data, remember to call LoadData first
+            }
+        }
+
+        public static int GetNextID()
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                int maxId = 0;
+                foreach (var record in db.RecycleBins)
+                {
+                    if (record.Id > maxId)
+                    {
+                        maxId = record.Id;
+                    }
+                }
+                return maxId + 1;
+            }
+        }
+
+        public static int CountRecord()
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                return db.RecycleBins.Count();
+            }
+        }
+
+        public static void Add_Data(int nextID, String textBoxS, String textBoxN, DateTime encodedTime, DataGridView dataGridView)
+        {
+            using (var db = new Part1DB_Entities())
+
+            {
+                DateTime DT = DateTime.Now;
+                RecycleBin recycleBin = new RecycleBin(nextID, textBoxS, textBoxN, DT)
+                {
+                    Id = nextID,
+                    InputS = textBoxS,
+                    InputN = Convert.ToInt32(textBoxN),
+                    Time = encodedTime,
+                    DeletedTime = DT
+                };
+                db.RecycleBins.Add(recycleBin);
+                db.SaveChanges();
+            }
+
+            Load_Data(dataGridView);
+        }
+
+        public static void DeleteData(int id)
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                var record = db.RecycleBins.Find(id);
+                if (record == null)
+                {
+                    throw new ArgumentException("Error: The ID does not exist in the RecycleBin table.");
+                }
+                db.RecycleBins.Remove(record);
+                db.SaveChanges();
+            }
+        }
+
+        public static void RestoreData(int id)
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                // check if any new record has the same ID
+                if (db.StringProcessings.Any(x => x.Id == id))
+                {
+                    throw new ArgumentException("Error: The ID already exists in the StringProcessing table.");
+                }
+                var record = db.RecycleBins.Find(id);
+                db.StringProcessings.Add(new StringProcessing
+                {
+                    Id = record.Id,
+                    InputS = record.InputS,
+                    InputN = record.InputN,
+                    Time = record.Time
+                });
+                db.RecycleBins.Remove(record);
+                db.SaveChanges();
+            }
+        }
+
+        public static void ClearData()
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                db.RecycleBins.RemoveRange(db.RecycleBins);
+                db.SaveChanges();
+            }
+        }
+
+        //public static void RecoveryAll()
+        //{
+        //    using (var db = new Part1DB_Entities())
+        //    {
+        //        foreach (var record in DeletedData)
+        //        {
+        //            RestoreData(record.Id);
+        //        }
+        //        db.RecycleBins.RemoveRange(db.RecycleBins);
+        //        db.SaveChanges();
+        //    }
+        //}
+
+
+
+
+        #endregion
+    }
+}
