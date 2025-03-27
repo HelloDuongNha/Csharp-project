@@ -41,11 +41,11 @@ namespace Part1
         {
             using (var db = new Part1DB_Entities())
             {
-                var allIDs = db.RecycleBins.Select(x => x.Id).ToList(); // Lấy danh sách ID
+                var allIDs = db.RecycleBins.Select(x => x.Id).ToList();
 
-                while (allIDs.Contains(id)) // Kiểm tra ID có tồn tại không
+                while (allIDs.Contains(id)) 
                 {
-                    id++; // Nếu trùng thì tăng lên 1
+                    id++; 
                 }
             }
             return id;
@@ -77,7 +77,7 @@ namespace Part1
             }
         }
 
-        public static void Add_Data(int nextID, String textBoxS, String textBoxN, DateTime encodedTime, DataGridView dataGridView)
+        public static void Add_Data(int nextID, String textBoxS, String textBoxN, DateTime encodedTime)
         {
             using (var db = new Part1DB_Entities())
 
@@ -94,8 +94,6 @@ namespace Part1
                 db.RecycleBins.Add(recycleBin);
                 db.SaveChanges();
             }
-
-            Load_Data(dataGridView);
         }
 
         public static void Delete_Data(int id)
@@ -142,22 +140,6 @@ namespace Part1
                 db.SaveChanges();
             }
         }
-
-        //public static void RecoveryAll()
-        //{
-        //    using (var db = new Part1DB_Entities())
-        //    {
-        //        foreach (var record in DeletedData)
-        //        {
-        //            RestoreData(record.Id);
-        //        }
-        //        db.RecycleBins.RemoveRange(db.RecycleBins);
-        //        db.SaveChanges();
-        //    }
-        //}
-
-
-
 
         #endregion
     }

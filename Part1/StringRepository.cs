@@ -80,12 +80,12 @@ namespace Part1
             }
         }
 
-        public static void Add_Data(int nextID, String S, String N, DataGridView dataGridView, DateTime time)
+        public static void Add_Data(int nextID, String S, int N, DateTime time)
         {
             using (var db = new Part1DB_Entities())
 
             {
-                StringProcessing stringHistory = new StringProcessing(nextID, S, N, time)
+                StringProcessing stringHistory = new StringProcessing(nextID, S, N.ToString(), time)
                 {
                     Id = nextID,
                     InputS = S,
@@ -95,8 +95,6 @@ namespace Part1
                 db.StringProcessings.Add(stringHistory);
                 db.SaveChanges();
             }
-
-            Load_Data(dataGridView);
         }
 
         public static void Delete_Data(int id)

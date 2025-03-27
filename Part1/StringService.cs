@@ -32,20 +32,17 @@ namespace Part1.classes
             dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView.AllowUserToAddRows = false;
 
-            // Căn giữa toàn bộ header
             dataGridView.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            // Cột ID
             DataGridViewTextBoxColumn idColumn = new DataGridViewTextBoxColumn();
             idColumn.Name = "ID";
             idColumn.HeaderText = "ID";
             idColumn.Width = 25;
             idColumn.ReadOnly = true;
             idColumn.SortMode = DataGridViewColumnSortMode.Automatic;
-            idColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // Căn giữa cell
+            idColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridView.Columns.Add(idColumn);
 
-            // Cột S (Không căn giữa)
             DataGridViewTextBoxColumn inputSColumn = new DataGridViewTextBoxColumn();
             inputSColumn.Name = "StringS";
             inputSColumn.HeaderText = "S";
@@ -53,35 +50,30 @@ namespace Part1.classes
             inputSColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             inputSColumn.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             inputSColumn.Resizable = DataGridViewTriState.False;
-            // Không thiết lập Alignment để giữ nguyên mặc định (căn trái)
             dataGridView.Columns.Add(inputSColumn);
 
-            // Cột N
             DataGridViewTextBoxColumn inputNColumn = new DataGridViewTextBoxColumn();
             inputNColumn.Name = "NumberN";
             inputNColumn.HeaderText = "N";
             inputNColumn.Width = 25;
-            inputNColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // Căn giữa cell
+            inputNColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; 
             dataGridView.Columns.Add(inputNColumn);
 
-            // Cột Time
             DataGridViewTextBoxColumn createdAtColumn = new DataGridViewTextBoxColumn();
             createdAtColumn.Name = "Time";
             createdAtColumn.HeaderText = "Created at";
             createdAtColumn.Width = 130;
             createdAtColumn.ReadOnly = true;
-            createdAtColumn.DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss"; // Định dạng ngày giờ
-            createdAtColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // Căn giữa cell
-            createdAtColumn.DefaultCellStyle.Font = new Font("Arial", 8); // Font nhỏ hơn cho cột Time
+            createdAtColumn.DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss";
+            createdAtColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            createdAtColumn.DefaultCellStyle.Font = new Font("Arial", 8); 
             dataGridView.Columns.Add(createdAtColumn);
 
-            // Tùy chỉnh giao diện header
             dataGridView.EnableHeadersVisualStyles = false;
             dataGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
             dataGridView.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 12, FontStyle.Bold);
 
-            // Đặt font mặc định cho toàn bộ DataGridView (cỡ 10)
             dataGridView.DefaultCellStyle.Font = new Font("Arial", 10);
         }
 
@@ -212,7 +204,7 @@ namespace Part1.classes
 
             UpdateRadioButton(value, radio0, radio10, radio25, radioOther);
             ValidateNumberInput(textBox, statusLabel);
-            UpdateButtonState(textBox, increaseBTN, decreaseBTN); // Cập nhật trạng thái nút
+            UpdateButtonState(textBox, increaseBTN, decreaseBTN); 
         }
 
         public static void DecreaseNumber(TextBox textBox, Label statusLabel, RadioButton radio0, RadioButton radio10, RadioButton radio25, RadioButton radioOther, Button increaseBTN, Button decreaseBTN)
@@ -316,7 +308,8 @@ namespace Part1.classes
                 DateTime time = DateTime.Now;
                 StringProcessing processor = new StringProcessing(nextID, inputText, shiftValue, time);
                 processor.Encode();
-                StringRepository.Add_Data(nextID, inputText, shiftValue, dataGridView, time);
+                StringRepository.Add_Data(nextID, inputText, Convert.ToInt32(shiftValue), time);
+                StringRepository.Load_Data(dataGridView);
 
                 // Display the results
                 Form2.encodedTXT.Text = processor.Print();
@@ -365,14 +358,14 @@ namespace Part1.classes
 
             if (hasSelection)
             {
-                // Hiển thị nút Delete tại vị trí mong muốn
+                // show
                 deleteBTN.Location = new Point(330, 329);
                 deleteBTN.Visible = true;
                 deleteBTN.BringToFront();
             }
             else
             {
-                // Đưa nút Delete "đi thật xa" và ẩn luôn
+                // hide
                 deleteBTN.Location = new Point(-1000, -1000);
                 deleteBTN.Visible = false;
             }
@@ -380,9 +373,9 @@ namespace Part1.classes
 
         public static void ClearSelectionAndHideDeleteButton(DataGridView dataGridView, Button deleteBTN)
         {
-            dataGridView.ClearSelection(); // Xóa selection của DataGridView
+            dataGridView.ClearSelection(); 
 
-            CheckAndUpdateDeleteButton(dataGridView, deleteBTN); // Ẩn nút Delete
+            CheckAndUpdateDeleteButton(dataGridView, deleteBTN);
         }
 
         public static void ClearTextBoxes(TextBox textBoxS, TextBox textBoxN)
@@ -399,9 +392,6 @@ namespace Part1.classes
 
         public static void addBinding(TextBox textBoxS, TextBox textBoxN, DataGridView dataGridView)
         {
-            //textBoxS.DataBindings.Clear();
-            //textBoxN.DataBindings.Clear();
-
             if (dataGridView.SelectedRows.Count > 0)
             {
                 textBoxS.Text = dataGridView.SelectedRows[0].Cells["StringS"].Value?.ToString();
@@ -514,26 +504,20 @@ namespace Part1.classes
 
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
-                if (row.IsNewRow) continue; // Bỏ qua dòng trống ở cuối DataGridView
+                if (row.IsNewRow) continue; // skip the last row
 
                 string textBoxS = row.Cells["StringS"].Value?.ToString();
                 string textBoxN = row.Cells["NumberN"].Value?.ToString();
                 string encodedTimeStr = row.Cells["Time"].Value?.ToString();
                 object idValue = row.Cells["ID"].Value;
 
-                // Kiểm tra nếu dữ liệu bị thiếu
-                if (string.IsNullOrEmpty(textBoxS) || string.IsNullOrEmpty(textBoxN) || string.IsNullOrEmpty(encodedTimeStr) || idValue == null)
-                {
-                    MessageBox.Show("Invalid data in some rows! Skipping...", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    continue; // Bỏ qua dòng lỗi
-                }
-
                 DateTime encodedTime = DateTime.Parse(encodedTimeStr);
                 int originalID = Convert.ToInt32(idValue);
                 int nextID = RecycleBinRepository.GenerateUniqueID(originalID);
 
-                // Thêm vào RecycleBin
-                RecycleBinRepository.Add_Data(nextID, textBoxS, textBoxN, encodedTime, BinGridView);
+                // update the RecycleBin table
+                RecycleBinRepository.Add_Data(nextID, textBoxS, textBoxN, encodedTime);
+                RecycleBinRepository.Load_Data(BinGridView);
             }
 
             MessageBox.Show("All records have been moved to the Recycle Bin!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);

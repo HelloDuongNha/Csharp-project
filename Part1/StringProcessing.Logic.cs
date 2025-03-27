@@ -42,6 +42,12 @@ namespace Part1
             }
         }
 
+        public DateTime T
+        {
+            get { return Time ?? DateTime.Now; }
+            set { Time = value; }
+        }
+
         // Constructor
         public StringProcessing(int nextID, string input, string shift, DateTime time)
         {
@@ -54,7 +60,7 @@ namespace Part1
             Id = nextID;
             S = input;
             N = shiftValue;
-            Time = time;
+            T = time;
         }
 
         // Methods
