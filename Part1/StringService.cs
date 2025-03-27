@@ -207,7 +207,7 @@ namespace Part1.classes
         {
             if (int.TryParse(textBox.Text, out int value) && value < 25)
             {
-                textBox.Text = (value+1).ToString();
+                textBox.Text = (value + 1).ToString();
             }
 
             UpdateRadioButton(value, radio0, radio10, radio25, radioOther);
@@ -219,19 +219,19 @@ namespace Part1.classes
         {
             if (int.TryParse(textBox.Text, out int value) && value > -25)
             {
-                textBox.Text = (value-1).ToString();
+                textBox.Text = (value - 1).ToString();
             }
 
             UpdateRadioButton(value, radio0, radio10, radio25, radioOther);
             ValidateNumberInput(textBox, statusLabel);
-            UpdateButtonState(textBox, increaseBTN, decreaseBTN); 
+            UpdateButtonState(textBox, increaseBTN, decreaseBTN);
         }
 
         public static void UpdateTextBoxFromRadio(object sender, EventArgs e, TextBox textBoxN)
         {
             if (sender is RadioButton radioButton && radioButton.Checked)
             {
-                textBoxN.Text = radioButton.Text; 
+                textBoxN.Text = radioButton.Text;
             }
         }
 
@@ -313,9 +313,10 @@ namespace Part1.classes
                 string shiftValue = textBoxN.Text;
 
                 // Create an instance of the string processing class
-                StringProcessing processor = new StringProcessing(nextID, inputText, shiftValue);
+                DateTime time = DateTime.Now;
+                StringProcessing processor = new StringProcessing(nextID, inputText, shiftValue, time);
                 processor.Encode();
-                StringRepository.Add_Data(nextID, textBoxS, textBoxN, dataGridView);
+                StringRepository.Add_Data(nextID, inputText, shiftValue, dataGridView, time);
 
                 // Display the results
                 Form2.encodedTXT.Text = processor.Print();
@@ -360,25 +361,29 @@ namespace Part1.classes
 
         public static void CheckAndUpdateDeleteButton(DataGridView dataGridView, Button deleteBTN)
         {
-            // Kiểm tra xem DataGridView có focus không và có ít nhất một hàng/ô được chọn không
-            bool hasSelection = (dataGridView.Focused || dataGridView.ContainsFocus) &&
-                                (dataGridView.SelectedRows.Count > 0 || dataGridView.SelectedCells.Count > 0);
+            bool hasSelection = dataGridView.SelectedRows.Count > 0 || dataGridView.SelectedCells.Count > 0;
 
             if (hasSelection)
             {
                 // Hiển thị nút Delete tại vị trí mong muốn
-                deleteBTN.Location = new Point(220, 50);
+                deleteBTN.Location = new Point(330, 329);
                 deleteBTN.Visible = true;
                 deleteBTN.BringToFront();
             }
             else
             {
-                // Ẩn nút Delete ra ngoài màn hình
+                // Đưa nút Delete "đi thật xa" và ẩn luôn
                 deleteBTN.Location = new Point(-1000, -1000);
                 deleteBTN.Visible = false;
             }
         }
 
+        public static void ClearSelectionAndHideDeleteButton(DataGridView dataGridView, Button deleteBTN)
+        {
+            dataGridView.ClearSelection(); // Xóa selection của DataGridView
+
+            CheckAndUpdateDeleteButton(dataGridView, deleteBTN); // Ẩn nút Delete
+        }
 
         public static void ClearTextBoxes(TextBox textBoxS, TextBox textBoxN)
         {
@@ -389,12 +394,13 @@ namespace Part1.classes
         public static void LoadAllDataFromDB(DataGridView dataGridView)
         {
             StringRepository.Load_Data(dataGridView);
+            dataGridView.ClearSelection();
         }
 
         public static void addBinding(TextBox textBoxS, TextBox textBoxN, DataGridView dataGridView)
         {
-            textBoxS.DataBindings.Clear();
-            textBoxN.DataBindings.Clear();
+            //textBoxS.DataBindings.Clear();
+            //textBoxN.DataBindings.Clear();
 
             if (dataGridView.SelectedRows.Count > 0)
             {
@@ -476,7 +482,7 @@ namespace Part1.classes
             }
         }
 
-        public static void DeleteDataByID(DataGridView dataGridView, TextBox textBoxS, TextBox textBoxN, ToolStripLabel toolStripStatusLabel1)
+        public static void DeleteDataByID(DataGridView dataGridView, TextBox textBoxS, TextBox textBoxN, ToolStripLabel toolStripStatusLabel1, Button DeleteBTN)
         {
             int rowIndex = dataGridView.SelectedCells[0].RowIndex;
             object cellValue = dataGridView.Rows[rowIndex].Cells["ID"].Value;
@@ -488,43 +494,64 @@ namespace Part1.classes
             }
 
             int id = Convert.ToInt32(cellValue);
-
-            DialogResult confirm = MessageBox.Show(
-                $"Are you sure you want to delete ID {id}?",
-                "Confirm Deletion",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning
-            );
-
-            if (confirm != DialogResult.Yes) return;
-
             StringRepository.Delete_Data(id);
             StringRepository.Load_Data(dataGridView);
             CountRecords(toolStripStatusLabel1);
+            dataGridView.ClearSelection();
             ClearTextBoxes(textBoxS, textBoxN);
 
             MessageBox.Show($"Successfully deleted ID {id}!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            CheckAndUpdateDeleteButton(dataGridView, DeleteBTN);
         }
 
-        public static void ResetAllRecords(DataGridView dataGridView, TextBox textBoxS, TextBox textBoxN, ToolStripLabel toolStripStatusLabel1)
+        private static void MoveAllToRecycleBin(DataGridView dataGridView, DataGridView BinGridView)
         {
-            DialogResult confirm = MessageBox.Show(
-                "Are you sure you want to delete ALL records? This action cannot be undone!",
-                "Confirm Deletion",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning
-            );
+            if (dataGridView.Rows.Count == 0)
+            {
+                MessageBox.Show("No records to move!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
 
-            if (confirm != DialogResult.Yes) return;
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                if (row.IsNewRow) continue; // Bỏ qua dòng trống ở cuối DataGridView
+
+                string textBoxS = row.Cells["StringS"].Value?.ToString();
+                string textBoxN = row.Cells["NumberN"].Value?.ToString();
+                string encodedTimeStr = row.Cells["Time"].Value?.ToString();
+                object idValue = row.Cells["ID"].Value;
+
+                // Kiểm tra nếu dữ liệu bị thiếu
+                if (string.IsNullOrEmpty(textBoxS) || string.IsNullOrEmpty(textBoxN) || string.IsNullOrEmpty(encodedTimeStr) || idValue == null)
+                {
+                    MessageBox.Show("Invalid data in some rows! Skipping...", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    continue; // Bỏ qua dòng lỗi
+                }
+
+                DateTime encodedTime = DateTime.Parse(encodedTimeStr);
+                int originalID = Convert.ToInt32(idValue);
+                int nextID = RecycleBinRepository.GenerateUniqueID(originalID);
+
+                // Thêm vào RecycleBin
+                RecycleBinRepository.Add_Data(nextID, textBoxS, textBoxN, encodedTime, BinGridView);
+            }
+
+            MessageBox.Show("All records have been moved to the Recycle Bin!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+
+        public static void ResetAllRecords(DataGridView dataGridView, DataGridView BinGridView, TextBox textBoxS, TextBox textBoxN, ToolStripLabel toolStripStatusLabel1)
+        {
+            MoveAllToRecycleBin(dataGridView, BinGridView);
 
             StringRepository.TruncateTable();
             StringRepository.Load_Data(dataGridView);
             CountRecords(toolStripStatusLabel1);
             ClearTextBoxes(textBoxS, textBoxN);
+            dataGridView.ClearSelection();
+            BinGridView.ClearSelection();
 
-            MessageBox.Show("All records have been deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //MessageBox.Show("All records have been deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
-
     }
 }

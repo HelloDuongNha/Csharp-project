@@ -16,8 +16,12 @@ namespace Part1
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.comboBox1.SelectedIndex = 1;
+            this.comboBox2.SelectedIndex = 1;
             uppercaseBTN.Location = new Point(-1000, -1000);
-            //DeleteBTN.Location = new Point(220, 20);
+            DeleteBTN.Location = new Point(-1000, -1000);
+            RcvBTN.Location = new Point(-1000, -1000);
+            DltBTN.Location = new Point(-1000, -1000);
+
 
 
             StringService.InitializeToolTips(encodeBTN, IncreaseBTN, DecreaseBTN, DeleteBTN, ResetBTN);
@@ -27,7 +31,35 @@ namespace Part1
 
             RecycleBinService.SetupDataGridView(textBoxS, textBoxN, BinGridView);
             RecycleBinService.LoadAllDataFromDB(BinGridView);
-            //StringService.addBinding(textBoxS, textBoxN, dataGridView);
+            dataGridView.ClearSelection();
+            BinGridView.ClearSelection();
+
+        }
+
+        private bool isBinding = false;
+        private bool isBinBinding = false;
+        private bool IsConfirmed(int id, string action)
+        {
+            DialogResult confirm = MessageBox.Show(
+                $"Are you sure you want to {action} ID {id}?",
+                $"Confirm {action}",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            return confirm == DialogResult.Yes;
+        }
+
+        private bool IsConfirmedForAll(string action)
+        {
+            DialogResult confirm = MessageBox.Show(
+                $"Are you sure you want to {action} ALL records?",
+                $"Confirm {action} All",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            return confirm == DialogResult.Yes;
         }
 
         private void textBoxS_TextChanged(object sender, EventArgs e)
@@ -36,6 +68,11 @@ namespace Part1
             StringService.ValidateInput(textBoxS.Text, wrnLb1);
             StringService.CountCharacters(textBoxS.Text, CountLbl);
             StringService.CheckAndUpdateUppercaseButton(textBoxS, uppercaseBTN);
+
+            if (!isBinding) // Chỉ clear selection nếu người dùng tự sửa
+            {
+                StringService.ClearSelectionAndHideDeleteButton(dataGridView, DeleteBTN);
+            }
         }
 
         private void textBoxN_TextChanged(object sender, EventArgs e)
@@ -60,7 +97,6 @@ namespace Part1
         private void encodeBTN_Click(object sender, EventArgs e)
         {
             StringService.EncodingString(encodeBTN, IncreaseBTN, DecreaseBTN, textBoxS, textBoxN, dataGridView, toolStripStatusLabel1);
-            //addBinding();
         }
 
         private void UppercaseBTN_Click(object sender, EventArgs e)
@@ -80,13 +116,16 @@ namespace Part1
                 MessageBox.Show("Please select a row before deleting!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return; // Không thực hiện tiếp nếu không có hàng nào được chọn
             }
+            int originalID = Convert.ToInt32(dataGridView.SelectedRows[0].Cells["ID"].Value);
+
+            // Kiểm tra xác nhận từ người dùng
+            if (!IsConfirmed(originalID, "delete")) return;
+
+            // Thêm vào RecycleBin trước khi xóa
             RecycleBinService.AddToRecycleBin(dataGridView, BinGridView);
-            StringService.DeleteDataByID(dataGridView, textBoxS, textBoxN, toolStripStatusLabel1);
+            StringService.DeleteDataByID(dataGridView, textBoxS, textBoxN, toolStripStatusLabel1, DeleteBTN);
 
-            //RecycleBinService.AddToRecycleBin(dataGridView, textBoxS, textBoxN);
-
-
-            RecycleBinService.SetupDataGridView(textBoxS, textBoxN, BinGridView);
+            //RecycleBinService.SetupDataGridView(textBoxS, textBoxN, BinGridView);
             RecycleBinService.LoadAllDataFromDB(BinGridView);
         }
 
@@ -94,9 +133,12 @@ namespace Part1
         {
             if (e.RowIndex >= 0)
             {
+                isBinding = true; // Đánh dấu rằng binding đang diễn ra
                 StringService.addBinding(textBoxS, textBoxN, dataGridView);
                 StringService.CheckAndUpdateDeleteButton(dataGridView, DeleteBTN);
+                isBinding = false; // Kết thúc binding
             }
+
 
         }
 
@@ -107,7 +149,8 @@ namespace Part1
 
         private void Reset_Click(object sender, EventArgs e)
         {
-            StringService.ResetAllRecords(dataGridView, textBoxS, textBoxN, toolStripStatusLabel1);
+            if (!IsConfirmedForAll("delete")) return;
+            StringService.ResetAllRecords(dataGridView, BinGridView, textBoxS, textBoxN, toolStripStatusLabel1);
             StringService.CountRecords(toolStripStatusLabel1);
             StringService.ClearTextBoxes(textBoxS, textBoxN);
 
@@ -145,8 +188,50 @@ namespace Part1
         {
             if (e.RowIndex >= 0)
             {
-                RecycleBinService.addBinding(BinS_Textbox, BinN_Textbox, CreatedTimeTB, DeletedTimeTB, CreatedDateTB, DeletedDateTB, BinGridView);
+                isBinBinding = true; // Đánh dấu rằng binding đang diễn ra
+                RecycleBinService.addBinding(BinS_Textbox, BinN_Textbox, CreatedTimeTB, DeletedTimeTB, CreatedDateTB, DeletedDateTB, BinGridView, groupBox5);
+                RecycleBinService.CheckAndUpdateRecycleBinButtons(BinGridView, RcvBTN, DltBTN);
+                isBinBinding = false; // Kết thúc binding
             }
+        }
+
+        private void RcvBTN_Click(object sender, EventArgs e)
+        {
+            int originalID = Convert.ToInt32(BinGridView.SelectedRows[0].Cells["ID"].Value);
+
+            // Kiểm tra xác nhận từ người dùng
+            if (!IsConfirmed(originalID, "restore")) return;
+
+            RecycleBinService.RestoreFromRecycleBin(originalID, BinS_Textbox, BinN_Textbox, dataGridView, BinGridView);
+        }
+
+        private void BinDltBTN_Click(object sender, EventArgs e)
+        {
+            int originalID = Convert.ToInt32(BinGridView.SelectedRows[0].Cells["ID"].Value);
+
+            // Kiểm tra xác nhận từ người dùng
+            if (!IsConfirmed(originalID, "delete")) return;
+
+            // Thêm vào RecycleBin trước khi xóa
+            //RecycleBinService.AddToRecycleBin(dataGridView, BinGridView);
+            RecycleBinService.DeleteFromRecycleBin(BinGridView, BinS_Textbox, BinN_Textbox, CreatedTimeTB, CreatedDateTB ,DeletedTimeTB, DeletedDateTB, groupBox5, RcvBTN, DltBTN);
+        }
+
+        private void DeletedAllBTN_Click(object sender, EventArgs e)
+        {
+            if (!IsConfirmedForAll("delete")) return;
+            RecycleBinService.ClearRecycleBin(BinGridView);
+        }
+
+        private void RecoveryAllBTN_Click(object sender, EventArgs e)
+        {
+            if (!IsConfirmedForAll("restore")) return;
+            RecycleBinService.RestoreAllFromRecycleBin(dataGridView, BinGridView);
+        }
+
+        private void BinSearchingTB_TextChanged(object sender, EventArgs e)
+        {
+            RecycleBinService.FilterData(comboBox2, BinSearchingTB, BinGridView, searchWrnLbl2);
         }
     }
 }

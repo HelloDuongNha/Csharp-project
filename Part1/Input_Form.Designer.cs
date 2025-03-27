@@ -33,10 +33,10 @@ namespace Part1
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.encodeBTN = new System.Windows.Forms.Button();
             this.ResetBTN = new System.Windows.Forms.Button();
             this.DecreaseBTN = new System.Windows.Forms.Button();
@@ -100,10 +100,10 @@ namespace Part1
             this.label14 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label11 = new System.Windows.Forms.Label();
+            this.searchWrnLbl2 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.BinFilterCbb = new System.Windows.Forms.ComboBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.BinSearchingTB = new System.Windows.Forms.TextBox();
             this.DeletedAllBTN = new System.Windows.Forms.Button();
             this.RecoveryAllBTN = new System.Windows.Forms.Button();
@@ -134,13 +134,14 @@ namespace Part1
             // 
             // encodeBTN
             // 
+            this.encodeBTN.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.encodeBTN.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.encodeBTN.Location = new System.Drawing.Point(116, 326);
+            this.encodeBTN.Location = new System.Drawing.Point(26, 326);
             this.encodeBTN.Name = "encodeBTN";
-            this.encodeBTN.Size = new System.Drawing.Size(213, 45);
+            this.encodeBTN.Size = new System.Drawing.Size(398, 45);
             this.encodeBTN.TabIndex = 2;
             this.encodeBTN.Text = "ENCODE";
-            this.encodeBTN.UseVisualStyleBackColor = true;
+            this.encodeBTN.UseVisualStyleBackColor = false;
             this.encodeBTN.Click += new System.EventHandler(this.encodeBTN_Click);
             // 
             // ResetBTN
@@ -303,7 +304,7 @@ namespace Part1
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(3, 561);
+            this.statusStrip1.Location = new System.Drawing.Point(4, 570);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 18, 0);
             this.statusStrip1.Size = new System.Drawing.Size(140, 32);
@@ -344,24 +345,24 @@ namespace Part1
             this.dataGridView.AllowUserToOrderColumns = true;
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.HotTrack;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.HotTrack;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Cursor = System.Windows.Forms.Cursors.Hand;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.ForestGreen;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.ForestGreen;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle10;
             this.dataGridView.EnableHeadersVisualStyles = false;
             this.dataGridView.Location = new System.Drawing.Point(32, 150);
             this.dataGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -681,7 +682,7 @@ namespace Part1
             this.groupBox5.Size = new System.Drawing.Size(345, 602);
             this.groupBox5.TabIndex = 1;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Details (ID: )";
+            this.groupBox5.Text = "Details (ID: ? )";
             // 
             // DltBTN
             // 
@@ -695,6 +696,7 @@ namespace Part1
             this.DltBTN.TabIndex = 17;
             this.DltBTN.Text = "Delete";
             this.DltBTN.UseVisualStyleBackColor = false;
+            this.DltBTN.Click += new System.EventHandler(this.BinDltBTN_Click);
             // 
             // RcvBTN
             // 
@@ -707,6 +709,7 @@ namespace Part1
             this.RcvBTN.TabIndex = 18;
             this.RcvBTN.Text = "Recovery";
             this.RcvBTN.UseVisualStyleBackColor = false;
+            this.RcvBTN.Click += new System.EventHandler(this.RcvBTN_Click);
             // 
             // panel7
             // 
@@ -731,6 +734,7 @@ namespace Part1
             this.DeletedDateTB.Location = new System.Drawing.Point(173, 116);
             this.DeletedDateTB.Multiline = true;
             this.DeletedDateTB.Name = "DeletedDateTB";
+            this.DeletedDateTB.ReadOnly = true;
             this.DeletedDateTB.Size = new System.Drawing.Size(147, 33);
             this.DeletedDateTB.TabIndex = 1;
             // 
@@ -742,6 +746,7 @@ namespace Part1
             this.DeletedTimeTB.Location = new System.Drawing.Point(20, 116);
             this.DeletedTimeTB.Multiline = true;
             this.DeletedTimeTB.Name = "DeletedTimeTB";
+            this.DeletedTimeTB.ReadOnly = true;
             this.DeletedTimeTB.Size = new System.Drawing.Size(147, 33);
             this.DeletedTimeTB.TabIndex = 1;
             // 
@@ -753,6 +758,7 @@ namespace Part1
             this.CreatedDateTB.Location = new System.Drawing.Point(173, 34);
             this.CreatedDateTB.Multiline = true;
             this.CreatedDateTB.Name = "CreatedDateTB";
+            this.CreatedDateTB.ReadOnly = true;
             this.CreatedDateTB.Size = new System.Drawing.Size(147, 33);
             this.CreatedDateTB.TabIndex = 1;
             // 
@@ -764,6 +770,7 @@ namespace Part1
             this.CreatedTimeTB.Location = new System.Drawing.Point(20, 34);
             this.CreatedTimeTB.Multiline = true;
             this.CreatedTimeTB.Name = "CreatedTimeTB";
+            this.CreatedTimeTB.ReadOnly = true;
             this.CreatedTimeTB.Size = new System.Drawing.Size(147, 33);
             this.CreatedTimeTB.TabIndex = 1;
             // 
@@ -817,6 +824,7 @@ namespace Part1
             this.BinS_Textbox.Location = new System.Drawing.Point(20, 36);
             this.BinS_Textbox.Multiline = true;
             this.BinS_Textbox.Name = "BinS_Textbox";
+            this.BinS_Textbox.ReadOnly = true;
             this.BinS_Textbox.Size = new System.Drawing.Size(302, 33);
             this.BinS_Textbox.TabIndex = 1;
             // 
@@ -869,6 +877,7 @@ namespace Part1
             this.BinN_Textbox.Location = new System.Drawing.Point(20, 38);
             this.BinN_Textbox.Multiline = true;
             this.BinN_Textbox.Name = "BinN_Textbox";
+            this.BinN_Textbox.ReadOnly = true;
             this.BinN_Textbox.Size = new System.Drawing.Size(302, 33);
             this.BinN_Textbox.TabIndex = 1;
             // 
@@ -895,10 +904,10 @@ namespace Part1
             // groupBox4
             // 
             this.groupBox4.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Controls.Add(this.searchWrnLbl2);
             this.groupBox4.Controls.Add(this.label10);
             this.groupBox4.Controls.Add(this.label9);
-            this.groupBox4.Controls.Add(this.BinFilterCbb);
+            this.groupBox4.Controls.Add(this.comboBox2);
             this.groupBox4.Controls.Add(this.BinSearchingTB);
             this.groupBox4.Controls.Add(this.DeletedAllBTN);
             this.groupBox4.Controls.Add(this.RecoveryAllBTN);
@@ -913,16 +922,16 @@ namespace Part1
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "groupBox4";
             // 
-            // label11
+            // searchWrnLbl2
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.label11.ForeColor = System.Drawing.Color.Red;
-            this.label11.Location = new System.Drawing.Point(29, 130);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(118, 21);
-            this.label11.TabIndex = 23;
-            this.label11.Text = "                           ";
+            this.searchWrnLbl2.AutoSize = true;
+            this.searchWrnLbl2.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.searchWrnLbl2.ForeColor = System.Drawing.Color.Red;
+            this.searchWrnLbl2.Location = new System.Drawing.Point(29, 130);
+            this.searchWrnLbl2.Name = "searchWrnLbl2";
+            this.searchWrnLbl2.Size = new System.Drawing.Size(118, 21);
+            this.searchWrnLbl2.TabIndex = 23;
+            this.searchWrnLbl2.Text = "                           ";
             // 
             // label10
             // 
@@ -946,19 +955,19 @@ namespace Part1
             this.label9.TabIndex = 21;
             this.label9.Text = "filter by:";
             // 
-            // BinFilterCbb
+            // comboBox2
             // 
-            this.BinFilterCbb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.BinFilterCbb.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.BinFilterCbb.FormattingEnabled = true;
-            this.BinFilterCbb.Items.AddRange(new object[] {
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox2.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
             "ID",
             "S",
             "N"});
-            this.BinFilterCbb.Location = new System.Drawing.Point(588, 77);
-            this.BinFilterCbb.Name = "BinFilterCbb";
-            this.BinFilterCbb.Size = new System.Drawing.Size(102, 40);
-            this.BinFilterCbb.TabIndex = 20;
+            this.comboBox2.Location = new System.Drawing.Point(588, 77);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(102, 40);
+            this.comboBox2.TabIndex = 20;
             // 
             // BinSearchingTB
             // 
@@ -968,6 +977,7 @@ namespace Part1
             this.BinSearchingTB.Name = "BinSearchingTB";
             this.BinSearchingTB.Size = new System.Drawing.Size(544, 39);
             this.BinSearchingTB.TabIndex = 19;
+            this.BinSearchingTB.TextChanged += new System.EventHandler(this.BinSearchingTB_TextChanged);
             // 
             // DeletedAllBTN
             // 
@@ -979,8 +989,8 @@ namespace Part1
             this.DeletedAllBTN.Size = new System.Drawing.Size(156, 42);
             this.DeletedAllBTN.TabIndex = 15;
             this.DeletedAllBTN.Text = "Delete All";
-            this.DeletedAllBTN.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.DeletedAllBTN.UseVisualStyleBackColor = false;
+            this.DeletedAllBTN.Click += new System.EventHandler(this.DeletedAllBTN_Click);
             // 
             // RecoveryAllBTN
             // 
@@ -992,32 +1002,32 @@ namespace Part1
             this.RecoveryAllBTN.Size = new System.Drawing.Size(177, 42);
             this.RecoveryAllBTN.TabIndex = 16;
             this.RecoveryAllBTN.Text = "Recovery All";
-            this.RecoveryAllBTN.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.RecoveryAllBTN.UseVisualStyleBackColor = false;
+            this.RecoveryAllBTN.Click += new System.EventHandler(this.RecoveryAllBTN_Click);
             // 
             // BinGridView
             // 
             this.BinGridView.AllowUserToOrderColumns = true;
             this.BinGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.BinGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.HotTrack;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.BinGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.HotTrack;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.BinGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
             this.BinGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.BinGridView.Cursor = System.Windows.Forms.Cursors.Hand;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.ForestGreen;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.BinGridView.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.ForestGreen;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.BinGridView.DefaultCellStyle = dataGridViewCellStyle12;
             this.BinGridView.EnableHeadersVisualStyles = false;
             this.BinGridView.Location = new System.Drawing.Point(33, 159);
             this.BinGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1152,10 +1162,10 @@ namespace Part1
         private TabPage tabPage3;
         private GroupBox groupBox4;
         private Label label8;
-        private Label label11;
+        private Label searchWrnLbl2;
         private Label label10;
         private Label label9;
-        protected ComboBox BinFilterCbb;
+        protected ComboBox comboBox2;
         private TextBox BinSearchingTB;
         private Button DeletedAllBTN;
         private Button RecoveryAllBTN;

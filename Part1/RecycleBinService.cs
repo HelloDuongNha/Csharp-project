@@ -5,6 +5,9 @@ using System.Linq;
 using System.Windows.Forms;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Part1
 {
@@ -85,11 +88,7 @@ namespace Part1
         public static void LoadAllDataFromDB(DataGridView binGridView)
         {
             RecycleBinRepository.Load_Data(binGridView);
-        }
-
-        public static int GetNextId()
-        {
-            return RecycleBinRepository.GetNextID();
+            binGridView.ClearSelection();
         }
 
         public static int CountRecords()
@@ -110,13 +109,45 @@ namespace Part1
             }
 
             DateTime encodedTime = DateTime.Parse(encodedTimeStr);
-            int nextID = RecycleBinRepository.GetNextID();
+            int originalID = Convert.ToInt32(dataGridView.SelectedRows[0].Cells["ID"].Value);
+            int nextID = RecycleBinRepository.GenerateUniqueID(originalID);
+
 
             RecycleBinRepository.Add_Data(nextID, textBoxS, textBoxN, encodedTime, BinGridView);
         }
 
+        public static void CheckAndUpdateRecycleBinButtons(DataGridView BinGridView, Button RecoveryBTN, Button BinDeleteBTN)
+        {
+            bool hasSelection = BinGridView.SelectedRows.Count > 0;
 
-        public static void addBinding(TextBox textBoxS, TextBox textBoxN, TextBox Time, TextBox DTime, TextBox Date, TextBox DDate, DataGridView dataGridView)
+            RecoveryBTN.Visible = hasSelection;
+            BinDeleteBTN.Visible = hasSelection;
+
+            if (!hasSelection)
+            {
+                RecoveryBTN.Location = new Point(-1000, -1000);
+                BinDeleteBTN.Location = new Point(-1000, -1000);
+            }
+            else
+            {
+                RecoveryBTN.Location = new Point(10, 310);
+                BinDeleteBTN.Location = new Point(10, 350);
+            }
+        }
+
+        public static void ClearTextBoxes(TextBox textBoxS, TextBox textBoxN, TextBox time, TextBox date, TextBox Dtime, TextBox Ddate, GroupBox groupBox5)
+        {
+            textBoxS.Clear();
+            textBoxN.Clear();
+            time.Clear();
+            date.Clear();
+            Dtime.Clear();
+            Ddate.Clear();
+            groupBox5.Text = "Details (ID: ? )";
+
+        }
+
+        public static void addBinding(TextBox textBoxS, TextBox textBoxN, TextBox Time, TextBox DTime, TextBox Date, TextBox DDate, DataGridView dataGridView, GroupBox groupBox5)
         {
             textBoxS.DataBindings.Clear();
             textBoxN.DataBindings.Clear();
@@ -125,20 +156,117 @@ namespace Part1
 
             if (dataGridView.SelectedRows.Count > 0)
             {
+                int originalID = Convert.ToInt32(dataGridView.SelectedRows[0].Cells["ID"].Value);
+
                 textBoxS.Text = dataGridView.SelectedRows[0].Cells["StringS"].Value?.ToString();
                 textBoxN.Text = dataGridView.SelectedRows[0].Cells["NumberN"].Value?.ToString();
                 Time.Text = dataGridView.SelectedRows[0].Cells["Time"].Value?.ToString().Split(' ')[1];
                 DTime.Text = dataGridView.SelectedRows[0].Cells["DeletedTime"].Value?.ToString().Split(' ')[1];
                 Date.Text = dataGridView.SelectedRows[0].Cells["Time"].Value?.ToString().Split(' ')[0];
                 DDate.Text = dataGridView.SelectedRows[0].Cells["DeletedTime"].Value?.ToString().Split(' ')[0];
+
+                // Cập nhật tên GroupBox theo ID
+                groupBox5.Text = $"Details (ID: {originalID} )";
+            }
+            else
+            {
+                // Nếu không có hàng nào được chọn, đặt lại về mặc định
+                textBoxS.Clear();
+                textBoxN.Clear();
+                Time.Clear();
+                DTime.Clear();
+                Date.Clear();
+                DDate.Clear();
+
+                groupBox5.Text = "Details ID: ?";
             }
         }
 
-        public static void DeleteFromRecycleBin(int id)
+        public static void FilterData(ComboBox comboBox1, TextBox textBoxSearch, DataGridView BinGridView, Label SearchWrnLbl)
+        {
+            var originalData = RecycleBinRepository.GetAllData();
+            if (originalData.Count == 0) return;
+
+            string filterColumn = comboBox1.SelectedItem?.ToString() ?? "S";
+            string searchText = textBoxSearch.Text.Trim().ToUpper();
+
+            // If search box is empty, load all data from DB and clear the label
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                LoadAllDataFromDB(BinGridView);
+                UpdateSearchLabel(SearchWrnLbl, 0, searchText);
+                return;
+            }
+
+            BinGridView.Rows.Clear();
+
+            // Create a list to store the filtered results
+            List<dynamic> filteredData = new List<dynamic>();
+
+            foreach (var item in originalData)
+            {
+                var row = (dynamic)item;
+                bool match = false;
+
+                if (filterColumn == "ID" && row.ID.ToString().Contains(searchText))
+                {
+                    match = true;
+                }
+                else if (filterColumn == "S" && row.S.Contains(searchText))
+                {
+                    match = true;
+                }
+                else if (filterColumn == "N" && row.N.ToString().Contains(searchText))
+                {
+                    match = true;
+                }
+
+                if (match)
+                {
+                    filteredData.Add(row);
+                }
+            }
+
+            // Add filtered data to DataGridView
+            foreach (var row in filteredData)
+            {
+                BinGridView.Rows.Add(row.ID, row.S, row.N, row.T, row.DT);
+            }
+
+            // Update the search label with the number of records found
+            UpdateSearchLabel(SearchWrnLbl, filteredData.Count, searchText);
+        }
+
+        private static void UpdateSearchLabel(Label SearchWrnLbl, int recordCount, string searchText)
+        {
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                SearchWrnLbl.Text = " "; // Clear the message when the search box is empty
+            }
+            else if (recordCount == 0)
+            {
+                SearchWrnLbl.ForeColor = System.Drawing.Color.Red;
+                SearchWrnLbl.Text = "No records found";
+            }
+            else
+            {
+                SearchWrnLbl.ForeColor = System.Drawing.Color.Green;
+                SearchWrnLbl.Text = $"Found {recordCount} records";
+            }
+        }
+
+        public static void DeleteFromRecycleBin(DataGridView BinGridView, TextBox BinS_Textbox, TextBox BinN_Textbox, TextBox time, TextBox date, TextBox Dtime, TextBox Ddate, GroupBox groupBox5, Button RcvBTN, Button DltBTN)
         {
             try
             {
-                RecycleBinRepository.DeleteData(id);
+                int id = Convert.ToInt32(BinGridView.SelectedRows[0].Cells["ID"].Value);
+                RecycleBinRepository.Delete_Data(id);
+                RecycleBinRepository.Load_Data(BinGridView);
+                BinGridView.ClearSelection();
+                //CountRecords(toolStripStatusLabel1);
+                ClearTextBoxes(BinS_Textbox, BinN_Textbox, time, date, Dtime, Ddate, groupBox5);
+                CheckAndUpdateRecycleBinButtons(BinGridView, RcvBTN, DltBTN);
+                MessageBox.Show($"Successfully deleted ID {id}!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -146,11 +274,27 @@ namespace Part1
             }
         }
 
-        public static void RestoreFromRecycleBin(int id)
+        public static void RestoreFromRecycleBin(int originalID, TextBox textBoxS, TextBox textBoxN, DataGridView dataGridView, DataGridView BinGridView)
         {
             try
             {
-                RecycleBinRepository.RestoreData(id);
+
+                //int originalID = Convert.ToInt32(BinGridView.SelectedRows[0].Cells["ID"].Value);
+                String inputText = BinGridView.SelectedRows[0].Cells["StringS"].Value?.ToString();
+                String shiftValue = BinGridView.SelectedRows[0].Cells["NumberN"].Value?.ToString();
+                DateTime time = Convert.ToDateTime(BinGridView.SelectedRows[0].Cells["Time"].Value);
+                int nextID = StringRepository.GenerateUniqueID(originalID);
+
+                // Create an instance of the string processing class
+                StringProcessing processor = new StringProcessing(nextID, inputText, shiftValue, time);
+                processor.Encode();
+                StringRepository.Add_Data(nextID, inputText, shiftValue, dataGridView, time);
+
+                RecycleBinRepository.Delete_Data(originalID);
+                RecycleBinRepository.Load_Data(BinGridView);
+                //CountRecords(toolStripStatusLabel1);
+                //ClearTextBoxes(textBoxS, textBoxN);
+                MessageBox.Show($"Successfully restore ID {originalID}!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -158,7 +302,7 @@ namespace Part1
             }
         }
 
-        public static void ClearRecycleBin()
+        public static void ClearRecycleBin(DataGridView BinGridView)
         {
             if (CountRecords() == 0)
             {
@@ -166,38 +310,54 @@ namespace Part1
                 return;
             }
 
-            DialogResult result = MessageBox.Show("Are you sure you want to permanently clear the recycle bin?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (result == DialogResult.Yes)
-            {
-                RecycleBinRepository.ClearData();
-                MessageBox.Show("Recycle Bin cleared successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
+            RecycleBinRepository.TruncateTable();
+            RecycleBinRepository.Load_Data(BinGridView);
+            BinGridView.ClearSelection();
+            MessageBox.Show("Recycle Bin cleared successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-        public static void RestoreAll()
+        }
+        private static void MoveAllOutOffRecycleBin(DataGridView dataGridView, DataGridView BinGridView)
         {
-            if (CountRecords() == 0)
+            if (BinGridView.Rows.Count == 0)
             {
-                MessageBox.Show("There are no items to restore.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("No records to restore!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
+            foreach (DataGridViewRow row in BinGridView.Rows)
+            {
+                if (row.IsNewRow) continue; // Bỏ qua dòng trống
 
-            try
-            {
-                using (var db = new Part1DB_Entities())
+                try
                 {
-                    var deletedItems = db.RecycleBins.ToList();
-                    foreach (var record in deletedItems)
-                    {
-                        RecycleBinRepository.RestoreData(record.Id);
-                    }
+                    int originalID = Convert.ToInt32(row.Cells["ID"].Value);
+                    string inputText = row.Cells["StringS"].Value?.ToString();
+                    string shiftValue = row.Cells["NumberN"].Value?.ToString();
+                    DateTime time = Convert.ToDateTime(row.Cells["Time"].Value);
+                    int nextID = StringRepository.GenerateUniqueID(originalID);
+
+                    // Xử lý mã hóa chuỗi trước khi thêm lại vào bảng chính
+                    StringProcessing processor = new StringProcessing(nextID, inputText, shiftValue, time);
+                    processor.Encode();
+                    StringRepository.Add_Data(nextID, inputText, shiftValue, dataGridView, time);
+
+                    // Xóa dữ liệu đã khôi phục khỏi RecycleBin
+                    RecycleBinRepository.Delete_Data(originalID);
                 }
-                MessageBox.Show("All items restored successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error restoring ID: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error restoring items: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+        }
+        public static void RestoreAllFromRecycleBin(DataGridView dataGridView, DataGridView BinGridView)
+        {
+            MoveAllOutOffRecycleBin(dataGridView, BinGridView);
+            // Load lại dữ liệu sau khi khôi phục
+            StringRepository.Load_Data(dataGridView);
+            RecycleBinRepository.Load_Data(BinGridView);
+            dataGridView.ClearSelection();
+            BinGridView.ClearSelection();
+            MessageBox.Show("All records have been successfully restored!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

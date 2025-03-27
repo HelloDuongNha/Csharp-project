@@ -10,8 +10,8 @@ namespace Part1
     {
         public RecycleBin() : base() { }
 
-        public RecycleBin(int nextID, string input, string shift, DateTime deletedTime)
-            : base(nextID, input, shift)
+        public RecycleBin(int nextID, string input, string shift, DateTime time, DateTime deletedTime)
+            : base(nextID, input, shift, time)
         {
             DeletedTime = deletedTime;
 

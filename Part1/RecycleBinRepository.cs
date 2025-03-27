@@ -37,6 +37,22 @@ namespace Part1
             }
         }
 
+        public static int GenerateUniqueID(int id)
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                var allIDs = db.RecycleBins.Select(x => x.Id).ToList(); // Lấy danh sách ID
+
+                while (allIDs.Contains(id)) // Kiểm tra ID có tồn tại không
+                {
+                    id++; // Nếu trùng thì tăng lên 1
+                }
+            }
+            return id;
+        }
+
+
+
         public static int GetNextID()
         {
             using (var db = new Part1DB_Entities())
@@ -67,7 +83,7 @@ namespace Part1
 
             {
                 DateTime DT = DateTime.Now;
-                RecycleBin recycleBin = new RecycleBin(nextID, textBoxS, textBoxN, DT)
+                RecycleBin recycleBin = new RecycleBin(nextID, textBoxS, textBoxN, encodedTime, DT)
                 {
                     Id = nextID,
                     InputS = textBoxS,
@@ -82,7 +98,7 @@ namespace Part1
             Load_Data(dataGridView);
         }
 
-        public static void DeleteData(int id)
+        public static void Delete_Data(int id)
         {
             using (var db = new Part1DB_Entities())
             {
@@ -118,7 +134,7 @@ namespace Part1
             }
         }
 
-        public static void ClearData()
+        public static void TruncateTable()
         {
             using (var db = new Part1DB_Entities())
             {

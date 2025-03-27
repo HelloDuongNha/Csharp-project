@@ -43,7 +43,7 @@ namespace Part1
         }
 
         // Constructor
-        public StringProcessing(int nextID, string input, string shift)
+        public StringProcessing(int nextID, string input, string shift, DateTime time)
         {
             if (string.IsNullOrWhiteSpace(shift))
                 throw new ArgumentException("Error: N cannot be empty or contain only whitespace.");
@@ -54,6 +54,7 @@ namespace Part1
             Id = nextID;
             S = input;
             N = shiftValue;
+            Time = time;
         }
 
         // Methods

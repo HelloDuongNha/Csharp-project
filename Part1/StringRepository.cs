@@ -39,6 +39,20 @@ namespace Part1
             }
         }
 
+        public static int GenerateUniqueID(int id)
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                var allIDs = db.StringProcessings.Select(x => x.Id).ToList(); // Lấy danh sách ID
+
+                while (allIDs.Contains(id)) // Kiểm tra ID có tồn tại không
+                {
+                    id++; // Nếu trùng thì tăng lên 1
+                }
+            }
+            return id;
+        }
+
         public static int GetNextID()
         {
             using (var db = new Part1DB_Entities())
@@ -66,17 +80,17 @@ namespace Part1
             }
         }
 
-        public static void Add_Data(int nextID, TextBox textBoxS, TextBox textBoxN, DataGridView dataGridView)
+        public static void Add_Data(int nextID, String S, String N, DataGridView dataGridView, DateTime time)
         {
             using (var db = new Part1DB_Entities())
 
             {
-                StringProcessing stringHistory = new StringProcessing(nextID, textBoxS.Text, textBoxN.Text)
+                StringProcessing stringHistory = new StringProcessing(nextID, S, N, time)
                 {
                     Id = nextID,
-                    InputS = textBoxS.Text,
-                    InputN = Convert.ToInt32(textBoxN.Text),
-                    Time = DateTime.Now
+                    InputS = S,
+                    InputN = Convert.ToInt32(N),
+                    Time = time
                 };
                 db.StringProcessings.Add(stringHistory);
                 db.SaveChanges();
