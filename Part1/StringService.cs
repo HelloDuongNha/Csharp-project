@@ -17,6 +17,7 @@ using System.ComponentModel;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -195,28 +196,33 @@ namespace Part1.classes
             statusLabel.Text = "✅ Valid.";
         }
 
-        public static void IncreaseNumber(TextBox textBox, Label statusLabel, RadioButton radio0, RadioButton radio10, RadioButton radio25, RadioButton radioOther, Button increaseBTN, Button decreaseBTN)
+        public static int TryParseInt(TextBox textBox)
         {
-            if (int.TryParse(textBox.Text, out int value) && value < 25)
+            if (int.TryParse(textBox.Text, out int value))
             {
-                textBox.Text = (value + 1).ToString();
+                return value;
             }
-
-            UpdateRadioButton(value, radio0, radio10, radio25, radioOther);
-            ValidateNumberInput(textBox, statusLabel);
-            UpdateButtonState(textBox, increaseBTN, decreaseBTN); 
+            return 0;
         }
 
-        public static void DecreaseNumber(TextBox textBox, Label statusLabel, RadioButton radio0, RadioButton radio10, RadioButton radio25, RadioButton radioOther, Button increaseBTN, Button decreaseBTN)
+        public static void IncreaseNumber(TextBox textBoxN)
         {
-            if (int.TryParse(textBox.Text, out int value) && value > -25)
-            {
-                textBox.Text = (value - 1).ToString();
-            }
+            int currentValue = TryParseInt(textBoxN);
 
-            UpdateRadioButton(value, radio0, radio10, radio25, radioOther);
-            ValidateNumberInput(textBox, statusLabel);
-            UpdateButtonState(textBox, increaseBTN, decreaseBTN);
+            if (currentValue < 25)
+            {
+                textBoxN.Text = (currentValue + 1).ToString(); 
+            }
+        }
+
+        public static void DecreaseNumber(TextBox textBoxN  )
+        {
+            int currentValue = TryParseInt(textBoxN);
+
+            if (currentValue >  -25)
+            {
+                textBoxN.Text = (currentValue - 1).ToString();
+            }
         }
 
         public static void UpdateTextBoxFromRadio(object sender, EventArgs e, TextBox textBoxN)
@@ -263,21 +269,21 @@ namespace Part1.classes
             else radioOther.Checked = true;
         }
 
-        public static void AutomaticCheckRadioButton(TextBox textBoxN, RadioButton radioButton0, RadioButton radioButton10, RadioButton radioButton25, RadioButton radioButtonOther)
-        {
-            if (int.TryParse(textBoxN.Text, out int value))
-            {
-                // Ensure that the radio button is automatically selected only when the user is typing in the textbox
-                if (textBoxN.Focused)
-                {
-                    UpdateRadioButton(value, radioButton0, radioButton10, radioButton25, radioButtonOther);
-                }
-            }
-            else
-            {
-                radioButtonOther.Checked = true;
-            }
-        }
+        //public static void AutomaticCheckRadioButton(TextBox textBoxN, RadioButton radioButton0, RadioButton radioButton10, RadioButton radioButton25, RadioButton radioButtonOther)
+        //{
+        //    if (int.TryParse(textBoxN.Text, out int value))
+        //    {
+        //        // Ensure that the radio button is automatically selected only when the user is typing in the textbox
+        //        if (textBoxN.Focused)
+        //        {
+        //            UpdateRadioButton(value, radioButton0, radioButton10, radioButton25, radioButtonOther);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        radioButtonOther.Checked = true;
+        //    }
+        //}
 
         public static ToolTip toolTip = new ToolTip();
 
@@ -293,7 +299,7 @@ namespace Part1.classes
             //toolTip.SetToolTip(ExitBTN, "Exit the program");
         }
 
-        public static void EncodingString(Button encodeBTN, Button IncreaseBTN, Button DecreaseBTN, TextBox textBoxS, TextBox textBoxN, DataGridView dataGridView, ToolStripLabel toolStripStatusLabel1)
+        public static void EncodingString(Button encodeBTN, Button IncreaseBTN, Button DecreaseBTN, TextBox textBoxS, TextBox textBoxN)
         {
             try
             {
@@ -309,7 +315,6 @@ namespace Part1.classes
                 StringProcessing processor = new StringProcessing(nextID, inputText, shiftValue, time);
                 processor.Encode();
                 StringRepository.Add_Data(nextID, inputText, Convert.ToInt32(shiftValue), time);
-                StringRepository.Load_Data(dataGridView);
 
                 // Display the results
                 Form2.encodedTXT.Text = processor.Print();
@@ -319,8 +324,6 @@ namespace Part1.classes
                 Form2.StartPosition = FormStartPosition.CenterScreen;
                 toolTip.SetToolTip(Form2.ExitBTN, "Exit the program");
                 Form2.ShowDialog();
-                CountRecords(toolStripStatusLabel1);
-                ClearTextBoxes(textBoxS, textBoxN);
             }
             catch (Exception ex)
             {
@@ -399,7 +402,7 @@ namespace Part1.classes
             }
         }
 
-        public static void FilterData(TextBox textBoxS, TextBox textBoxN, ComboBox comboBox1, TextBox textBoxSearch, DataGridView dataGridView, Label SearchWrnLbl)
+        public static void FilterData(ComboBox comboBox1, TextBox textBoxSearch, DataGridView dataGridView, Label SearchWrnLbl)
         {
             var originalData = StringRepository.GetAllData();
             if (originalData.Count == 0) return;
@@ -472,7 +475,7 @@ namespace Part1.classes
             }
         }
 
-        public static void DeleteDataByID(DataGridView dataGridView, TextBox textBoxS, TextBox textBoxN, ToolStripLabel toolStripStatusLabel1, Button DeleteBTN)
+        public static void DeleteDataByID(DataGridView dataGridView, Button DeleteBTN)
         {
             int rowIndex = dataGridView.SelectedCells[0].RowIndex;
             object cellValue = dataGridView.Rows[rowIndex].Cells["ID"].Value;
@@ -486,9 +489,8 @@ namespace Part1.classes
             int id = Convert.ToInt32(cellValue);
             StringRepository.Delete_Data(id);
             StringRepository.Load_Data(dataGridView);
-            CountRecords(toolStripStatusLabel1);
+            
             dataGridView.ClearSelection();
-            ClearTextBoxes(textBoxS, textBoxN);
 
             MessageBox.Show($"Successfully deleted ID {id}!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             CheckAndUpdateDeleteButton(dataGridView, DeleteBTN);
@@ -519,19 +521,17 @@ namespace Part1.classes
                 RecycleBinRepository.Add_Data(nextID, textBoxS, textBoxN, encodedTime);
                 RecycleBinRepository.Load_Data(BinGridView);
             }
-
+    
             MessageBox.Show("All records have been moved to the Recycle Bin!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
 
-        public static void ResetAllRecords(DataGridView dataGridView, DataGridView BinGridView, TextBox textBoxS, TextBox textBoxN, ToolStripLabel toolStripStatusLabel1)
+        public static void ResetAllRecords(DataGridView dataGridView, DataGridView BinGridView)
         {
             MoveAllToRecycleBin(dataGridView, BinGridView);
 
             StringRepository.TruncateTable();
             StringRepository.Load_Data(dataGridView);
-            CountRecords(toolStripStatusLabel1);
-            ClearTextBoxes(textBoxS, textBoxN);
             dataGridView.ClearSelection();
             BinGridView.ClearSelection();
 

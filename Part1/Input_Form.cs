@@ -80,23 +80,47 @@ namespace Part1
             StringService.UpdateButtonState(textBoxN, IncreaseBTN, DecreaseBTN);
             StringService.UpdateTrackBarValue(textBoxN, trackBar1);
             StringService.ValidateNumberInput(textBoxN, wrnLbl2);
-            StringService.AutomaticCheckRadioButton(textBoxN, radioButton0, radioButton10, radioButton25, radioButtonOther);
+
+            if (int.TryParse(textBoxN.Text, out int value))
+            {
+                // Ensure that the radio button is automatically selected only when the user is typing in the textbox
+                if (textBoxN.Focused)
+                {
+                    StringService.UpdateRadioButton(value, radioButton0, radioButton10, radioButton25, radioButtonOther);
+                }
+            }
+            else
+            {
+                radioButtonOther.Checked = true;
+            }
+            //StringService.AutomaticCheckRadioButton(textBoxN, radioButton0, radioButton10, radioButton25, radioButtonOther);
 
         }
 
         private void DecreaseBTN_Click(object sender, EventArgs e)
         {
-            StringService.DecreaseNumber(textBoxN, wrnLbl2, radioButton0, radioButton10, radioButton25, radioButtonOther, IncreaseBTN, DecreaseBTN);
+            StringService.DecreaseNumber(textBoxN);
+            int value = StringService.TryParseInt(textBoxN);
+            StringService.UpdateRadioButton(value, radioButton0, radioButton10, radioButton25, radioButtonOther);
+            StringService.ValidateNumberInput(textBoxN, wrnLbl2);
+            StringService.UpdateButtonState(textBoxN, IncreaseBTN, DecreaseBTN);
         }
 
         private void IncreaseBTN_Click(object sender, EventArgs e)
         {
-            StringService.IncreaseNumber(textBoxN, wrnLbl2, radioButton0, radioButton10, radioButton25, radioButtonOther, IncreaseBTN, DecreaseBTN);
+            StringService.IncreaseNumber(textBoxN);
+            int value = StringService.TryParseInt(textBoxN);
+            StringService.UpdateRadioButton(value, radioButton0, radioButton10, radioButton25, radioButtonOther);
+            StringService.ValidateNumberInput(textBoxN, wrnLbl2);
+            StringService.UpdateButtonState(textBoxN, IncreaseBTN, DecreaseBTN);
         }
 
         private void encodeBTN_Click(object sender, EventArgs e)
         {
-            StringService.EncodingString(encodeBTN, IncreaseBTN, DecreaseBTN, textBoxS, textBoxN, dataGridView, toolStripStatusLabel1);
+            StringService.EncodingString(encodeBTN, IncreaseBTN, DecreaseBTN, textBoxS, textBoxN);
+            StringService.LoadAllDataFromDB(dataGridView);
+            StringService.CountRecords(toolStripStatusLabel1);
+            StringService.ClearTextBoxes(textBoxS, textBoxN);
         }
 
         private void UppercaseBTN_Click(object sender, EventArgs e)
@@ -123,7 +147,9 @@ namespace Part1
 
             // Thêm vào RecycleBin trước khi xóa
             RecycleBinService.AddToRecycleBin(dataGridView, BinGridView);
-            StringService.DeleteDataByID(dataGridView, textBoxS, textBoxN, toolStripStatusLabel1, DeleteBTN);
+            StringService.DeleteDataByID(dataGridView, DeleteBTN);
+            StringService.CountRecords(toolStripStatusLabel1);
+            StringService.ClearTextBoxes(textBoxS, textBoxN);
 
             //RecycleBinService.SetupDataGridView(textBoxS, textBoxN, BinGridView);
             RecycleBinService.LoadAllDataFromDB(BinGridView);
@@ -144,13 +170,13 @@ namespace Part1
 
         private void Search_TextChanged(object sender, EventArgs e)
         {
-            StringService.FilterData(textBoxS, textBoxN, comboBox1, Search, dataGridView, searchWrnLbl);
+            StringService.FilterData(comboBox1, Search, dataGridView, searchWrnLbl);
         }
 
         private void Reset_Click(object sender, EventArgs e)
         {
             if (!IsConfirmedForAll("delete")) return;
-            StringService.ResetAllRecords(dataGridView, BinGridView, textBoxS, textBoxN, toolStripStatusLabel1);
+            StringService.ResetAllRecords(dataGridView, BinGridView);
             StringService.CountRecords(toolStripStatusLabel1);
             StringService.ClearTextBoxes(textBoxS, textBoxN);
 
@@ -189,8 +215,21 @@ namespace Part1
             if (e.RowIndex >= 0)
             {
                 isBinBinding = true; // Đánh dấu rằng binding đang diễn ra
-                RecycleBinService.addBinding(BinS_Textbox, BinN_Textbox, CreatedTimeTB, DeletedTimeTB, CreatedDateTB, DeletedDateTB, BinGridView, groupBox5);
-                RecycleBinService.CheckAndUpdateRecycleBinButtons(BinGridView, RcvBTN, DltBTN);
+                RecycleBinService.ClearTextboxSN(BinS_Textbox, BinN_Textbox);
+                RecycleBinService.ClearTextboxTime(CreatedTimeTB, CreatedDateTB, DeletedTimeTB, DeletedDateTB);
+                if (BinGridView.SelectedRows.Count > 0)
+                {
+                    RecycleBinService.addBindingSN(BinS_Textbox, BinN_Textbox, BinGridView);
+                    RecycleBinService.addBindingTime(CreatedTimeTB, CreatedDateTB, DeletedTimeTB, DeletedDateTB, BinGridView);
+                    RecycleBinService.UpdateGroupTitle(groupBox5, BinGridView);
+                } 
+                else
+                {
+                    RecycleBinService.ClearTextboxSN(BinS_Textbox, BinN_Textbox);
+                    RecycleBinService.ClearTextboxTime(CreatedTimeTB, CreatedDateTB, DeletedTimeTB, DeletedDateTB);
+                    RecycleBinService.ClearGroupTitle(groupBox5);
+                }
+                    RecycleBinService.CheckAndUpdateRecycleBinButtons(BinGridView, RcvBTN, DltBTN);
                 isBinBinding = false; // Kết thúc binding
             }
         }
@@ -202,7 +241,10 @@ namespace Part1
             // Kiểm tra xác nhận từ người dùng
             if (!IsConfirmed(originalID, "restore")) return;
 
-            RecycleBinService.RestoreFromRecycleBin(originalID, BinS_Textbox, BinN_Textbox, dataGridView, BinGridView);
+            RecycleBinService.RestoreFromRecycleBin(dataGridView, BinGridView);
+            RecycleBinService.ClearTextboxSN(BinS_Textbox, BinN_Textbox);
+            RecycleBinService.ClearTextboxTime(CreatedTimeTB, CreatedDateTB, DeletedTimeTB, DeletedDateTB);
+            RecycleBinService.ClearGroupTitle(groupBox5);
         }
 
         private void BinDltBTN_Click(object sender, EventArgs e)
@@ -214,19 +256,30 @@ namespace Part1
 
             // Thêm vào RecycleBin trước khi xóa
             //RecycleBinService.AddToRecycleBin(dataGridView, BinGridView);
-            RecycleBinService.DeleteFromRecycleBin(BinGridView, BinS_Textbox, BinN_Textbox, CreatedTimeTB, CreatedDateTB ,DeletedTimeTB, DeletedDateTB, groupBox5, RcvBTN, DltBTN);
+            RecycleBinService.DeleteFromRecycleBin(BinGridView);
+            //RecycleBinService.LoadAllDataFromDB(BinGridView);
+            RecycleBinService.ClearTextboxSN(BinS_Textbox, BinN_Textbox);
+            RecycleBinService.ClearTextboxTime(CreatedTimeTB, CreatedDateTB, DeletedTimeTB, DeletedDateTB);
+            RecycleBinService.ClearGroupTitle(groupBox5);
+            RecycleBinService.CheckAndUpdateRecycleBinButtons(BinGridView, RcvBTN, DltBTN);
         }
 
         private void DeletedAllBTN_Click(object sender, EventArgs e)
         {
             if (!IsConfirmedForAll("delete")) return;
             RecycleBinService.ClearRecycleBin(BinGridView);
+            RecycleBinService.ClearTextboxSN(BinS_Textbox, BinN_Textbox);
+            RecycleBinService.ClearTextboxTime(CreatedTimeTB, CreatedDateTB, DeletedTimeTB, DeletedDateTB);
+            RecycleBinService.ClearGroupTitle(groupBox5);
         }
 
         private void RecoveryAllBTN_Click(object sender, EventArgs e)
         {
             if (!IsConfirmedForAll("restore")) return;
             RecycleBinService.RestoreAllFromRecycleBin(dataGridView, BinGridView);
+            RecycleBinService.ClearTextboxSN(BinS_Textbox, BinN_Textbox);
+            RecycleBinService.ClearTextboxTime(CreatedTimeTB, CreatedDateTB, DeletedTimeTB, DeletedDateTB);
+            RecycleBinService.ClearGroupTitle(groupBox5);
         }
 
         private void BinSearchingTB_TextChanged(object sender, EventArgs e)

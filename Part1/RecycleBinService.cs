@@ -198,59 +198,69 @@ namespace Part1
             }
         }
 
-        public static void ClearTextBoxes(TextBox textBoxS, TextBox textBoxN, TextBox time, TextBox date, TextBox Dtime, TextBox Ddate, GroupBox groupBox5)
+        public static void ClearTextboxSN(TextBox textBoxS, TextBox textBoxN)
         {
+            textBoxN.DataBindings.Clear();
+            textBoxS.DataBindings.Clear();
             textBoxS.Clear();
             textBoxN.Clear();
+        }
+
+        public static void ClearTextboxTime(TextBox time, TextBox date, TextBox Dtime, TextBox Ddate)
+        {
+            time.DataBindings.Clear();
+            Dtime.DataBindings.Clear();
+            date.DataBindings.Clear();
+            Ddate.DataBindings.Clear();
             time.Clear();
             date.Clear();
             Dtime.Clear();
             Ddate.Clear();
-            groupBox5.Text = "Details (ID: ? )";
+        }
+
+        public static void ClearGroupTitle(GroupBox groupBox)
+        {
+            groupBox.Text = "Details (ID: ? )";
 
         }
 
-        public static void addBinding(TextBox textBoxS, TextBox textBoxN, TextBox Time, TextBox DTime, TextBox Date, TextBox DDate, DataGridView dataGridView, GroupBox groupBox5)
+        public static void UpdateGroupTitle(GroupBox groupBox, DataGridView dataGridView)
         {
-            textBoxS.DataBindings.Clear();
-            textBoxN.DataBindings.Clear();
-            Time.DataBindings.Clear();
-            DTime.DataBindings.Clear();
-
             if (dataGridView.SelectedRows.Count > 0)
             {
                 int originalID = Convert.ToInt32(dataGridView.SelectedRows[0].Cells["ID"].Value);
-
-                textBoxS.Text = dataGridView.SelectedRows[0].Cells["StringS"].Value?.ToString();
-                textBoxN.Text = dataGridView.SelectedRows[0].Cells["NumberN"].Value?.ToString();
-                Time.Text = dataGridView.SelectedRows[0].Cells["Time"].Value?.ToString().Split(' ')[1];
-                DTime.Text = dataGridView.SelectedRows[0].Cells["DeletedTime"].Value?.ToString().Split(' ')[1];
-                Date.Text = dataGridView.SelectedRows[0].Cells["Time"].Value?.ToString().Split(' ')[0];
-                DDate.Text = dataGridView.SelectedRows[0].Cells["DeletedTime"].Value?.ToString().Split(' ')[0];
-
-                // update the groupbox title
-                groupBox5.Text = $"Details (ID: {originalID} )";
+                groupBox.Text = $"Details (ID: {originalID} )";
             }
             else
             {
-                // if not, set default value
-                textBoxS.Clear();
-                textBoxN.Clear();
-                Time.Clear();
-                DTime.Clear();
-                Date.Clear();
-                DDate.Clear();
-
-                groupBox5.Text = "Details ID: ?";
+                ClearGroupTitle(groupBox);
             }
         }
 
-        public static void FilterData(ComboBox comboBox1, TextBox textBoxSearch, DataGridView BinGridView, Label SearchWrnLbl)
+        public static void addBindingSN(TextBox textBoxS, TextBox textBoxN, DataGridView dataGridView)
+        {
+
+            textBoxS.Text = dataGridView.SelectedRows[0].Cells["StringS"].Value?.ToString();
+            textBoxN.Text = dataGridView.SelectedRows[0].Cells["NumberN"].Value?.ToString();
+
+        }
+
+        public static void addBindingTime(TextBox Time, TextBox DTime, TextBox Date, TextBox DDate, DataGridView dataGridView)
+        {
+
+            Time.Text = dataGridView.SelectedRows[0].Cells["Time"].Value?.ToString().Split(' ')[1];
+            DTime.Text = dataGridView.SelectedRows[0].Cells["DeletedTime"].Value?.ToString().Split(' ')[1];
+            Date.Text = dataGridView.SelectedRows[0].Cells["Time"].Value?.ToString().Split(' ')[0];
+            DDate.Text = dataGridView.SelectedRows[0].Cells["DeletedTime"].Value?.ToString().Split(' ')[0];
+
+        }
+
+        public static void FilterData(ComboBox comboBox, TextBox textBoxSearch, DataGridView BinGridView, Label SearchWrnLbl)
         {
             var originalData = RecycleBinRepository.GetAllData();
             if (originalData.Count == 0) return;
 
-            string filterColumn = comboBox1.SelectedItem?.ToString() ?? "S";
+            string filterColumn = comboBox.SelectedItem?.ToString() ?? "S";
             string searchText = textBoxSearch.Text.Trim().ToUpper();
 
             // If search box is empty, load all data from DB and clear the label
@@ -319,9 +329,7 @@ namespace Part1
         }
 
 
-        public static void DeleteFromRecycleBin(DataGridView BinGridView, TextBox BinS_Textbox, TextBox BinN_Textbox,
-                                                TextBox time, TextBox date, TextBox Dtime, TextBox Ddate,
-                                                GroupBox groupBox5, Button RcvBTN, Button DltBTN)
+        public static void DeleteFromRecycleBin(DataGridView BinGridView)
         {
             try
             {
@@ -331,11 +339,13 @@ namespace Part1
                 RecycleBin bin = new RecycleBin();
                 bin.Delete(id);
 
-                //upadte
-                RecycleBinRepository.Load_Data(BinGridView);
+                //update
+                LoadAllDataFromDB(BinGridView);
                 BinGridView.ClearSelection();
-                ClearTextBoxes(BinS_Textbox, BinN_Textbox, time, date, Dtime, Ddate, groupBox5);
-                CheckAndUpdateRecycleBinButtons(BinGridView, RcvBTN, DltBTN);
+                //ClearTextboxSN(BinS_Textbox, BinN_Textbox);
+                //ClearTextboxTime(time, date, Dtime, Ddate);
+                //ClearGroupTitle(groupBox5);
+                //CheckAndUpdateRecycleBinButtons(BinGridView, RcvBTN, DltBTN);
 
                 MessageBox.Show($"Successfully deleted ID {id}!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -345,13 +355,15 @@ namespace Part1
             }
         }
 
-        public static void RestoreFromRecycleBin(int originalID, TextBox textBoxS, TextBox textBoxN, DataGridView dataGridView, DataGridView BinGridView)
+        public static void RestoreFromRecycleBin(DataGridView dataGridView, DataGridView BinGridView)
         {
             try
             {
                 string inputText = BinGridView.SelectedRows[0].Cells["StringS"].Value?.ToString();
                 string shiftValue = BinGridView.SelectedRows[0].Cells["NumberN"].Value?.ToString();
                 DateTime time = Convert.ToDateTime(BinGridView.SelectedRows[0].Cells["Time"].Value);
+
+                int originalID = Convert.ToInt32(BinGridView.SelectedRows[0].Cells["ID"].Value);
                 int nextID = StringRepository.GenerateUniqueID(originalID);
 
                 // call the class method

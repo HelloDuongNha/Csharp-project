@@ -155,6 +155,7 @@
       <DependentUpon>Part1DB.edmx</DependentUpon>
       <LastGenOutput>Part1DB.cs</LastGenOutput>
     </Content>
+    <Content Include="Settings.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
