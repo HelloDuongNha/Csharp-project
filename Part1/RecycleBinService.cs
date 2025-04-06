@@ -83,27 +83,16 @@ namespace Part1
 
             BinGridView.DefaultCellStyle.Font = new Font("Arial", 10);
         }
-        public static void ProcessRestoration(int original, string inputText, int shiftValue, DateTime time)
+        public static void ProcessRestoration(int uniqueID, string inputText, string shiftValue, DateTime time)
         {
-            StringProcessing processor = new StringProcessing(original, inputText, shiftValue.ToString(), time);
+            StringProcessing processor = new StringProcessing(uniqueID, inputText, shiftValue, time);
             processor.Encode();
-
-            StringRepository.Add_Data(original, inputText, shiftValue, time);
-        }
-
-        public static void ProcessDeletion(int id)
-        {
-            RecycleBinRepository.Delete_Data(id);
-        }
-
-        public static void ProcessClearAll()
-        {
-            RecycleBinRepository.TruncateTable();
+            processor.AddToHistory(uniqueID, inputText, shiftValue, time);
         }
 
         public static void ProcessRestoreAll()
         {
-            var allDeletedItems = RecycleBinRepository.GetAllData(); 
+            var allDeletedItems = GetAllBinData(); 
 
             if (allDeletedItems == null || allDeletedItems.Count == 0)
             {
@@ -111,25 +100,23 @@ namespace Part1
                 return;
             }
 
-            foreach (var item in allDeletedItems)
+            foreach (var item in allDeletedItems.AsEnumerable().Reverse())
             {
                 try
                 {
-                    var row = (dynamic)item; // Ép kiểu sang dynamic để truy xuất dữ liệu linh hoạt
+                    var row = (dynamic)item;
 
                     int originalID = row.ID;
                     string inputText = row.S;
                     int shiftValue = row.N;
                     DateTime time = row.T;
 
-                    int nextID = StringRepository.GenerateUniqueID(originalID);
+                    int uniqueID = GetHistoryUniqueID(originalID);
 
                     // call the class method
                     RecycleBin bin = new RecycleBin();
-                    bin.Restore(nextID, inputText, shiftValue, time);
-
-                    // delete the record from RecycleBin
-                    RecycleBinRepository.Delete_Data(originalID);
+                    bin.Restore(uniqueID, inputText, shiftValue.ToString(), time);
+                    bin.Delete(originalID);
                 }
                 catch (Exception ex)
                 {
@@ -138,22 +125,17 @@ namespace Part1
             }
         }
 
-        public static void ProcessAddingToRecycleBin(int originalID, string inputText, int shiftValue, DateTime time)
-        {
-            int nextID = RecycleBinRepository.GenerateUniqueID(originalID);
-            RecycleBinRepository.Add_Data(nextID, inputText, shiftValue.ToString(), time);
-        }
-
 
         public static void LoadAllDataFromDB(DataGridView binGridView)
         {
-            RecycleBinRepository.Load_Data(binGridView);
-            binGridView.ClearSelection();
+            RecycleBin bin = new RecycleBin();
+            bin.Display(binGridView);
         }
 
         public static int CountRecords()
         {
-            return RecycleBinRepository.CountRecord();
+            RecycleBin bin = new RecycleBin();
+            return bin.CountRecord();
         }
 
         public static void AddToRecycleBin(DataGridView dataGridView, DataGridView BinGridView)
@@ -173,10 +155,8 @@ namespace Part1
 
             // call the method
             RecycleBin bin = new RecycleBin();
-            bin.AddToBin(originalID, textBoxS, Convert.ToInt32(textBoxN), encodedTime);
-
-            // Update the Recycle Bin DataGridView
-            RecycleBinRepository.Load_Data(BinGridView);
+            bin.AddToBin(originalID, textBoxS, textBoxN, encodedTime);
+            bin.Display(BinGridView);
         }
 
         public static void CheckAndUpdateRecycleBinButtons(DataGridView BinGridView, Button RecoveryBTN, Button BinDeleteBTN)
@@ -198,24 +178,16 @@ namespace Part1
             }
         }
 
-        public static void ClearTextboxSN(TextBox textBoxS, TextBox textBoxN)
+        public static void ClearTextboxes(List<TextBox> textBoxes)
         {
-            textBoxN.DataBindings.Clear();
-            textBoxS.DataBindings.Clear();
-            textBoxS.Clear();
-            textBoxN.Clear();
-        }
+            if (textBoxes == null || textBoxes.Count == 0)
+                throw new ArgumentException("Error: The list must contain at least one textbox.");
 
-        public static void ClearTextboxTime(TextBox time, TextBox date, TextBox Dtime, TextBox Ddate)
-        {
-            time.DataBindings.Clear();
-            Dtime.DataBindings.Clear();
-            date.DataBindings.Clear();
-            Ddate.DataBindings.Clear();
-            time.Clear();
-            date.Clear();
-            Dtime.Clear();
-            Ddate.Clear();
+            foreach (var textBox in textBoxes)
+            {
+                textBox.DataBindings.Clear();
+                textBox.Clear();
+            }
         }
 
         public static void ClearGroupTitle(GroupBox groupBox)
@@ -224,11 +196,11 @@ namespace Part1
 
         }
 
-        public static void UpdateGroupTitle(GroupBox groupBox, DataGridView dataGridView)
+        public static void UpdateGroupTitle(GroupBox groupBox, DataGridView binGridView)
         {
-            if (dataGridView.SelectedRows.Count > 0)
+            if (binGridView.SelectedRows.Count > 0)
             {
-                int originalID = Convert.ToInt32(dataGridView.SelectedRows[0].Cells["ID"].Value);
+                int originalID = Convert.ToInt32(binGridView.SelectedRows[0].Cells["ID"].Value);
                 groupBox.Text = $"Details (ID: {originalID} )";
             }
             else
@@ -237,37 +209,38 @@ namespace Part1
             }
         }
 
-        public static void addBindingSN(TextBox textBoxS, TextBox textBoxN, DataGridView dataGridView)
+        public static void AddBinding(List<TextBox> textBoxes, DataGridView binGridView)
         {
+            if (textBoxes == null || textBoxes.Count == 0)
+                throw new ArgumentException("Error: The list must contain at least one textbox.");
 
-            textBoxS.Text = dataGridView.SelectedRows[0].Cells["StringS"].Value?.ToString();
-            textBoxN.Text = dataGridView.SelectedRows[0].Cells["NumberN"].Value?.ToString();
+            // S and N binding
+            textBoxes[0].Text = binGridView.SelectedRows[0].Cells["StringS"].Value?.ToString();
+            textBoxes[1].Text = binGridView.SelectedRows[0].Cells["NumberN"].Value?.ToString();
 
+            // Time Binding
+            textBoxes[2].Text = binGridView.SelectedRows[0].Cells["Time"].Value?.ToString().Split(' ')[1]; // Time
+            textBoxes[3].Text = binGridView.SelectedRows[0].Cells["DeletedTime"].Value?.ToString().Split(' ')[1]; // DeletedTime
+            textBoxes[4].Text = binGridView.SelectedRows[0].Cells["Time"].Value?.ToString().Split(' ')[0]; // Date
+            textBoxes[5].Text = binGridView.SelectedRows[0].Cells["DeletedTime"].Value?.ToString().Split(' ')[0]; // DDate
         }
 
-        public static void addBindingTime(TextBox Time, TextBox DTime, TextBox Date, TextBox DDate, DataGridView dataGridView)
+        private static List<object> GetAllBinData()
         {
-
-            Time.Text = dataGridView.SelectedRows[0].Cells["Time"].Value?.ToString().Split(' ')[1];
-            DTime.Text = dataGridView.SelectedRows[0].Cells["DeletedTime"].Value?.ToString().Split(' ')[1];
-            Date.Text = dataGridView.SelectedRows[0].Cells["Time"].Value?.ToString().Split(' ')[0];
-            DDate.Text = dataGridView.SelectedRows[0].Cells["DeletedTime"].Value?.ToString().Split(' ')[0];
-
+            RecycleBin bin = new RecycleBin();
+            return bin.GetAllData();
         }
 
-        public static void FilterData(ComboBox comboBox, TextBox textBoxSearch, DataGridView BinGridView, Label SearchWrnLbl)
+        public static void FilterData(String filterColumn, String searchText, DataGridView BinGridView)
         {
-            var originalData = RecycleBinRepository.GetAllData();
+            var originalData = GetAllBinData();
             if (originalData.Count == 0) return;
-
-            string filterColumn = comboBox.SelectedItem?.ToString() ?? "S";
-            string searchText = textBoxSearch.Text.Trim().ToUpper();
 
             // If search box is empty, load all data from DB and clear the label
             if (string.IsNullOrWhiteSpace(searchText))
             {
                 LoadAllDataFromDB(BinGridView);
-                UpdateSearchLabel(SearchWrnLbl, 0, searchText);
+                //UpdateSearchLabel(SearchWrnLbl, 0, searchText);
                 return;
             }
 
@@ -305,12 +278,9 @@ namespace Part1
             {
                 BinGridView.Rows.Add(row.ID, row.S, row.N, row.T, row.DT);
             }
-
-            // Update the search label with the number of records found
-            UpdateSearchLabel(SearchWrnLbl, filteredData.Count, searchText);
         }
 
-        private static void UpdateSearchLabel(Label SearchWrnLbl, int recordCount, string searchText)
+        public static void UpdateSearchLabel(Label SearchWrnLbl, int recordCount, string searchText)
         {
             if (string.IsNullOrWhiteSpace(searchText))
             {
@@ -338,14 +308,7 @@ namespace Part1
                 //call the method
                 RecycleBin bin = new RecycleBin();
                 bin.Delete(id);
-
-                //update
-                LoadAllDataFromDB(BinGridView);
-                BinGridView.ClearSelection();
-                //ClearTextboxSN(BinS_Textbox, BinN_Textbox);
-                //ClearTextboxTime(time, date, Dtime, Ddate);
-                //ClearGroupTitle(groupBox5);
-                //CheckAndUpdateRecycleBinButtons(BinGridView, RcvBTN, DltBTN);
+                bin.Display(BinGridView);
 
                 MessageBox.Show($"Successfully deleted ID {id}!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -355,7 +318,13 @@ namespace Part1
             }
         }
 
-        public static void RestoreFromRecycleBin(DataGridView dataGridView, DataGridView BinGridView)
+        private static int GetHistoryUniqueID(int Id)
+        {
+            StringProcessing history = new StringProcessing();
+            return history.GetUniqueID(Id);
+        }
+
+        public static void RestoreFromRecycleBin(DataGridView BinGridView)
         {
             try
             {
@@ -364,16 +333,13 @@ namespace Part1
                 DateTime time = Convert.ToDateTime(BinGridView.SelectedRows[0].Cells["Time"].Value);
 
                 int originalID = Convert.ToInt32(BinGridView.SelectedRows[0].Cells["ID"].Value);
-                int nextID = StringRepository.GenerateUniqueID(originalID);
+                int nextID = GetHistoryUniqueID(originalID);
 
                 // call the class method
                 RecycleBin bin = new RecycleBin();
-                bin.Restore(nextID, inputText, Convert.ToInt32(shiftValue), time);
-
-                // update the main DataGridView
-                StringRepository.Load_Data(dataGridView);
-                RecycleBinRepository.Delete_Data(originalID);
-                RecycleBinRepository.Load_Data(BinGridView);
+                bin.Restore(nextID, inputText, shiftValue, time);
+                bin.Delete(originalID);
+                bin.Display(BinGridView);
 
                 MessageBox.Show($"Successfully restored ID {originalID}!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -393,20 +359,15 @@ namespace Part1
 
             RecycleBin bin = new RecycleBin();
             bin.ClearAll();
-
-            RecycleBinRepository.Load_Data(BinGridView);
-            BinGridView.ClearSelection();
+            bin.Display(BinGridView);
             MessageBox.Show("Recycle Bin cleared successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        public static void RestoreAllFromRecycleBin(DataGridView dataGridView, DataGridView BinGridView)
+        public static void RestoreAllFromRecycleBin(DataGridView BinGridView)
         {
             var bin = new RecycleBin();
             bin.RestoreAll();
-            StringRepository.Load_Data(dataGridView);
-            RecycleBinRepository.Load_Data(BinGridView);
-            dataGridView.ClearSelection();
-            BinGridView.ClearSelection();
+            bin.Display(BinGridView);
             MessageBox.Show("All records have been successfully restored!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }

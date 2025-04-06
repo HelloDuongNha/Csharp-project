@@ -12,12 +12,13 @@ namespace Part1
     using System;
     using System.Collections.Generic;
     
-    public partial class RecycleBin : StringProcessing
+    public partial class RecycleBin
     {
         public int Id { get; set; }
         public string InputS { get; set; }
-        public Nullable<int> InputN { get; set; }
+        public int InputN { get; set; }
         public Nullable<System.DateTime> Time { get; set; }
         public Nullable<System.DateTime> DeletedTime { get; set; }
+        public int BinID { get; set; }
     }
 }

@@ -7,13 +7,14 @@
     <Schema Namespace="Part1DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="RecycleBin">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="BinID" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="InputS" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="InputN" Type="int" Nullable="false" />
           <Property Name="Time" Type="datetime" />
           <Property Name="DeletedTime" Type="datetime" />
+          <Property Name="BinID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="StringProcessing">
           <Key>
@@ -38,13 +39,14 @@
         </EntityContainer>
         <EntityType Name="RecycleBin">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="BinID" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="InputS" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="InputN" Type="Int32" Nullable="false" />
           <Property Name="Time" Type="DateTime" Precision="3" />
           <Property Name="DeletedTime" Type="DateTime" Precision="3" />
+          <Property Name="BinID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="StringProcessing">
           <Key>
@@ -55,7 +57,7 @@
           <Property Name="InputN" Type="Int32" />
           <Property Name="Time" Type="DateTime" Precision="3" />
         </EntityType>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -64,6 +66,7 @@
           <EntitySetMapping Name="RecycleBins">
             <EntityTypeMapping TypeName="Part1DBModel.RecycleBin">
               <MappingFragment StoreEntitySet="RecycleBin">
+                <ScalarProperty Name="BinID" ColumnName="BinID" />
                 <ScalarProperty Name="DeletedTime" ColumnName="DeletedTime" />
                 <ScalarProperty Name="Time" ColumnName="Time" />
                 <ScalarProperty Name="InputN" ColumnName="InputN" />

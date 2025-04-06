@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using Part1.classes;
 
 namespace Part1
@@ -87,6 +89,48 @@ namespace Part1
         public int[] OutputCode()
         {
             return StringService.OutputCode(_encodedString);
+        }
+
+        public void Display(DataGridView table)
+        {
+            StringRepository.Load_Data(table);
+            table.ClearSelection();
+            //StringService.ProcessDisplay(table);
+        }
+
+        public List<object> GetAllData()
+        {
+            return StringRepository.GetAllData();
+        }
+
+        public int CountRecord()
+        {
+            return StringRepository.CountRecord();
+        }
+
+        public int GetNextID()
+        {
+            return StringRepository.GetNextID();
+        }
+
+        public int GetUniqueID(int id)
+        {
+            return StringRepository.GenerateUniqueID(id);
+        }
+
+        public void AddToHistory(int id, string s, string n, DateTime t)
+        {
+            StringRepository.Add_Data(id, s, n, t);
+        }
+
+        public void Delete(int id)
+        {
+            StringRepository.Delete_Data(id);
+        }
+
+        public void Reset()
+        {
+            StringRepository.TruncateTable();
         }
     }
 }

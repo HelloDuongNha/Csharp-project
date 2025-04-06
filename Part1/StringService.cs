@@ -6,20 +6,6 @@ using Org.BouncyCastle.Asn1.Crmf;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Part1.classes
 {
@@ -77,7 +63,6 @@ namespace Part1.classes
 
             dataGridView.DefaultCellStyle.Font = new Font("Arial", 10);
         }
-
 
         public static String Encode(string s, int shift)
         {
@@ -137,7 +122,20 @@ namespace Part1.classes
 
         public static void CountRecords(ToolStripLabel toolStripStatusLabel1)
         {
-            toolStripStatusLabel1.Text = $"Total record: {StringRepository.CountRecord()}";
+            StringProcessing history = new StringProcessing();
+            toolStripStatusLabel1.Text = $"Total record: {history.CountRecord()}";
+        }
+
+        private static int GetNextIdHistory()
+        {
+            StringProcessing history = new StringProcessing();
+            return history.GetNextID(); 
+        }
+
+        private static int GetUniqueID(int id)
+        {
+            StringProcessing history = new StringProcessing();
+            return history.GetUniqueID(id);
         }
 
         public static void ValidateInput(string input, Label statusLabel)
@@ -225,7 +223,7 @@ namespace Part1.classes
             }
         }
 
-        public static void UpdateTextBoxFromRadio(object sender, EventArgs e, TextBox textBoxN)
+        public static void UpdateTextBoxFromRadio(object sender, TextBox textBoxN)
         {
             if (sender is RadioButton radioButton && radioButton.Checked)
             {
@@ -261,52 +259,58 @@ namespace Part1.classes
         }
 
         // update the appropriate radio button
-        public static void UpdateRadioButton(int value, RadioButton radio0, RadioButton radio10, RadioButton radio25, RadioButton radioOther)
+        public static void UpdateRadioButton(int value, List<RadioButton> radioButtons)
         {
-            if (value == 0) radio0.Checked = true;
-            else if (value == 10) radio10.Checked = true;
-            else if (value == 25) radio25.Checked = true;
-            else radioOther.Checked = true;
+            if (radioButtons == null || radioButtons.Count < 4)
+                throw new ArgumentException("Error: The radio button list must contain at least 4 buttons.");
+
+            int[] values = { 0, 10, 25 };
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                if (value == values[i])
+                {
+                    radioButtons[i].Checked = true;
+                    return;
+                }
+            }
+
+            radioButtons[3].Checked = true;
         }
 
-        //public static void AutomaticCheckRadioButton(TextBox textBoxN, RadioButton radioButton0, RadioButton radioButton10, RadioButton radioButton25, RadioButton radioButtonOther)
-        //{
-        //    if (int.TryParse(textBoxN.Text, out int value))
-        //    {
-        //        // Ensure that the radio button is automatically selected only when the user is typing in the textbox
-        //        if (textBoxN.Focused)
-        //        {
-        //            UpdateRadioButton(value, radioButton0, radioButton10, radioButton25, radioButtonOther);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        radioButtonOther.Checked = true;
-        //    }
-        //}
+        private static ToolTip toolTip = new ToolTip();
 
-        public static ToolTip toolTip = new ToolTip();
-
-        public static void InitializeToolTips(Button encodeBTN, Button IncreaseBTN, Button DecreaseBTN, Button DeleteBTN, Button ClearAllBTN)
+        public static void InitializeToolTips(List<Button> buttons)
         {
+            if (buttons == null || buttons.Count < 5)
+                throw new ArgumentException("Error: The button list must contain at least 5 buttons.");
+
             toolTip.AutoPopDelay = 3000;
             toolTip.InitialDelay = 1000;
-            toolTip.SetToolTip(encodeBTN, "Encode the text");
-            toolTip.SetToolTip(IncreaseBTN, "Increase the value");
-            toolTip.SetToolTip(DecreaseBTN, "Decrease the value");
-            toolTip.SetToolTip(DeleteBTN, "Delete the selected record");
-            toolTip.SetToolTip(ClearAllBTN, "Delete all records");
-            //toolTip.SetToolTip(ExitBTN, "Exit the program");
+
+            string[] toolTipTexts =
+            {
+                "Encode the text",
+                "Increase the value",   
+                "Decrease the value",
+                "Delete the selected record",
+                "Delete all records"
+            };
+
+            for (int i = 0; i < toolTipTexts.Length; i++)
+            {
+                toolTip.SetToolTip(buttons[i], toolTipTexts[i]);
+            }
         }
 
-        public static void EncodingString(Button encodeBTN, Button IncreaseBTN, Button DecreaseBTN, TextBox textBoxS, TextBox textBoxN)
+        public static void EncodingString(TextBox textBoxS, TextBox textBoxN)
         {
             try
             {
                 Output_Form Form2 = new Output_Form();
-                //InitializeToolTips(encodeBTN, IncreaseBTN, DecreaseBTN);
+
                 // Get values from textboxes
-                int nextID = StringRepository.GetNextID();
+                int nextID = GetNextIdHistory();
                 string inputText = textBoxS.Text;
                 string shiftValue = textBoxN.Text;
 
@@ -314,7 +318,7 @@ namespace Part1.classes
                 DateTime time = DateTime.Now;
                 StringProcessing processor = new StringProcessing(nextID, inputText, shiftValue, time);
                 processor.Encode();
-                StringRepository.Add_Data(nextID, inputText, Convert.ToInt32(shiftValue), time);
+                processor.AddToHistory(nextID, inputText, shiftValue, time);
 
                 // Display the results
                 Form2.encodedTXT.Text = processor.Print();
@@ -389,8 +393,8 @@ namespace Part1.classes
 
         public static void LoadAllDataFromDB(DataGridView dataGridView)
         {
-            StringRepository.Load_Data(dataGridView);
-            dataGridView.ClearSelection();
+            StringProcessing history = new StringProcessing();
+            history.Display(dataGridView);
         }
 
         public static void addBinding(TextBox textBoxS, TextBox textBoxN, DataGridView dataGridView)
@@ -402,21 +406,16 @@ namespace Part1.classes
             }
         }
 
-        public static void FilterData(ComboBox comboBox1, TextBox textBoxSearch, DataGridView dataGridView, Label SearchWrnLbl)
+        private static List<object> GetAllHistoryData()
         {
-            var originalData = StringRepository.GetAllData();
+            StringProcessing history = new StringProcessing();
+            return history.GetAllData();
+        }
+
+        public static void FilterData(String filter, String searchTxt, DataGridView dataGridView)
+        {
+            List<object> originalData = GetAllHistoryData();
             if (originalData.Count == 0) return;
-
-            string filterColumn = comboBox1.SelectedItem?.ToString() ?? "S";
-            string searchText = textBoxSearch.Text.Trim().ToUpper();
-
-            // If search box is empty, load all data from DB and clear the label
-            if (string.IsNullOrWhiteSpace(searchText))
-            {
-                LoadAllDataFromDB(dataGridView);
-                UpdateSearchLabel(SearchWrnLbl, 0, searchText);
-                return;
-            }
 
             dataGridView.Rows.Clear();
 
@@ -428,15 +427,15 @@ namespace Part1.classes
                 var row = (dynamic)item;
                 bool match = false;
 
-                if (filterColumn == "ID" && row.ID.ToString().Contains(searchText))
+                if (filter == "ID" && row.ID.ToString().Contains(searchTxt))
                 {
                     match = true;
                 }
-                else if (filterColumn == "S" && row.S.Contains(searchText))
+                else if (filter == "S" && row.S.Contains(searchTxt))
                 {
                     match = true;
                 }
-                else if (filterColumn == "N" && row.N.ToString().Contains(searchText))
+                else if (filter == "N" && row.N.ToString().Contains(searchTxt))
                 {
                     match = true;
                 }
@@ -452,9 +451,6 @@ namespace Part1.classes
             {
                 dataGridView.Rows.Add(row.ID, row.S, row.N, row.T);
             }
-
-            // Update the search label with the number of records found
-            UpdateSearchLabel(SearchWrnLbl, filteredData.Count, searchText);
         }
 
         public static void UpdateSearchLabel(Label SearchWrnLbl, int recordCount, string searchText)
@@ -487,8 +483,10 @@ namespace Part1.classes
             }
 
             int id = Convert.ToInt32(cellValue);
-            StringRepository.Delete_Data(id);
-            StringRepository.Load_Data(dataGridView);
+            
+            StringProcessing History =  new StringProcessing();
+            History.Delete(id);
+            History.Display(dataGridView);
             
             dataGridView.ClearSelection();
 
@@ -496,46 +494,46 @@ namespace Part1.classes
             CheckAndUpdateDeleteButton(dataGridView, DeleteBTN);
         }
 
-        private static void MoveAllToRecycleBin(DataGridView dataGridView, DataGridView BinGridView)
+        private static void MoveAllToRecycleBin(DataGridView dataGridView)
         {
+            // if null
             if (dataGridView.Rows.Count == 0)
             {
                 MessageBox.Show("No records to move!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            foreach (DataGridViewRow row in dataGridView.Rows)
+            for (int i = 0; i < dataGridView.Rows.Count; i++)
             {
-                if (row.IsNewRow) continue; // skip the last row
+                DataGridViewRow row = dataGridView.Rows[i];
 
                 string textBoxS = row.Cells["StringS"].Value?.ToString();
                 string textBoxN = row.Cells["NumberN"].Value?.ToString();
                 string encodedTimeStr = row.Cells["Time"].Value?.ToString();
                 object idValue = row.Cells["ID"].Value;
 
-                DateTime encodedTime = DateTime.Parse(encodedTimeStr);
-                int originalID = Convert.ToInt32(idValue);
-                int nextID = RecycleBinRepository.GenerateUniqueID(originalID);
+                // add to RecycleBin
+                if (!string.IsNullOrEmpty(textBoxS) && !string.IsNullOrEmpty(textBoxN) && DateTime.TryParse(encodedTimeStr, out DateTime encodedTime))
+                {
+                    int originalID = Convert.ToInt32(idValue);
 
-                // update the RecycleBin table
-                RecycleBinRepository.Add_Data(nextID, textBoxS, textBoxN, encodedTime);
-                RecycleBinRepository.Load_Data(BinGridView);
+                    RecycleBin bin = new RecycleBin();
+                    bin.AddToBin(originalID, textBoxS, textBoxN, encodedTime);
+                }
             }
-    
+
+            // successful
             MessageBox.Show("All records have been moved to the Recycle Bin!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
 
-        public static void ResetAllRecords(DataGridView dataGridView, DataGridView BinGridView)
+        public static void ResetAllRecords(DataGridView dataGridView)
         {
-            MoveAllToRecycleBin(dataGridView, BinGridView);
-
-            StringRepository.TruncateTable();
-            StringRepository.Load_Data(dataGridView);
-            dataGridView.ClearSelection();
-            BinGridView.ClearSelection();
-
-            //MessageBox.Show("All records have been deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MoveAllToRecycleBin(dataGridView);
+            StringProcessing history = new StringProcessing();
+            history.Reset();
+            history.Display(dataGridView);
         }
+
     }
 }

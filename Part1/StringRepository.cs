@@ -12,16 +12,16 @@ namespace Part1
 {
     public static class StringRepository
     {
-        private static List<object> originalData = new List<object>();
-        public static void SetData(List<object> data) { originalData = data; }
-        public static List<object> GetAllData() { return originalData; }
+        private static List<object> HistoryData = new List<object>();
+        public static void SetData(List<object> data) { HistoryData = data; }
+        public static List<object> GetAllData() { return HistoryData; }
 
 
         #region method
         public static void Load_Data(DataGridView dataGridView)
         {
             dataGridView.Rows.Clear();
-            originalData.Clear();
+            HistoryData.Clear();
 
             using (var db = new Part1DB_Entities())
             {
@@ -32,10 +32,9 @@ namespace Part1
                 foreach (var item in data)
                 {
                     dataGridView.Rows.Add(item.ID, item.S, item.N, item.T);
-                    originalData.Add(item);
+                    HistoryData.Add(item);
                 }
-                //StringService.addBinding(textBoxS, textBoxN, dataGridView);
-                SetData(originalData);
+                SetData(HistoryData);
             }
         }
 
@@ -43,11 +42,11 @@ namespace Part1
         {
             using (var db = new Part1DB_Entities())
             {
-                var allIDs = db.StringProcessings.Select(x => x.Id).ToList(); // Lấy danh sách ID
+                var allIDs = db.StringProcessings.Select(x => x.Id).ToList();
 
-                while (allIDs.Contains(id)) // Kiểm tra ID có tồn tại không
+                while (allIDs.Contains(id)) 
                 {
-                    id++; // Nếu trùng thì tăng lên 1
+                    id++;
                 }
             }
             return id;
@@ -80,12 +79,12 @@ namespace Part1
             }
         }
 
-        public static void Add_Data(int nextID, String S, int N, DateTime time)
+        public static void Add_Data(int nextID, String S, String N, DateTime time)
         {
             using (var db = new Part1DB_Entities())
 
             {
-                StringProcessing stringHistory = new StringProcessing(nextID, S, N.ToString(), time)
+                StringProcessing stringHistory = new StringProcessing(nextID, S, N, time)
                 {
                     Id = nextID,
                     InputS = S,

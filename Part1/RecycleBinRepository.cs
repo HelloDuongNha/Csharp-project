@@ -31,9 +31,7 @@ namespace Part1
                     BinGridView.Rows.Add(item.ID, item.S, item.N, item.T, item.DT);
                     DeletedData.Add(item);
                 }
-                //StringService.addBinding(textBoxS, textBoxN, dataGridView);
                 SetData(DeletedData);
-                // if u want to get all data, remember to call LoadData first
             }
         }
 
@@ -100,11 +98,13 @@ namespace Part1
         {
             using (var db = new Part1DB_Entities())
             {
-                var record = db.RecycleBins.Find(id);
+                var record = db.RecycleBins.FirstOrDefault(r => r.Id == id); 
+
                 if (record == null)
                 {
                     throw new ArgumentException("Error: The ID does not exist in the RecycleBin table.");
                 }
+
                 db.RecycleBins.Remove(record);
                 db.SaveChanges();
             }
@@ -114,12 +114,7 @@ namespace Part1
         {
             using (var db = new Part1DB_Entities())
             {
-                // check if any new record has the same ID
-                if (db.StringProcessings.Any(x => x.Id == id))
-                {
-                    throw new ArgumentException("Error: The ID already exists in the StringProcessing table.");
-                }
-                var record = db.RecycleBins.Find(id);
+                var record = db.RecycleBins.FirstOrDefault(r => r.Id == id);
                 db.StringProcessings.Add(new StringProcessing
                 {
                     Id = record.Id,

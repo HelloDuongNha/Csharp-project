@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Part1.classes;
 
 namespace Part1
 {
@@ -15,24 +16,33 @@ namespace Part1
             : base(nextID, input, shift, time)
         {
             DeletedTime = deletedTime;
-
         }
 
-        public void Restore(int Id, String S, int N, DateTime T)
+        public void Display(DataGridView table)
+        {
+            // Display the recycle bin data in the DataGridView
+            RecycleBinRepository.Load_Data(table);
+            table.ClearSelection();
+        }
+
+        public List<object> GetAllData()
+        {
+            return RecycleBinRepository.GetAllData();
+        }
+
+        public int CountRecord()
+        {
+            return RecycleBinRepository.CountRecord();
+        }
+
+        public int GetUniqueID(int Id)
+        {
+            return RecycleBinRepository.GenerateUniqueID(Id);
+        }
+
+        public void Restore(int Id, String S, String N, DateTime T)
         {
             RecycleBinService.ProcessRestoration(Id, S, N, T);
-        }
-
-        public void Delete(int Id)
-        {
-            // Delete the item
-            RecycleBinService.ProcessDeletion(Id);
-        }
-
-        public void ClearAll()
-        {
-            // Clear all the recycle bin
-            RecycleBinService.ProcessClearAll();
         }
 
         public void RestoreAll()
@@ -40,11 +50,22 @@ namespace Part1
             RecycleBinService.ProcessRestoreAll();
         }
 
-
-        public void AddToBin(int Id, string S, int N, DateTime T)
+        public void Delete(int id)
         {
-            // Add an item to the recycle bin
-            RecycleBinService.ProcessAddingToRecycleBin(Id, S, N, T);
+            // Delete the item
+            RecycleBinRepository.Delete_Data(id);
+        }
+
+        public void ClearAll()
+        {
+            // Clear all the recycle bin
+            RecycleBinRepository.TruncateTable();
+        }
+
+        public void AddToBin(int originalID, string S, string N, DateTime T)
+        {
+            // Add an item to the recycle bin (can have the same ID)
+            RecycleBinRepository.Add_Data(originalID, S, N, T);
         }
     }
 
