@@ -22,7 +22,9 @@ namespace Part1
                 if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentException("Error: The string cannot be null or contain only whitespace.");
 
-                value = value.Replace(" ", "");
+                if (value.Any(char.IsWhiteSpace))
+                    throw new ArgumentException("Error: The string cannot contain spaces or whitespace.");
+
                 if (!value.All(c => c >= 'A' && c <= 'Z'))
                     throw new ArgumentException("Error: The string must contain only uppercase letters from A to Z.");
 

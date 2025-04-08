@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Part1
 {
@@ -159,22 +154,24 @@ namespace Part1
             bin.Display(BinGridView);
         }
 
-        public static void CheckAndUpdateRecycleBinButtons(DataGridView BinGridView, Button RecoveryBTN, Button BinDeleteBTN)
+        public static void CheckAndUpdateRecycleBinButtons(DataGridView BinGridView, List<Button> buttons)
         {
             bool hasSelection = BinGridView.SelectedRows.Count > 0;
 
-            RecoveryBTN.Visible = hasSelection;
-            BinDeleteBTN.Visible = hasSelection;
+            foreach (var button in buttons)
+            {
+                button.Visible = hasSelection;
 
-            if (!hasSelection)
-            {
-                RecoveryBTN.Location = new Point(-1000, -1000);
-                BinDeleteBTN.Location = new Point(-1000, -1000);
+                if (!hasSelection)
+                {
+                    button.Location = new Point(-1000, -1000);
+                }
             }
-            else
+
+            if (hasSelection)
             {
-                RecoveryBTN.Location = new Point(10, 310);
-                BinDeleteBTN.Location = new Point(10, 350);
+                buttons[0].Location = new Point(10, 310); // RecoveryBTN
+                buttons[1].Location = new Point(10, 350); // BinDeleteBTN
             }
         }
 

@@ -140,7 +140,7 @@ namespace Part1.classes
 
         public static void ValidateInput(string input, Label statusLabel)
         {
-            input = input.Trim();
+            //input = input.Trim();
             if (string.IsNullOrWhiteSpace(input))
             {
                 statusLabel.ForeColor = System.Drawing.Color.Red;
@@ -148,15 +148,21 @@ namespace Part1.classes
                 return;
             }
 
-            if (input.Length > 40)
+            else if (input.Length > 40)
             {
                 statusLabel.ForeColor = System.Drawing.Color.Red;
                 statusLabel.Text = "❎ Cannot exceed 40 characters.";
                 return;
             }
 
-            string trimmedInput = input.Replace(" ", "");
-            if (!Regex.IsMatch(trimmedInput, @"^[A-Z]+$"))
+            else if (input.Any(char.IsWhiteSpace))
+            {
+                statusLabel.ForeColor = System.Drawing.Color.Red;
+                statusLabel.Text = "❎ No spaces or whitespace characters allowed.";
+                return;
+            }
+
+            else if (!input.All(char.IsUpper))
             {
                 statusLabel.ForeColor = System.Drawing.Color.Red;
                 statusLabel.Text = "❎ Only uppercase letters A-Z are allowed.";
