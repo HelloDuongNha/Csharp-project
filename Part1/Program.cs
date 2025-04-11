@@ -16,7 +16,7 @@ namespace Part1
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Input_Form());
+            Application.Run(new SignUp_Form());
         }
     }
 }

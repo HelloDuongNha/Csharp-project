@@ -5,8 +5,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="d7c78a218f494c719ef3201a3b744794" Name="Diagram1">
-        <EntityTypeShape EntityType="Part1DBModel.RecycleBin" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Part1DBModel.StringProcessing" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Part1DBModel.Account" Width="1.5" PointX="4.75" PointY="0.5" />
+        <EntityTypeShape EntityType="Part1DBModel.RecycleBin" Width="1.5" PointX="6.75" PointY="0.5" />
+        <EntityTypeShape EntityType="Part1DBModel.StringProcessing" Width="1.5" PointX="2.625" PointY="0.625" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

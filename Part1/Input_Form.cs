@@ -58,6 +58,12 @@ namespace Part1
             RecycleBinService.AddBinding(textBoxes, BinGridView);
         }
 
+        private void ShowBinToolButtons()
+        {
+            List<Button> buttons = new List<Button> { RcvBTN, DltBTN };
+            RecycleBinService.CheckAndUpdateRecycleBinButtons(BinGridView, buttons);
+        }
+
         private bool isBinding = false;
         private bool isBinBinding = false;
         private bool IsConfirmed(int id, string action)
@@ -140,7 +146,6 @@ namespace Part1
             StringService.EncodingString(textBoxS, textBoxN);
             StringService.LoadAllDataFromDB(dataGridView);
             StringService.CountRecords(toolStripStatusLabel1);
-            StringService.ClearTextBoxes(textBoxS, textBoxN);
         }
 
         private void UppercaseBTN_Click(object sender, EventArgs e)
@@ -250,7 +255,7 @@ namespace Part1
                     ClearBinTextBoxes();
                     RecycleBinService.ClearGroupTitle(groupBox5);
                 }
-                    RecycleBinService.CheckAndUpdateRecycleBinButtons(BinGridView, RcvBTN, DltBTN);
+                ShowBinToolButtons();
                 isBinBinding = false; // end binding
             }
         }
@@ -278,7 +283,7 @@ namespace Part1
             RecycleBinService.DeleteFromRecycleBin(BinGridView);
             ClearBinTextBoxes();
             RecycleBinService.ClearGroupTitle(groupBox5);
-            RecycleBinService.CheckAndUpdateRecycleBinButtons(BinGridView, RcvBTN, DltBTN);
+            ShowBinToolButtons();
         }
 
         private void DeletedAllBTN_Click(object sender, EventArgs e)

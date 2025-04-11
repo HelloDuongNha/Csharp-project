@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Part1DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="255" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
+          <Property Name="Password" Type="nvarchar" MaxLength="255" />
+          <Property Name="IsLogin" Type="bit" />
+        </EntityType>
         <EntityType Name="RecycleBin">
           <Key>
             <PropertyRef Name="BinID" />
@@ -26,6 +36,7 @@
           <Property Name="Time" Type="datetime" />
         </EntityType>
         <EntityContainer Name="Part1DBModelStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecycleBin" EntityType="Self.RecycleBin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StringProcessing" EntityType="Self.StringProcessing" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
@@ -34,9 +45,20 @@
     <edmx:ConceptualModels>
       <Schema Namespace="Part1DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="Part1DB_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accounts" EntityType="Part1DBModel.Account" />
           <EntitySet Name="RecycleBins" EntityType="Part1DBModel.RecycleBin" />
           <EntitySet Name="StringProcessings" EntityType="Part1DBModel.StringProcessing" />
         </EntityContainer>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IsLogin" Type="Boolean" />
+        </EntityType>
         <EntityType Name="RecycleBin">
           <Key>
             <PropertyRef Name="BinID" />
@@ -63,6 +85,17 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Part1DBModelStoreContainer" CdmEntityContainer="Part1DB_Entities">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="Part1DBModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="IsLogin" ColumnName="IsLogin" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="RecycleBins">
             <EntityTypeMapping TypeName="Part1DBModel.RecycleBin">
               <MappingFragment StoreEntitySet="RecycleBin">

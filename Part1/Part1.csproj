@@ -61,6 +61,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account.cs">
+      <DependentUpon>Part1DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Account.Logic.cs" />
+    <Compile Include="AccountRepository.cs" />
+    <Compile Include="AccountService.cs" />
+    <Compile Include="SignIn_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SignIn_Form.Designer.cs">
+      <DependentUpon>SignIn_Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="Part1DB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -76,12 +88,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Part1DB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Part1DBDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Part1DBDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="RecycleBin.cs">
       <DependentUpon>Part1DB.tt</DependentUpon>
     </Compile>
     <Compile Include="RecycleBin.Logic.cs" />
     <Compile Include="RecycleBinRepository.cs" />
     <Compile Include="RecycleBinService.cs" />
+    <Compile Include="SignUp_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SignUp_Form.Designer.cs">
+      <DependentUpon>SignUp_Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="StringProcessing.cs">
       <DependentUpon>Part1DB.tt</DependentUpon>
     </Compile>
@@ -105,6 +128,9 @@
     <EmbeddedResource Include="Input_Form.resx">
       <DependentUpon>Input_Form.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SignIn_Form.resx">
+      <DependentUpon>SignIn_Form.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Output_Form.resx">
       <DependentUpon>Output_Form.cs</DependentUpon>
     </EmbeddedResource>
@@ -117,6 +143,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SignUp_Form.resx">
+      <DependentUpon>SignUp_Form.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <EntityDeploy Include="Part1DB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -124,6 +153,17 @@
     </EntityDeploy>
     <None Include="Part1DB.edmx.diagram">
       <DependentUpon>Part1DB.edmx</DependentUpon>
+    </None>
+    <None Include="Part1DBDataSet.xsc">
+      <DependentUpon>Part1DBDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Part1DBDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Part1DBDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Part1DBDataSet.xss">
+      <DependentUpon>Part1DBDataSet.xsd</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

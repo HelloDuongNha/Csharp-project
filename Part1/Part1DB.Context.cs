@@ -25,6 +25,7 @@ namespace Part1
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<RecycleBin> RecycleBins { get; set; }
         public virtual DbSet<StringProcessing> StringProcessings { get; set; }
     }

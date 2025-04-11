@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using Part1.classes;
 
@@ -9,14 +10,28 @@ namespace Part1
     public partial class StringProcessing
     {
         // Attribute
+        private int _Id;
+        private string _InputS;
+        private Nullable<int> _InputN;
+        private Nullable<System.DateTime> _Time;
         private string _encodedString = "";
 
         public StringProcessing() { }
 
         // GET SET
+        public int ID
+        {
+            get => _Id;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("Error: ID cannot be negative.");
+                _Id = value;
+            }
+        }
         public string S
         {
-            get { return (string)InputS; }
+            get { return (string)_InputS; }
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
@@ -31,25 +46,25 @@ namespace Part1
                 if (value.Length > 40)
                     throw new ArgumentException("Error: The string cannot exceed 40 characters.");
 
-                InputS = value;
+                _InputS = value;
             }
         }
 
         public int N
         {
-            get { return InputN ?? 0; }
+            get { return _InputN ?? 0; }
             set
             {
                 if (value < -25 || value > 25)
                     throw new ArgumentException("Error: N must be in the range [-25, 25].");
-                InputN = value;
+                _InputN = value;
             }
         }
 
         public DateTime T
         {
-            get { return Time ?? DateTime.Now; }
-            set { Time = value; }
+            get { return _Time ?? DateTime.Now; }
+            set { _Time = value; }
         }
 
         // Constructor
@@ -61,7 +76,7 @@ namespace Part1
             if (!int.TryParse(shift, out int shiftValue))
                 throw new ArgumentException("Error: N must be a valid integer.");
 
-            Id = nextID;
+            ID = nextID;
             S = input;
             N = shiftValue;
             T = time;
@@ -97,7 +112,6 @@ namespace Part1
         {
             StringRepository.Load_Data(table);
             table.ClearSelection();
-            //StringService.ProcessDisplay(table);
         }
 
         public List<object> GetAllData()

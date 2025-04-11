@@ -334,6 +334,7 @@ namespace Part1.classes
                 Form2.StartPosition = FormStartPosition.CenterScreen;
                 toolTip.SetToolTip(Form2.ExitBTN, "Exit the program");
                 Form2.ShowDialog();
+                ClearTextBoxes(textBoxS, textBoxN);
             }
             catch (Exception ex)
             {

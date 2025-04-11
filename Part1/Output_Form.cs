@@ -20,5 +20,42 @@ namespace Part1
         {
             this.Close();
         }
+
+        private void ShowLabel(TextBox textbox, Label label)
+        {
+            try
+            {
+                string textToCopy = textbox.Text;
+                Clipboard.SetText(textToCopy);
+
+                label.Text = "Success";
+                label.ForeColor = Color.Green;
+            }
+            catch
+            {
+                label.Text = "Failed";
+                label.ForeColor = Color.Red;
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            ShowLabel(InSortTXT, WrnLbl1);
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            ShowLabel(InCodeTXT, WrnLbl2);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            ShowLabel(encodedTXT, WrnLbl3);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            ShowLabel(OutcodeTXT, WrnLbl4);
+        }
     }
 }
