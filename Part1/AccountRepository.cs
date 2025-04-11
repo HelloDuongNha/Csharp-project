@@ -46,6 +46,37 @@ namespace Part1
             }
         }
 
+        public static Account GetAccountByCredentials(string input, string password)
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                foreach (var account in db.Accounts)
+                {
+                    if ((account.Username == input || account.Email == input) && account.Password == password)
+                    {
+                        return account;
+                    }
+                }
+            }
+            return null; 
+        }
+
+        public static void SetLoginStatus(string usernameOrEmail, bool status)
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                foreach (var account in db.Accounts)
+                {
+                    if (account.Username == usernameOrEmail || account.Email == usernameOrEmail)
+                    {
+                        account.IsLogin = status;
+                        db.SaveChanges();
+                        break;
+                    }
+                }
+            }
+        }
+
 
         #endregion
     }

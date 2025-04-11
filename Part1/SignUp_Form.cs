@@ -31,5 +31,13 @@ namespace Part1
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+
+            SignIn_Form signInForm = new SignIn_Form();
+            signInForm.Show();
+        }
     }
 }

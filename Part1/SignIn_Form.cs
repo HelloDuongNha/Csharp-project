@@ -10,11 +10,25 @@ using System.Windows.Forms;
 
 namespace Part1
 {
-    public partial class Login_Form : Form
+    public partial class SignIn_Form : Form
     {
-        public Login_Form()
+        public SignIn_Form()
         {
             InitializeComponent();
+        }
+
+        private void SignInBtn_Click(object sender, EventArgs e)
+        {
+            List<TextBox> inputList = new List<TextBox> { UsernameTxt, PwTxt };
+            AccountService.Login(inputList, this);
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide(); 
+
+            SignUp_Form signUpForm = new SignUp_Form();
+            signUpForm.Show();
         }
     }
 }
