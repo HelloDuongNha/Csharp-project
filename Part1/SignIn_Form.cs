@@ -15,6 +15,7 @@ namespace Part1
         public SignIn_Form()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void SignInBtn_Click(object sender, EventArgs e)

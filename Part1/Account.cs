@@ -14,10 +14,22 @@ namespace Part1
     
     public partial class Account
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Account()
+        {
+            this.RecycleBins = new HashSet<RecycleBin>();
+            this.StringProcessings = new HashSet<StringProcessing>();
+        }
+    
         public int ID { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public Nullable<bool> IsLogin { get; set; }
+        public bool IsLogin { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RecycleBin> RecycleBins { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StringProcessing> StringProcessings { get; set; }
     }
 }

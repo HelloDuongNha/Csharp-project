@@ -14,11 +14,14 @@ namespace Part1
     
     public partial class RecycleBin
     {
-        public int Id { get; set; }
+        public Nullable<int> Id { get; set; }
         public string InputS { get; set; }
-        public int InputN { get; set; }
+        public Nullable<int> InputN { get; set; }
         public Nullable<System.DateTime> Time { get; set; }
         public Nullable<System.DateTime> DeletedTime { get; set; }
         public int BinID { get; set; }
+        public Nullable<int> AccId { get; set; }
+    
+        public virtual Account Account { get; set; }
     }
 }

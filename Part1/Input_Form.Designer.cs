@@ -110,6 +110,8 @@ namespace Part1
             this.statusStrip3 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.label8 = new System.Windows.Forms.Label();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.LogOutBtn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
@@ -129,6 +131,7 @@ namespace Part1
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BinGridView)).BeginInit();
             this.statusStrip3.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // encodeBTN
@@ -637,6 +640,7 @@ namespace Part1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.tabControl1.Location = new System.Drawing.Point(16, 17);
             this.tabControl1.Name = "tabControl1";
@@ -1055,6 +1059,27 @@ namespace Part1
             this.label8.Size = new System.Drawing.Size(0, 32);
             this.label8.TabIndex = 1;
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.LogOutBtn);
+            this.tabPage2.Location = new System.Drawing.Point(4, 34);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1126, 645);
+            this.tabPage2.TabIndex = 3;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // LogOutBtn
+            // 
+            this.LogOutBtn.Location = new System.Drawing.Point(86, 541);
+            this.LogOutBtn.Name = "LogOutBtn";
+            this.LogOutBtn.Size = new System.Drawing.Size(187, 69);
+            this.LogOutBtn.TabIndex = 0;
+            this.LogOutBtn.Text = "Log out";
+            this.LogOutBtn.UseVisualStyleBackColor = true;
+            this.LogOutBtn.Click += new System.EventHandler(this.LogOutBtn_Click);
+            // 
             // Input_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1094,6 +1119,7 @@ namespace Part1
             ((System.ComponentModel.ISupportInitialize)(this.BinGridView)).EndInit();
             this.statusStrip3.ResumeLayout(false);
             this.statusStrip3.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1181,5 +1207,7 @@ namespace Part1
         private Button RcvBTN;
         private TextBox CreatedDateTB;
         private TextBox DeletedDateTB;
+        private TabPage tabPage2;
+        private Button LogOutBtn;
     }
 }

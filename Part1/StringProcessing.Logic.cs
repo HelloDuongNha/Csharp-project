@@ -15,6 +15,7 @@ namespace Part1
         private Nullable<int> _InputN;
         private Nullable<System.DateTime> _Time;
         private string _encodedString = "";
+        private Nullable<int> _AccId;
 
         public StringProcessing() { }
 
@@ -66,6 +67,7 @@ namespace Part1
             get { return _Time ?? DateTime.Now; }
             set { _Time = value; }
         }
+
 
         // Constructor
         public StringProcessing(int nextID, string input, string shift, DateTime time)

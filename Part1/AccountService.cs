@@ -12,8 +12,7 @@ namespace Part1
     {
         private static int GetNextAccId()
         {
-            Account account = new Account();
-            int nextId = account.GetNextAccId();
+            int nextId = AccountRepository.GetNextAccountID();
             return nextId;
         }
 
@@ -74,6 +73,11 @@ namespace Part1
             {
                 MessageBox.Show("Sai Username/Email hoặc Password!");
             }
+        }
+
+        public static void Logout()
+        {
+            AccountRepository.LogOutCurrentUser();
         }
     }
 }

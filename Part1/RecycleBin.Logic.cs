@@ -8,13 +8,22 @@ using Part1.classes;
 
 namespace Part1
 {
-    public partial class RecycleBin : StringProcessing
+    public partial class RecycleBin
     {
         public RecycleBin() : base() { }
 
         public RecycleBin(int nextID, string input, string shift, DateTime time, DateTime deletedTime)
-            : base(nextID, input, shift, time)
         {
+            if (string.IsNullOrWhiteSpace(shift))
+                throw new ArgumentException("Error: N cannot be empty or contain only whitespace.");
+
+            if (!int.TryParse(shift, out int shiftValue))
+                throw new ArgumentException("Error: N must be a valid integer.");
+
+            Id = nextID;
+            InputS = input;
+            InputN = shiftValue;
+            Time = time;
             DeletedTime = deletedTime;
         }
 

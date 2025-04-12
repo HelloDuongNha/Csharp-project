@@ -79,7 +79,7 @@ namespace Part1
         }
 
         // Constructor không tham số
-        public Account() { }
+        //public UserAccount() { }
 
         // Constructor đầy đủ
         public Account(int id, string username, string email, string password, bool isLogin = false)

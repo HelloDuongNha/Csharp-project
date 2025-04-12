@@ -18,5 +18,8 @@ namespace Part1
         public string InputS { get; set; }
         public Nullable<int> InputN { get; set; }
         public Nullable<System.DateTime> Time { get; set; }
+        public Nullable<int> AccId { get; set; }
+    
+        public virtual Account Account { get; set; }
     }
 }

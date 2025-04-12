@@ -16,7 +16,17 @@ namespace Part1
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SignIn_Form());
+
+            var loggedInAccount = AccountRepository.GetLoggedInAccount();
+
+            if (loggedInAccount != null)
+            {
+                Application.Run(new Input_Form());
+            }
+            else
+            {
+                Application.Run(new SignIn_Form());
+            }
         }
     }
 }

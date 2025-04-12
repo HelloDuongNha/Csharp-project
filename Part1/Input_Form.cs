@@ -310,5 +310,15 @@ namespace Part1
             RecycleBinService.FilterData(filter, SearchTxt, BinGridView);
             RecycleBinService.UpdateSearchLabel(searchWrnLbl2, BinGridView.Rows.Count, SearchTxt);
         }
+
+        private void LogOutBtn_Click(object sender, EventArgs e)
+        {
+            AccountService.Logout();
+
+            this.Hide();
+
+            SignIn_Form signIn = new SignIn_Form();
+            signIn.Show();
+        }
     }
 }

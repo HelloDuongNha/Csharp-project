@@ -65,18 +65,50 @@ namespace Part1
         {
             using (var db = new Part1DB_Entities())
             {
-                foreach (var account in db.Accounts)
+                var accounts = db.Accounts.ToList();
+
+                foreach (var account in accounts)
                 {
                     if (account.Username == usernameOrEmail || account.Email == usernameOrEmail)
                     {
                         account.IsLogin = status;
-                        db.SaveChanges();
+                        db.SaveChanges(); 
                         break;
                     }
                 }
             }
         }
 
+        public static Account GetLoggedInAccount()
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                foreach (var account in db.Accounts.ToList())
+                {
+                    if (account.IsLogin == true)
+                    {
+                        return account; 
+                    }
+                }
+            }
+            return null;
+        }
+
+        public static void LogOutCurrentUser()
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                foreach (var account in db.Accounts.ToList())
+                {
+                    if (account.IsLogin == true)
+                    {
+                        account.IsLogin = false;
+                        db.SaveChanges();
+                        break;
+                    }
+                }
+            }
+        }
 
         #endregion
     }

@@ -17,20 +17,47 @@ namespace Part1
 
 
         #region method
+        public static int? GetLoggedInAccountId()
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                foreach (var acc in db.Accounts.ToList())
+                {
+                    if (acc.IsLogin == true)
+                    {
+                        return acc.ID;
+                    }
+                }
+            }
+            return null;
+        }
+
         public static void Load_Data(DataGridView BinGridView)
         {
             BinGridView.Rows.Clear();
             DeletedData.Clear();
+
+            int? loggedInAccId = GetLoggedInAccountId();
+
+            if (loggedInAccId == null)
+            {
+                MessageBox.Show("Không tìm thấy tài khoản nào đang đăng nhập.");
+                return;
+            }
+
             using (var db = new Part1DB_Entities())
             {
                 var data = from c in db.RecycleBins
+                           where c.AccId == loggedInAccId
                            orderby c.DeletedTime descending
-                           select new { ID = c.Id, S = c.InputS, N = c.InputN, T = c.Time, DT =c.DeletedTime };
+                           select new { ID = c.Id, S = c.InputS, N = c.InputN, T = c.Time, DT = c.DeletedTime };
+
                 foreach (var item in data)
                 {
                     BinGridView.Rows.Add(item.ID, item.S, item.N, item.T, item.DT);
                     DeletedData.Add(item);
                 }
+
                 SetData(DeletedData);
             }
         }
@@ -60,7 +87,7 @@ namespace Part1
                 {
                     if (record.Id > maxId)
                     {
-                        maxId = record.Id;
+                        maxId = (int)record.Id;
                     }
                 }
                 return maxId + 1;
@@ -80,6 +107,7 @@ namespace Part1
             using (var db = new Part1DB_Entities())
 
             {
+                int? loggedInAccId = GetLoggedInAccountId();
                 DateTime DT = DateTime.Now;
                 RecycleBin recycleBin = new RecycleBin(nextID, textBoxS, textBoxN, encodedTime, DT)
                 {
@@ -87,7 +115,8 @@ namespace Part1
                     InputS = textBoxS,
                     InputN = Convert.ToInt32(textBoxN),
                     Time = encodedTime,
-                    DeletedTime = DT
+                    DeletedTime = DT,
+                    AccId = loggedInAccId
                 };
                 db.RecycleBins.Add(recycleBin);
                 db.SaveChanges();
@@ -114,13 +143,15 @@ namespace Part1
         {
             using (var db = new Part1DB_Entities())
             {
+                int? loggedInAccId = GetLoggedInAccountId();
                 var record = db.RecycleBins.FirstOrDefault(r => r.Id == id);
                 db.StringProcessings.Add(new StringProcessing
                 {
-                    Id = record.Id,
+                    Id = (int)record.Id,
                     InputS = record.InputS,
                     InputN = record.InputN,
-                    Time = record.Time
+                    Time = record.Time,
+                    AccId = loggedInAccId
                 });
                 db.RecycleBins.Remove(record);
                 db.SaveChanges();

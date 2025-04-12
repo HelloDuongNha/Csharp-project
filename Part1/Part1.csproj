@@ -88,11 +88,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Part1DB.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Part1DBDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Part1DBDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="RecycleBin.cs">
       <DependentUpon>Part1DB.tt</DependentUpon>
     </Compile>
@@ -153,17 +148,6 @@
     </EntityDeploy>
     <None Include="Part1DB.edmx.diagram">
       <DependentUpon>Part1DB.edmx</DependentUpon>
-    </None>
-    <None Include="Part1DBDataSet.xsc">
-      <DependentUpon>Part1DBDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="Part1DBDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>Part1DBDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Part1DBDataSet.xss">
-      <DependentUpon>Part1DBDataSet.xsd</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

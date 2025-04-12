@@ -18,22 +18,48 @@ namespace Part1
 
 
         #region method
+        public static int? GetLoggedInAccountId()
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                foreach (var acc in db.Accounts.ToList())
+                {
+                    if (acc.IsLogin == true)
+                    {
+                        return acc.ID;
+                    }
+                }
+            }
+            return null;
+        }
+
         public static void Load_Data(DataGridView dataGridView)
         {
             dataGridView.Rows.Clear();
             HistoryData.Clear();
 
+            int? loggedInAccId = GetLoggedInAccountId();
+            MessageBox.Show(loggedInAccId.ToString());
+
+            if (loggedInAccId == null)
+            {
+                MessageBox.Show("Không tìm thấy tài khoản nào đang đăng nhập.");
+                return;
+            }
+
             using (var db = new Part1DB_Entities())
             {
                 var data = from c in db.StringProcessings
+                           where c.AccId == loggedInAccId
                            orderby c.Time descending
-                           select new { ID = c.Id, S = c.InputS, N = c.InputN, T = c.Time};
+                           select new { ID = c.Id, S = c.InputS, N = c.InputN, T = c.Time };
 
                 foreach (var item in data)
                 {
                     dataGridView.Rows.Add(item.ID, item.S, item.N, item.T);
                     HistoryData.Add(item);
                 }
+
                 SetData(HistoryData);
             }
         }
@@ -84,12 +110,14 @@ namespace Part1
             using (var db = new Part1DB_Entities())
 
             {
+                int? loggedInAccId = GetLoggedInAccountId();
                 StringProcessing stringHistory = new StringProcessing(nextID, S, N, time)
                 {
                     Id = nextID,
                     InputS = S,
                     InputN = Convert.ToInt32(N),
-                    Time = time
+                    Time = time,
+                    AccId = loggedInAccId
                 };
                 db.StringProcessings.Add(stringHistory);
                 db.SaveChanges();
