@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System;
 using System.Windows.Forms;
-using Part1.classes;
 using System.Linq;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -9,9 +8,9 @@ using System.Security.Cryptography;
 
 namespace Part1
 {
-    public partial class Input_Form : Form
+    public partial class GUI_InputForm : Form
     {
-        public Input_Form()
+        public GUI_InputForm()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -21,17 +20,36 @@ namespace Part1
             DeleteBTN.Location = new Point(-1000, -1000);
             RcvBTN.Location = new Point(-1000, -1000);
             DltBTN.Location = new Point(-1000, -1000);
+            List<TextBox> textBoxesInput = new List<TextBox>
+                {
+                    UsernameIn4,
+                    EmailIn4,
+                };
+            AccountService.BindLoggedInAccountToTextBoxes(textBoxesInput);
 
 
 
             List<Button> buttons = new List<Button> { encodeBTN, IncreaseBTN, DecreaseBTN, DeleteBTN, ResetBTN };
             StringService.InitializeToolTips(buttons);
-            StringService.SetupDataGridView(textBoxS, textBoxN, dataGridView);
+            StringService.SetupDataGridView(dataGridView);
             StringService.LoadAllDataFromDB(dataGridView);
             StringService.CountRecords(toolStripStatusLabel1);
 
-            RecycleBinService.SetupDataGridView(textBoxS, textBoxN, BinGridView);
+            RecycleBinService.SetupDataGridView(BinGridView);
             RecycleBinService.LoadAllDataFromDB(BinGridView);
+
+            SettingService.LoadSettings();
+            var res = SettingRepository.Load();
+            if (res.Mode == "Fullscreen")
+            {
+                SettingService.ApplyMode(this, Width, Height);
+            }
+
+            SettingService.BindSettingToControls(RBdarkmodeON, RBdarkmodeOff, RBWindow, RBFullscreen, Width, Height, Opacity);
+
+
+            SettingService.LoadResolution(res.Width, res.Height, this);
+            SettingService.CenterTabControl(this);
 
         }
 
@@ -317,8 +335,95 @@ namespace Part1
 
             this.Hide();
 
-            SignIn_Form signIn = new SignIn_Form();
+            GUI_SignInForm signIn = new GUI_SignInForm();
             signIn.Show();
+        }
+
+        private void DeleteAcc_Click(object sender, EventArgs e)
+        {
+            var confirm = MessageBox.Show("Are you sure to delete your account, can't recover back!", "Confirm", MessageBoxButtons.YesNo);
+            if (confirm == DialogResult.Yes)
+            {
+                AccountService.DeleteAndLogoutCurrentAccount(this);
+            }
+        }
+
+        private void radioWindow_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RBWindow.Checked)
+            {
+                // Lưu chế độ Window
+                var res = SettingRepository.Load();
+                if (res.Mode == "Fullscreen")
+                {
+                SettingService.SaveMode("Window");
+                    SettingService.ApplyMode(this, Width, Height);
+                }
+
+                // Áp dụng chế độ Window ngay lập tức
+                SettingService.CenterTabControl(this);
+                SettingService.BindSettingToControls(RBdarkmodeON, RBdarkmodeOff, RBWindow, RBFullscreen, Width, Height, Opacity);
+            }
+        }
+
+        private void radioFullscreen_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RBFullscreen.Checked)
+            {
+                // Lưu chế độ Fullscreen
+                SettingService.SaveMode("Fullscreen");
+
+                // Áp dụng chế độ Fullscreen ngay lập tức
+                SettingService.ApplyMode(this, Width, Height);
+                SettingService.CenterTabControl(this);
+                SettingService.BindSettingToControls(RBdarkmodeON, RBdarkmodeOff, RBWindow, RBFullscreen, Width, Height, Opacity);
+            }
+        }
+
+        private void RBdarkmodeON_CheckedChanged(object sender, EventArgs e)
+        {
+            bool isDarkMode = RBdarkmodeON.Checked;
+
+            SettingService.ApplyDarkMode(
+                new TabPage[] { tabPage1, tabPage2, tabPage3, tabPage4 },
+                isDarkMode,
+                this
+            );
+        }
+
+        private void RBdarkmodeOff_CheckedChanged(object sender, EventArgs e)
+        {
+            bool isDarkMode = RBdarkmodeON.Checked;
+
+            SettingService.ApplyDarkMode(
+                new TabPage[] { tabPage1, tabPage2, tabPage3, tabPage4 },
+                isDarkMode,
+                this
+            );
+        }
+
+        private void Width_ValueChanged(object sender, EventArgs e)
+        {
+            int width = Convert.ToInt32(Width.Value); // Chuyển đổi từ decimal sang int
+            SettingService.UpdWidth(width, this);
+        }
+
+        private void Height_ValueChanged(object sender, EventArgs e)
+        {
+            int height = Convert.ToInt32(Height.Value); // Chuyển đổi từ decimal sang int
+            SettingService.UpdHeight(height, this);
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            // Lấy giá trị opacity từ TrackBar (0-100)
+            int opacityValue = Opacity.Value;
+
+            // Lưu opacity vào setting
+            SettingService.SaveOpacity(opacityValue);
+
+            // Cập nhật opacity cho form ngay lập tức
+            SettingService.ApplyOpacity(this); // this là form hiện tại
         }
     }
 }

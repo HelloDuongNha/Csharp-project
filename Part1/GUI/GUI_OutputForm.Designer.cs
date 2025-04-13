@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace Part1
 {
-    partial class Output_Form
+    partial class GUI_OutputForm
     {
         /// <summary>
         /// Required designer variable.

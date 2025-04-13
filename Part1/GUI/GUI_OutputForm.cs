@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Part1
 {
-    public partial class Output_Form : Form
+    public partial class GUI_OutputForm : Form
     {
-        public Output_Form()
+        public GUI_OutputForm()
         {
             InitializeComponent();
         }

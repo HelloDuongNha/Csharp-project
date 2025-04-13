@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Part1
 {
-    public partial class SignIn_Form : Form
+    public partial class GUI_SignInForm : Form
     {
-        public SignIn_Form()
+        public GUI_SignInForm()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -28,7 +28,7 @@ namespace Part1
         {
             this.Hide(); 
 
-            SignUp_Form signUpForm = new SignUp_Form();
+            GUI_SignUpForm signUpForm = new GUI_SignUpForm();
             signUpForm.Show();
         }
     }

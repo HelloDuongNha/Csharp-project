@@ -32,10 +32,11 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="InputS" Type="nvarchar" MaxLength="255" />
-          <Property Name="InputN" Type="int" />
+          <Property Name="InputS" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="InputN" Type="int" Nullable="false" />
           <Property Name="Time" Type="datetime" />
           <Property Name="AccId" Type="int" />
+          <Property Name="HistoryId" Type="int" />
         </EntityType>
         <Association Name="FK_RecycleBin_Account">
           <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
@@ -49,18 +50,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_StringProcessing_Account">
-          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
-          <End Role="StringProcessing" Type="Self.StringProcessing" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="StringProcessing">
-              <PropertyRef Name="AccId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="Part1DBModelStoreContainer">
           <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecycleBin" EntityType="Self.RecycleBin" Schema="dbo" store:Type="Tables" />
@@ -68,10 +57,6 @@
           <AssociationSet Name="FK_RecycleBin_Account" Association="Self.FK_RecycleBin_Account">
             <End Role="Account" EntitySet="Account" />
             <End Role="RecycleBin" EntitySet="RecycleBin" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StringProcessing_Account" Association="Self.FK_StringProcessing_Account">
-            <End Role="Account" EntitySet="Account" />
-            <End Role="StringProcessing" EntitySet="StringProcessing" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -86,10 +71,6 @@
             <End Role="Account" EntitySet="Accounts" />
             <End Role="RecycleBin" EntitySet="RecycleBins" />
           </AssociationSet>
-          <AssociationSet Name="FK_StringProcessing_Account" Association="Part1DBModel.FK_StringProcessing_Account">
-            <End Role="Account" EntitySet="Accounts" />
-            <End Role="StringProcessing" EntitySet="StringProcessings" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Account">
           <Key>
@@ -101,7 +82,6 @@
           <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="IsLogin" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="RecycleBins" Relationship="Part1DBModel.FK_RecycleBin_Account" FromRole="Account" ToRole="RecycleBin" />
-          <NavigationProperty Name="StringProcessings" Relationship="Part1DBModel.FK_StringProcessing_Account" FromRole="Account" ToRole="StringProcessing" />
         </EntityType>
         <EntityType Name="RecycleBin">
           <Key>
@@ -121,11 +101,11 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="InputS" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="InputN" Type="Int32" />
+          <Property Name="InputS" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="InputN" Type="Int32" Nullable="false" />
           <Property Name="Time" Type="DateTime" Precision="3" />
           <Property Name="AccId" Type="Int32" />
-          <NavigationProperty Name="Account" Relationship="Part1DBModel.FK_StringProcessing_Account" FromRole="StringProcessing" ToRole="Account" />
+          <Property Name="HistoryId" Type="Int32" />
         </EntityType>
         <Association Name="FK_RecycleBin_Account">
           <End Type="Part1DBModel.Account" Role="Account" Multiplicity="0..1" />
@@ -135,18 +115,6 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="RecycleBin">
-              <PropertyRef Name="AccId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StringProcessing_Account">
-          <End Type="Part1DBModel.Account" Role="Account" Multiplicity="0..1" />
-          <End Type="Part1DBModel.StringProcessing" Role="StringProcessing" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="StringProcessing">
               <PropertyRef Name="AccId" />
             </Dependent>
           </ReferentialConstraint>
@@ -184,6 +152,7 @@
           <EntitySetMapping Name="StringProcessings">
             <EntityTypeMapping TypeName="Part1DBModel.StringProcessing">
               <MappingFragment StoreEntitySet="StringProcessing">
+                <ScalarProperty Name="HistoryId" ColumnName="HistoryId" />
                 <ScalarProperty Name="AccId" ColumnName="AccId" />
                 <ScalarProperty Name="Time" ColumnName="Time" />
                 <ScalarProperty Name="InputN" ColumnName="InputN" />

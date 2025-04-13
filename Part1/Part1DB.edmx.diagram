@@ -5,11 +5,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="d7c78a218f494c719ef3201a3b744794" Name="Diagram1">
-        <EntityTypeShape EntityType="Part1DBModel.Account" Width="1.5" PointX="0.75" PointY="2.625" />
-        <EntityTypeShape EntityType="Part1DBModel.RecycleBin" Width="1.5" PointX="3" PointY="4" />
-        <EntityTypeShape EntityType="Part1DBModel.StringProcessing" Width="1.5" PointX="3" PointY="1.125" />
+        <EntityTypeShape EntityType="Part1DBModel.Account" Width="1.5" PointX="0.75" PointY="1.125" />
+        <EntityTypeShape EntityType="Part1DBModel.RecycleBin" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="Part1DBModel.StringProcessing" Width="1.5" PointX="0.75" PointY="4.75" />
         <AssociationConnector Association="Part1DBModel.FK_RecycleBin_Account" />
-        <AssociationConnector Association="Part1DBModel.FK_StringProcessing_Account" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,6 +1,6 @@
 ﻿namespace Part1
 {
-    partial class SignUp_Form
+    partial class GUI_SignUpForm
     {
         /// <summary>
         /// Required designer variable.
@@ -68,7 +68,7 @@
             this.groupBox1.Size = new System.Drawing.Size(612, 515);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Sign up";
+            this.groupBox1.Text = "Registation";
             // 
             // button1
             // 
@@ -86,6 +86,7 @@
             this.CfPwTxt.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CfPwTxt.Location = new System.Drawing.Point(216, 304);
             this.CfPwTxt.Name = "CfPwTxt";
+            this.CfPwTxt.PasswordChar = '*';
             this.CfPwTxt.Size = new System.Drawing.Size(352, 39);
             this.CfPwTxt.TabIndex = 4;
             // 
@@ -94,6 +95,7 @@
             this.PwTxt.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PwTxt.Location = new System.Drawing.Point(216, 227);
             this.PwTxt.Name = "PwTxt";
+            this.PwTxt.PasswordChar = '*';
             this.PwTxt.Size = new System.Drawing.Size(352, 39);
             this.PwTxt.TabIndex = 4;
             // 

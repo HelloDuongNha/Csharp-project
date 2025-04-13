@@ -8,7 +8,7 @@ namespace Part1
 {
     public class RecycleBinService
     {
-        public static void SetupDataGridView(TextBox textBoxS, TextBox textBoxN, DataGridView BinGridView)
+        public static void SetupDataGridView(DataGridView BinGridView)
         {
             BinGridView.Columns.Clear();
             BinGridView.RowHeadersWidth = 30;
@@ -52,7 +52,7 @@ namespace Part1
             DataGridViewTextBoxColumn createdAtColumn = new DataGridViewTextBoxColumn();
             createdAtColumn.Name = "Time";
             createdAtColumn.HeaderText = "Created at";
-            createdAtColumn.Width = 130;
+            createdAtColumn.Width = 120;
             createdAtColumn.ReadOnly = true;
             createdAtColumn.DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss"; 
             createdAtColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; 
@@ -63,7 +63,7 @@ namespace Part1
             DataGridViewTextBoxColumn deletedAtColumn = new DataGridViewTextBoxColumn();
             deletedAtColumn.Name = "DeletedTime";
             deletedAtColumn.HeaderText = "Deleted At";
-            deletedAtColumn.Width = 130;
+            deletedAtColumn.Width = 120;
             deletedAtColumn.ReadOnly = true;
             deletedAtColumn.DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss"; 
             deletedAtColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; 

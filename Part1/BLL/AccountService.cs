@@ -66,8 +66,14 @@ namespace Part1
                 AccountRepository.SetLoginStatus(input, true);
 
                 CurrenForm.Hide();
-                Input_Form inputForm = new Input_Form();
+                GUI_InputForm inputForm = new GUI_InputForm();
                 inputForm.Show();
+                List<TextBox> textBoxesInput = new List<TextBox>
+                {
+                    inputForm.UsernameIn4,
+                    inputForm.EmailIn4,
+                };
+                BindLoggedInAccountToTextBoxes(textBoxesInput);
             }
             else
             {
@@ -79,5 +85,29 @@ namespace Part1
         {
             AccountRepository.LogOutCurrentUser();
         }
+
+        public static void BindLoggedInAccountToTextBoxes(List<TextBox> textBoxes)
+        {
+            var account = AccountRepository.GetLoggedInAccount();
+            if (!(account == null))
+            {
+                textBoxes[0].Text = account.Username;
+                textBoxes[1].Text = account.Email;
+            }
+
+        }
+
+        public static void DeleteAndLogoutCurrentAccount(Form currentForm)
+        {
+            AccountRepository.DeleteAccountByLogin();
+
+            // Sau khi xóa, mở lại form đăng nhập
+            GUI_SignInForm signIn = new GUI_SignInForm();
+            signIn.Show();
+
+            // Ẩn form hiện tại
+            currentForm.Hide();
+        }
+
     }
 }

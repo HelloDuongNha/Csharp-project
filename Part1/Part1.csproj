@@ -64,14 +64,17 @@
     <Compile Include="Account.cs">
       <DependentUpon>Part1DB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Account.Logic.cs" />
-    <Compile Include="AccountRepository.cs" />
-    <Compile Include="AccountService.cs" />
-    <Compile Include="SignIn_Form.cs">
+    <Compile Include="BLL\SettingService.cs" />
+    <Compile Include="DAL\SettingRepository.cs" />
+    <Compile Include="DTO\Account.Logic.cs" />
+    <Compile Include="DAL\AccountRepository.cs" />
+    <Compile Include="BLL\AccountService.cs" />
+    <Compile Include="DTO\Setting.cs" />
+    <Compile Include="GUI\GUI_SignInForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SignIn_Form.Designer.cs">
-      <DependentUpon>SignIn_Form.cs</DependentUpon>
+    <Compile Include="GUI\GUI_SignInForm.Designer.cs">
+      <DependentUpon>GUI_SignInForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Part1DB.Context.cs">
       <AutoGen>True</AutoGen>
@@ -91,43 +94,43 @@
     <Compile Include="RecycleBin.cs">
       <DependentUpon>Part1DB.tt</DependentUpon>
     </Compile>
-    <Compile Include="RecycleBin.Logic.cs" />
-    <Compile Include="RecycleBinRepository.cs" />
-    <Compile Include="RecycleBinService.cs" />
-    <Compile Include="SignUp_Form.cs">
+    <Compile Include="DTO\RecycleBin.Logic.cs" />
+    <Compile Include="DAL\RecycleBinRepository.cs" />
+    <Compile Include="BLL\RecycleBinService.cs" />
+    <Compile Include="GUI\GUI_SignUpForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SignUp_Form.Designer.cs">
-      <DependentUpon>SignUp_Form.cs</DependentUpon>
+    <Compile Include="GUI\GUI_SignUpForm.Designer.cs">
+      <DependentUpon>GUI_SignUpForm.cs</DependentUpon>
     </Compile>
     <Compile Include="StringProcessing.cs">
       <DependentUpon>Part1DB.tt</DependentUpon>
     </Compile>
-    <Compile Include="StringProcessing.Logic.cs" />
-    <Compile Include="StringRepository.cs" />
-    <Compile Include="StringService.cs" />
-    <Compile Include="Input_Form.cs">
+    <Compile Include="DTO\StringProcessing.Logic.cs" />
+    <Compile Include="DAL\StringRepository.cs" />
+    <Compile Include="BLL\StringService.cs" />
+    <Compile Include="GUI\GUI_InputForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Input_Form.Designer.cs">
-      <DependentUpon>Input_Form.cs</DependentUpon>
+    <Compile Include="GUI\GUI_InputForm.Designer.cs">
+      <DependentUpon>GUI_InputForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Output_Form.cs">
+    <Compile Include="GUI\GUI_OutputForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Output_Form.Designer.cs">
-      <DependentUpon>Output_Form.cs</DependentUpon>
+    <Compile Include="GUI\GUI_OutputForm.Designer.cs">
+      <DependentUpon>GUI_OutputForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Input_Form.resx">
-      <DependentUpon>Input_Form.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\GUI_InputForm.resx">
+      <DependentUpon>GUI_InputForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SignIn_Form.resx">
-      <DependentUpon>SignIn_Form.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\GUI_SignInForm.resx">
+      <DependentUpon>GUI_SignInForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Output_Form.resx">
-      <DependentUpon>Output_Form.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\GUI_OutputForm.resx">
+      <DependentUpon>GUI_OutputForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -138,8 +141,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="SignUp_Form.resx">
-      <DependentUpon>SignUp_Form.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\GUI_SignUpForm.resx">
+      <DependentUpon>GUI_SignUpForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <EntityDeploy Include="Part1DB.edmx">
@@ -179,8 +182,11 @@
       <DependentUpon>Part1DB.edmx</DependentUpon>
       <LastGenOutput>Part1DB.cs</LastGenOutput>
     </Content>
-    <Content Include="Settings.txt" />
+    <Content Include="Resources\Settings.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

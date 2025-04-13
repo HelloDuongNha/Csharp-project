@@ -18,7 +18,6 @@ namespace Part1
         public Account()
         {
             this.RecycleBins = new HashSet<RecycleBin>();
-            this.StringProcessings = new HashSet<StringProcessing>();
         }
     
         public int ID { get; set; }
@@ -29,7 +28,5 @@ namespace Part1
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RecycleBin> RecycleBins { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StringProcessing> StringProcessings { get; set; }
     }
 }

@@ -21,11 +21,11 @@ namespace Part1
 
             if (loggedInAccount != null)
             {
-                Application.Run(new Input_Form());
+                Application.Run(new GUI_InputForm());
             }
             else
             {
-                Application.Run(new SignIn_Form());
+                Application.Run(new GUI_SignInForm());
             }
         }
     }

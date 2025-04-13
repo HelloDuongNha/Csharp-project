@@ -4,9 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Part1.classes;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Part1
 {
@@ -18,7 +15,7 @@ namespace Part1
 
 
         #region method
-        public static int? GetLoggedInAccountId()
+        public static int GetLoggedInAccountId()
         {
             using (var db = new Part1DB_Entities())
             {
@@ -30,7 +27,20 @@ namespace Part1
                     }
                 }
             }
-            return null;
+            return 0;
+        }
+
+        public static int GetNextHistoryIdForAccount(int accId)
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                var lastHistory = db.StringProcessings
+                                    .Where(x => x.AccId == accId)
+                                    .OrderByDescending(x => x.HistoryId)
+                                    .FirstOrDefault();
+
+                return (lastHistory?.HistoryId ?? 0) + 1;
+            }
         }
 
         public static void Load_Data(DataGridView dataGridView)
@@ -39,11 +49,11 @@ namespace Part1
             HistoryData.Clear();
 
             int? loggedInAccId = GetLoggedInAccountId();
-            MessageBox.Show(loggedInAccId.ToString());
+            //MessageBox.Show(loggedInAccId.ToString());
 
             if (loggedInAccId == null)
             {
-                MessageBox.Show("Không tìm thấy tài khoản nào đang đăng nhập.");
+                MessageBox.Show("Please Login First.");
                 return;
             }
 
@@ -52,11 +62,11 @@ namespace Part1
                 var data = from c in db.StringProcessings
                            where c.AccId == loggedInAccId
                            orderby c.Time descending
-                           select new { ID = c.Id, S = c.InputS, N = c.InputN, T = c.Time };
+                           select new { HistoryID = c.HistoryId, S = c.InputS, N = c.InputN, T = c.Time };
 
                 foreach (var item in data)
                 {
-                    dataGridView.Rows.Add(item.ID, item.S, item.N, item.T);
+                    dataGridView.Rows.Add(item.HistoryID, item.S, item.N, item.T);
                     HistoryData.Add(item);
                 }
 
@@ -110,38 +120,57 @@ namespace Part1
             using (var db = new Part1DB_Entities())
 
             {
-                int? loggedInAccId = GetLoggedInAccountId();
+                int loggedInAccId = GetLoggedInAccountId();
+                int nextHistoryId = GetNextHistoryIdForAccount(loggedInAccId);
                 StringProcessing stringHistory = new StringProcessing(nextID, S, N, time)
                 {
                     Id = nextID,
                     InputS = S,
                     InputN = Convert.ToInt32(N),
                     Time = time,
-                    AccId = loggedInAccId
+                    AccId = loggedInAccId,
+                    HistoryId = nextHistoryId
                 };
                 db.StringProcessings.Add(stringHistory);
                 db.SaveChanges();
             }
         }
 
-        public static void Delete_Data(int id)
+        public static void Delete_Data(int historyId)
         {
+            var accId = GetLoggedInAccountId();
+
             using (var db = new Part1DB_Entities())
             {
-                var data = db.StringProcessings.Find(id);
-                if (data != null)
+                foreach (var item in db.StringProcessings.ToList())
                 {
-                    db.StringProcessings.Remove(data);
-                    db.SaveChanges();
+                    if (item.HistoryId == historyId && item.AccId == accId)
+                    {
+                        db.StringProcessings.Remove(item);
+                        db.SaveChanges();
+                        break;
+                    }
                 }
             }
         }
 
         public static void TruncateTable()
         {
+            int? accId = GetLoggedInAccountId();
+
             using (var db = new Part1DB_Entities())
             {
-                db.StringProcessings.RemoveRange(db.StringProcessings);
+                var toDelete = new List<StringProcessing>();
+
+                foreach (var item in db.StringProcessings.ToList())
+                {
+                    if (item.AccId == accId)
+                    {
+                        toDelete.Add(item);
+                    }
+                }
+
+                db.StringProcessings.RemoveRange(toDelete);
                 db.SaveChanges();
             }
         }

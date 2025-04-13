@@ -109,6 +109,34 @@ namespace Part1
                 }
             }
         }
+        public static void DeleteAccountByLogin()
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                var acc = db.Accounts.FirstOrDefault(a => a.IsLogin == true);
+                if (acc != null)
+                {
+                    int id = acc.ID;
+
+                    // Xóa dữ liệu liên quan trong RecycleBin
+                    var relatedRecycleBin = db.RecycleBins.Where(r => r.AccId == id).ToList();
+                    db.RecycleBins.RemoveRange(relatedRecycleBin);
+
+                    // Xóa dữ liệu liên quan trong StringProcessing
+                    var relatedStringProcessing = db.StringProcessings.Where(s => s.AccId == id).ToList();
+                    db.StringProcessings.RemoveRange(relatedStringProcessing);
+
+                    // Xóa tài khoản
+                    var accountToDelete = db.Accounts.Find(id);
+                    if (accountToDelete != null)
+                    {
+                        db.Accounts.Remove(accountToDelete);
+                    }
+
+                    db.SaveChanges();
+                }
+            }
+        }
 
         #endregion
     }

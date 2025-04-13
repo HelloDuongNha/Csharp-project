@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Windows.Forms;
-using Part1.classes;
 
 namespace Part1
 {

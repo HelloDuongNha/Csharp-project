@@ -7,11 +7,11 @@ using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace Part1.classes
+namespace Part1
 {
     public static class StringService
     {
-        public static void SetupDataGridView(TextBox textBoxS, TextBox textBoxN, DataGridView dataGridView)
+        public static void SetupDataGridView(DataGridView dataGridView)
         {
             dataGridView.Columns.Clear();
             dataGridView.RowHeadersWidth = 30;
@@ -313,7 +313,7 @@ namespace Part1.classes
         {
             try
             {
-                Output_Form Form2 = new Output_Form();
+                GUI_OutputForm Form2 = new GUI_OutputForm();
 
                 // Get values from textboxes
                 int nextID = GetNextIdHistory();
@@ -434,7 +434,7 @@ namespace Part1.classes
                 var row = (dynamic)item;
                 bool match = false;
 
-                if (filter == "ID" && row.ID.ToString().Contains(searchTxt))
+                if (filter == "ID" && row.HistoryID.ToString().Contains(searchTxt))
                 {
                     match = true;
                 }
@@ -456,7 +456,7 @@ namespace Part1.classes
             // Add filtered data to DataGridView
             foreach (var row in filteredData)
             {
-                dataGridView.Rows.Add(row.ID, row.S, row.N, row.T);
+                dataGridView.Rows.Add(row.HistoryID, row.S, row.N, row.T);
             }
         }
 

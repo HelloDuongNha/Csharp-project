@@ -1,6 +1,6 @@
 ﻿namespace Part1
 {
-    partial class SignIn_Form
+    partial class GUI_SignInForm
     {
         /// <summary>
         /// Required designer variable.
@@ -56,7 +56,7 @@
             this.groupBox1.Size = new System.Drawing.Size(534, 350);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Sign In";
+            this.groupBox1.Text = "Log in";
             // 
             // SignInBtn
             // 
@@ -65,7 +65,7 @@
             this.SignInBtn.Name = "SignInBtn";
             this.SignInBtn.Size = new System.Drawing.Size(174, 46);
             this.SignInBtn.TabIndex = 5;
-            this.SignInBtn.Text = "Login";
+            this.SignInBtn.Text = "Sign in";
             this.SignInBtn.UseVisualStyleBackColor = true;
             this.SignInBtn.Click += new System.EventHandler(this.SignInBtn_Click);
             // 
@@ -73,7 +73,9 @@
             // 
             this.PwTxt.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PwTxt.Location = new System.Drawing.Point(148, 163);
+            this.PwTxt.MaxLength = 40;
             this.PwTxt.Name = "PwTxt";
+            this.PwTxt.PasswordChar = '*';
             this.PwTxt.Size = new System.Drawing.Size(352, 39);
             this.PwTxt.TabIndex = 4;
             // 

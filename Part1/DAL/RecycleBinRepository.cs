@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Part1.classes;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Part1
@@ -109,7 +108,7 @@ namespace Part1
             {
                 int? loggedInAccId = GetLoggedInAccountId();
                 DateTime DT = DateTime.Now;
-                RecycleBin recycleBin = new RecycleBin(nextID, textBoxS, textBoxN, encodedTime, DT)
+                RecycleBin recycleBin = new RecycleBin(nextID, textBoxS, textBoxN, encodedTime, DT) 
                 {
                     Id = nextID,
                     InputS = textBoxS,
@@ -149,7 +148,7 @@ namespace Part1
                 {
                     Id = (int)record.Id,
                     InputS = record.InputS,
-                    InputN = record.InputN,
+                    InputN = record.InputN??0,
                     Time = record.Time,
                     AccId = loggedInAccId
                 });
