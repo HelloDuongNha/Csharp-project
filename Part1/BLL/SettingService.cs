@@ -107,7 +107,8 @@ namespace Part1
                             {
                                 btn.BackColor = buttonBackColor;
                                 btn.ForeColor = textColor;
-                            }
+                            }                          
+
 
                             if (groupControl is DataGridView dgv)
                             {

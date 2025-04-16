@@ -5,9 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Part1
 {
@@ -161,6 +158,11 @@ namespace Part1
         public bool CheckUsernameExisted(string username)
         {
             return AccountRepository.IsUsernameTaken(username);
+        }
+
+        public bool CheckEmailExisted(string email)
+        {
+            return AccountRepository.IsEmailTaken(email);
         }
 
         public DateTime? GetCreatedTimebById(int id)

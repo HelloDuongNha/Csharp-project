@@ -36,12 +36,10 @@ namespace Part1
         {
             if (SeePWcheck.Checked)
             {
-                // Nếu checkbox được chọn, hiển thị mật khẩu
-                PwTxt.PasswordChar = '\0';  // \0 là ký tự null, nghĩa là không ẩn mật khẩu nữa
+                PwTxt.PasswordChar = '\0'; 
             }
             else
             {
-                // Nếu checkbox không được chọn, ẩn mật khẩu bằng dấu *
                 PwTxt.PasswordChar = '*';
             }
         }
@@ -50,19 +48,16 @@ namespace Part1
         {
             string username = UsernameTxt.Text.Trim();
 
-            // Kiểm tra xem username có khoảng cách không
             if (username.Contains(" "))
             {
                 LoginUsernameWrn.Text = "Username cannot contain spaces";
                 LoginUsernameWrn.ForeColor = Color.Red;
             }
-            // Kiểm tra xem username có chỉ chứa ký tự a-z hay không
             else if (!username.All(c => char.IsLetterOrDigit(c)))
             {
                 LoginUsernameWrn.Text = "Username must only contain letters (a-z)";
                 LoginUsernameWrn.ForeColor = Color.Red;
             }
-            // Kiểm tra xem username đã tồn tại trong DB chưa
             else if (AccountService.isUsernameExist(username))
             {
                 LoginUsernameWrn.Text = "Username is valid";
@@ -79,7 +74,6 @@ namespace Part1
         {
             string pw = PwTxt.Text;
 
-            // Kiểm tra độ dài mật khẩu
             if (pw.Length < 6)
             {
                 LoginPwWrn.Text = "Password must be at least 6 characters";

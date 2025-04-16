@@ -11,13 +11,12 @@ namespace Part1
 {
     public partial class GUI_InputForm : Form
     {
-        private TabPage adminTabPage;
         public GUI_InputForm()
         {
             InitializeComponent();
 
-            var acc = AccountRepository.GetLoggedInAccount();
-            //MessageBox.Show("Role is: " + acc.Role);
+            // if user login as Admin, then show the Admin control tab
+            var acc = GetCurrentAccLoginDetail();
             this.tabControl1.Controls.Remove(this.tabPage4);
             if (acc.Role.Trim().ToLower() == "admin")
             {
@@ -28,11 +27,7 @@ namespace Part1
                 DeleteAccBtn.Location = new Point(11, 341);
             }
 
-
-
-
-
-
+            // set up and hide some buttons
             this.StartPosition = FormStartPosition.CenterScreen;
             this.comboBox1.SelectedIndex = 1;
             this.comboBox2.SelectedIndex = 1;
@@ -40,7 +35,8 @@ namespace Part1
             DeleteBTN.Location = new Point(-1000, -1000);
             RcvBTN.Location = new Point(-1000, -1000);
             DltBTN.Location = new Point(-1000, -1000);
-            
+
+            // set up User account info to textboxes in Settings tab
             List<TextBox> textBoxesInput = new List<TextBox>
                 {
                     UsernameIn4,
@@ -50,64 +46,45 @@ namespace Part1
                 };
             AccountService.BindLoggedInAccountToTextBoxes(textBoxesInput);
 
-
-
+            // set up Homepage
             List<Button> buttons = new List<Button> { encodeBTN, IncreaseBTN, DecreaseBTN, DeleteBTN, ResetBTN };
             StringService.InitializeToolTips(buttons);
             StringService.SetupDataGridView(dataGridView);
             StringService.LoadAllDataFromDB(dataGridView);
             StringService.CountRecords(toolStripStatusLabel1);
 
+            // set up Recycle Bin
             RecycleBinService.SetupDataGridView(BinGridView);
             RecycleBinService.LoadAllDataFromDB(BinGridView);
 
+            // set up Admin
             AccountService.SetupDataGridView(AccGridView);
             AccountService.LoadDataToGridView(AccGridView);
 
+            // Load Previous Settings
             SettingService.LoadSettings();
-            var res = SettingRepository.Load();
+            var res = GetCurrentSetting();
             if (res.Mode == "Fullscreen")
             {
                 SettingService.ApplyMode(this, Width, Height);
             }
-
             SettingService.BindSettingToControls(RBdarkmodeON, RBdarkmodeOff, RBWindow, RBFullscreen, Width, Height, Opacity);
-
-
             SettingService.LoadResolution(res.Width, res.Height, this);
             SettingService.CenterTabControl(this);
-
         }
 
-
-        public static void Logout()
+        private Account GetCurrentAccLoginDetail() 
         {
-            AccountRepository.LogOutCurrentUser();
+            Account account = new Account();
+            return account.GetLoggedInAccountDetails();
         }
 
-        public static void BindLoggedInAccountToTextBoxes(List<TextBox> textBoxes)
+        private Setting GetCurrentSetting()
         {
-            var account = AccountRepository.GetLoggedInAccount();
-            if (account != null)
-            {
-                string createdDate = account.CreatedTime?.ToString("yyyy-MM-dd") ?? "";
-                MessageBox.Show(createdDate);
-                string createdTime = account.CreatedTime?.ToString().Split(' ')[0];
-                MessageBox.Show(createdTime);
-
-                if (textBoxes.Count > 0) textBoxes[0].Text = account.Username;
-                if (textBoxes.Count > 1) textBoxes[1].Text = account.Email;
-                if (textBoxes.Count > 2) textBoxes[2].Text = createdDate;
-                if (textBoxes.Count > 3) textBoxes[3].Text = createdTime;
-
-
-            }
-            else
-            {
-                MessageBox.Show("Thiếu TextBox hoặc account null!");
-            }
-
+            Setting setting = new Setting();
+            return setting.GetCurrentSetting();
         }
+
         private void ClearBinTextBoxes()
         {
             List<TextBox> textBoxes = new List<TextBox> { BinS_Textbox, BinN_Textbox, CreatedTimeTB, CreatedDateTB, DeletedTimeTB, DeletedDateTB };
@@ -359,14 +336,11 @@ namespace Part1
                 if (AccGridView.SelectedRows.Count > 0)
                 {
                     AccBindingData();
-                    //RecycleBinService.UpdateGroupTitle(groupBox5, BinGridView);
                 }
                 else
                 {
                     ClearBinTextBoxes();
-                    //RecycleBinService.ClearGroupTitle(groupBox5);
                 }
-                //ShowBinToolButtons();
                 isBinBinding = false; // end binding
             }
         }
@@ -446,15 +420,15 @@ namespace Part1
         {
             if (RBWindow.Checked)
             {
-                // Lưu chế độ Window
-                var res = SettingRepository.Load();
+                // safe Window mode
+                var res = GetCurrentSetting();
                 if (res.Mode == "Fullscreen")
                 {
                 SettingService.SaveMode("Window");
                     SettingService.ApplyMode(this, Width, Height);
                 }
 
-                // Áp dụng chế độ Window ngay lập tức
+                // apply window mode immedialy
                 SettingService.CenterTabControl(this);
                 SettingService.BindSettingToControls(RBdarkmodeON, RBdarkmodeOff, RBWindow, RBFullscreen, Width, Height, Opacity);
             }
@@ -464,10 +438,10 @@ namespace Part1
         {
             if (RBFullscreen.Checked)
             {
-                // Lưu chế độ Fullscreen
+                // save Fullscreen mode
                 SettingService.SaveMode("Fullscreen");
 
-                // Áp dụng chế độ Fullscreen ngay lập tức
+                // apply fullscreen mode immedialy
                 SettingService.ApplyMode(this, Width, Height);
                 SettingService.CenterTabControl(this);
                 SettingService.BindSettingToControls(RBdarkmodeON, RBdarkmodeOff, RBWindow, RBFullscreen, Width, Height, Opacity);
@@ -498,26 +472,21 @@ namespace Part1
 
         private void Width_ValueChanged(object sender, EventArgs e)
         {
-            int width = Convert.ToInt32(Width.Value); // Chuyển đổi từ decimal sang int
+            int width = Convert.ToInt32(Width.Value);
             SettingService.UpdWidth(width, this);
         }
 
         private void Height_ValueChanged(object sender, EventArgs e)
         {
-            int height = Convert.ToInt32(Height.Value); // Chuyển đổi từ decimal sang int
+            int height = Convert.ToInt32(Height.Value);
             SettingService.UpdHeight(height, this);
         }
 
-        private void trackBar2_Scroll(object sender, EventArgs e)
+        private void OpacitytrackBar_Scroll(object sender, EventArgs e)
         {
-            // Lấy giá trị opacity từ TrackBar (0-100)
             int opacityValue = Opacity.Value;
-
-            // Lưu opacity vào setting
             SettingService.SaveOpacity(opacityValue);
-
-            // Cập nhật opacity cho form ngay lập tức
-            SettingService.ApplyOpacity(this); // this là form hiện tại
+            SettingService.ApplyOpacity(this); 
         }
 
         private void ResetSetting_Click(object sender, EventArgs e)

@@ -127,6 +127,12 @@ namespace Part1
             return acc.CheckUsernameExisted(username);
         }
 
+        public static bool isEmailExist(string email)
+        {
+            Account acc = new Account();
+            return acc.CheckEmailExisted(email);
+        }
+
         public static void Login(List<TextBox> textBoxes, Form CurrenForm)
         {
             string input = textBoxes[0].Text.Trim();
@@ -237,6 +243,40 @@ namespace Part1
         {
             Account acc = new Account();
             return acc.ChangePassword(currentPassword, newPassword);
+        }
+
+        public static void CheckUsernameEmailExists(TextBox input, Label warningLabel, string type)
+        {
+            string text = input.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                warningLabel.Text = $"{type} cannot be empty.";
+                warningLabel.ForeColor = Color.Red;
+                return;
+            }
+
+            bool exists = false;
+
+            if (type == "Username")
+            {
+                exists = isUsernameExist(text);
+            }
+            else if (type == "Email")
+            {
+                exists = isEmailExist(text);
+            }
+
+            if (exists)
+            {
+                warningLabel.Text = $"{type} already exists.";
+                warningLabel.ForeColor = Color.Red;
+            }
+            else
+            {
+                warningLabel.Text = $"{type} is available.";
+                warningLabel.ForeColor = Color.Green;
+            }
         }
 
         public static void ClearTextboxes(List<TextBox> textBoxes)

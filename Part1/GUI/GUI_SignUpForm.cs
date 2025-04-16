@@ -24,27 +24,24 @@ namespace Part1
 
             try
             {
-                // Kiểm tra xem username và email đã tồn tại chưa
                 string username = UserameTxt.Text.Trim();
                 string email = EmailTxt.Text.Trim();
 
-                if (AccountRepository.IsUsernameTaken(username))
+                if (AccountService.isUsernameExist(username))
                 {
                     throw new Exception("Username already exists.");
                 }
 
-                if (AccountRepository.IsEmailTaken(email))
+                if (AccountService.isEmailExist(email))
                 {
                     throw new Exception("Email already exists.");
                 }
 
-                // Kiểm tra các điều kiện khác như độ dài và ký tự đặc biệt
                 if (PwTxt.Text != CfPwTxt.Text)
                 {
                     throw new Exception("Passwords do not match.");
                 }
 
-                // Tạo tài khoản nếu tất cả kiểm tra đều hợp lệ
                 AccountService.CreateAccountFromForm(inputList);
                 MessageBox.Show("Account created successfully!");
             }
@@ -66,12 +63,10 @@ namespace Part1
         {
             if (seePwCheck.Checked)
             {
-                // Nếu checkbox được chọn, hiển thị mật khẩu
-                PwTxt.PasswordChar = '\0';  // \0 là ký tự null, nghĩa là không ẩn mật khẩu nữa
+                PwTxt.PasswordChar = '\0';
             }
             else
             {
-                // Nếu checkbox không được chọn, ẩn mật khẩu bằng dấu *
                 PwTxt.PasswordChar = '*';
             }
         }
@@ -80,12 +75,10 @@ namespace Part1
         {
             if (SeeCfPwCheck.Checked)
             {
-                // Nếu checkbox được chọn, hiển thị mật khẩu
-                CfPwTxt.PasswordChar = '\0';  // \0 là ký tự null, nghĩa là không ẩn mật khẩu nữa
+                CfPwTxt.PasswordChar = '\0';
             }
             else
             {
-                // Nếu checkbox không được chọn, ẩn mật khẩu bằng dấu *
                 CfPwTxt.PasswordChar = '*';
             }
         }
@@ -94,26 +87,22 @@ namespace Part1
         {
             string username = UserameTxt.Text.Trim();
 
-            // Kiểm tra xem username có khoảng cách không
             if (string.IsNullOrWhiteSpace(username))
             {
                 UsernameWrn.Text = "Username is required";
                 UsernameWrn.ForeColor = Color.Red;
             }
-            // Kiểm tra xem username có chứa khoảng trắng không
             else if (username.Contains(" "))
             {
                 UsernameWrn.Text = "Username cannot contain spaces";
                 UsernameWrn.ForeColor = Color.Red;
             }
-            // Kiểm tra xem username có chỉ chứa ký tự a-z, A-Z, 0-9 không
             else if (!username.All(c => char.IsLetterOrDigit(c)))
             {
                 UsernameWrn.Text = "Username can only contain letters and numbers (a-z, A-Z, 0-9)";
                 UsernameWrn.ForeColor = Color.Red;
             }
-            // Kiểm tra xem username đã tồn tại trong DB chưa
-            else if (AccountRepository.IsUsernameTaken(username))
+            else if (AccountService.isUsernameExist(username))
             {
                 UsernameWrn.Text = "Username already taken";
                 UsernameWrn.ForeColor = Color.Red;
@@ -134,7 +123,7 @@ namespace Part1
                 EmailWrn.Text = "Email is required";
                 EmailWrn.ForeColor = Color.Red;
             }
-            else if (AccountRepository.IsEmailTaken(email))
+            else if (AccountService.isEmailExist(email))
             {
                 EmailWrn.Text = "Email already taken";
                 EmailWrn.ForeColor = Color.Red;
@@ -145,8 +134,6 @@ namespace Part1
                 EmailWrn.ForeColor = Color.Green;
             }
         }
-
-
 
         private void PwTxt_TextChanged(object sender, EventArgs e)
         {

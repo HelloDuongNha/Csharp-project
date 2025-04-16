@@ -24,47 +24,161 @@ namespace Part1.GUI
             string newPassword = TBNewPassword.Text;
             string confirmPassword = TBConfirmPassword.Text;
 
+            // ##### CHECK FOR EMPTY FIELDS #####
             if (string.IsNullOrWhiteSpace(currentPassword) || string.IsNullOrWhiteSpace(newPassword))
             {
-                MessageBox.Show("Không được để trống mật khẩu.");
+                MessageBox.Show("Password fields cannot be empty.");
                 return;
             }
 
+            // ##### CHECK FOR SPACES IN NEW PASSWORD #####
+            if (newPassword.Contains(" "))
+            {
+                MessageBox.Show("New password cannot contain spaces.");
+                return;
+            }
+
+            // ##### CHECK THAT NEW PASSWORD IS DIFFERENT FROM CURRENT #####
+            if (newPassword == currentPassword)
+            {
+                MessageBox.Show("New password cannot be the same as the current password.");
+                return;
+            }
+
+            // ##### CHECK THAT NEW PASSWORD MATCHES CONFIRMATION #####
             if (newPassword != confirmPassword)
             {
-                MessageBox.Show("Mật khẩu mới không khớp.");
+                MessageBox.Show("New password does not match the confirmation.");
                 return;
             }
 
+            // ##### ATTEMPT TO CHANGE PASSWORD #####
             bool result = AccountService.isCorrectToChangePassword(currentPassword, newPassword);
 
             if (result)
             {
-                MessageBox.Show("Đổi mật khẩu thành công!");
+                MessageBox.Show("Password changed successfully!");
                 this.Close();
             }
             else
             {
-                MessageBox.Show("Mật khẩu hiện tại không đúng.");
+                MessageBox.Show("The current password is incorrect.");
             }
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+
+        private void ForgotPW_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var account = AccountService.GetLoggedInAccDetails();
             if (account != null)
             {
-                MessageBox.Show($"Mật khẩu hiện tại của bạn là: {account.Password}", "Mật khẩu hiện tại", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Your current password is: {account.Password}", "Current Password", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("Không tìm thấy tài khoản đang đăng nhập!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No logged-in account found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Cancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+        private void TBOldPassword_TextChanged(object sender, EventArgs e)
+        {
+            string pw = TBOldPassword.Text;
+
+            if (pw.Length < 6)
+            {
+                oldPwWrn.Text = "Password must be at least 6 characters";
+                oldPwWrn.ForeColor = Color.Red;
+            }
+            else
+            {
+                oldPwWrn.Text = "";
+            }
+        }
+
+        private void TBNewPassword_TextChanged(object sender, EventArgs e)
+        {
+            string oldPw = TBOldPassword.Text;
+            string newPw = TBNewPassword.Text;
+
+            if (newPw.Length < 6)
+            {
+                NewPwWrn.Text = "Password must be at least 6 characters";
+                NewPwWrn.ForeColor = Color.Red;
+            }
+            else if (newPw.Contains(" "))
+            {
+                NewPwWrn.Text = "Password cannot contain spaces";
+                NewPwWrn.ForeColor = Color.Red;
+            }
+            else if (newPw == oldPw)
+            {
+                NewPwWrn.Text = "New password cannot be the same as old password";
+                NewPwWrn.ForeColor = Color.Red;
+            }
+            else
+            {
+                NewPwWrn.Text = "Password is valid";
+                NewPwWrn.ForeColor = Color.Green;
+            }
+        }
+
+        private void TBConfirmPassword_TextChanged(object sender, EventArgs e)
+        {
+            string newPw = TBNewPassword.Text;
+            string confirmPw = TBConfirmPassword.Text;
+
+            if (confirmPw != newPw)
+            {
+                CFNewPwWrn.Text = "Passwords do not match";
+                CFNewPwWrn.ForeColor = Color.Red;
+            }
+            else
+            {
+                CFNewPwWrn.Text = "Passwords match";
+                CFNewPwWrn.ForeColor = Color.Green;
+            }
+        }
+
+        private void SeeOldPwCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (SeeOldPwCheck.Checked)
+            {
+                TBOldPassword.PasswordChar = '\0';
+            }
+            else
+            {
+                TBOldPassword.PasswordChar = '*';
+            }
+        }
+
+        private void SeeNewPwCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (SeeNewPwCheck.Checked)
+            {
+                TBNewPassword.PasswordChar = '\0';
+            }
+            else
+            {
+                TBNewPassword.PasswordChar = '*';
+            }
+        }
+
+        private void SeeConfirmPwCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (SeeConfirmPwCheck.Checked)
+            {
+                TBConfirmPassword.PasswordChar = '\0';
+            }
+            else
+            {
+                TBConfirmPassword.PasswordChar = '*';
+            }
+        }
+
     }
 }
