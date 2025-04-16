@@ -16,7 +16,7 @@ namespace Part1
         private string _encodedString = "";
         private Nullable<int> _AccId;
 
-        public StringProcessing() { }
+
 
         // GET SET
         public int ID
@@ -69,6 +69,8 @@ namespace Part1
 
 
         // Constructor
+        public StringProcessing() { }
+
         public StringProcessing(int nextID, string input, string shift, DateTime time)
         {
             if (string.IsNullOrWhiteSpace(shift))

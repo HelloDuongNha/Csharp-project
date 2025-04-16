@@ -2,4 +2,4 @@ DarkMode=False
 Width=800
 Height=500
 Mode=Window
-Opacity=68
+Opacity=100

@@ -33,12 +33,12 @@ namespace Part1
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.encodeBTN = new System.Windows.Forms.Button();
             this.ResetBTN = new System.Windows.Forms.Button();
             this.DecreaseBTN = new System.Windows.Forms.Button();
@@ -121,6 +121,7 @@ namespace Part1
             this.panel16 = new System.Windows.Forms.Panel();
             this.Opacity = new System.Windows.Forms.TrackBar();
             this.label20 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.panel9 = new System.Windows.Forms.Panel();
             this.Height = new System.Windows.Forms.NumericUpDown();
@@ -152,18 +153,22 @@ namespace Part1
             this.DeleteAccBtn = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.DeleteUserAcc = new System.Windows.Forms.Button();
+            this.panel17 = new System.Windows.Forms.Panel();
+            this.AccRecordTB = new System.Windows.Forms.TextBox();
+            this.label33 = new System.Windows.Forms.Label();
+            this.button13 = new System.Windows.Forms.Button();
             this.panel11 = new System.Windows.Forms.Panel();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.AccDateTB = new System.Windows.Forms.TextBox();
+            this.AccTimeTB = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
             this.panel12 = new System.Windows.Forms.Panel();
-            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.AccNameTB = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
             this.button8 = new System.Windows.Forms.Button();
             this.panel13 = new System.Windows.Forms.Panel();
-            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.AccEmailTB = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
             this.button9 = new System.Windows.Forms.Button();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
@@ -172,13 +177,12 @@ namespace Part1
             this.label30 = new System.Windows.Forms.Label();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.textBox11 = new System.Windows.Forms.TextBox();
-            this.button10 = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.DeleteAllUserAcc = new System.Windows.Forms.Button();
+            this.AccGridView = new System.Windows.Forms.DataGridView();
             this.statusStrip2 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.label31 = new System.Windows.Forms.Label();
             this.entityCommand1 = new System.Data.Entity.Core.EntityClient.EntityCommand();
-            this.label32 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
@@ -213,11 +217,12 @@ namespace Part1
             this.panel15.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.panel17.SuspendLayout();
             this.panel11.SuspendLayout();
             this.panel12.SuspendLayout();
             this.panel13.SuspendLayout();
             this.groupBox9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AccGridView)).BeginInit();
             this.statusStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -225,6 +230,7 @@ namespace Part1
             // 
             this.encodeBTN.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.encodeBTN.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.encodeBTN.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.encodeBTN.Location = new System.Drawing.Point(17, 212);
             this.encodeBTN.Margin = new System.Windows.Forms.Padding(2);
             this.encodeBTN.Name = "encodeBTN";
@@ -262,7 +268,7 @@ namespace Part1
             // 
             // IncreaseBTN
             // 
-            this.IncreaseBTN.Location = new System.Drawing.Point(83, 23);
+            this.IncreaseBTN.Location = new System.Drawing.Point(86, 24);
             this.IncreaseBTN.Margin = new System.Windows.Forms.Padding(2);
             this.IncreaseBTN.Name = "IncreaseBTN";
             this.IncreaseBTN.Size = new System.Drawing.Size(30, 33);
@@ -274,7 +280,8 @@ namespace Part1
             // 
             // textBoxN
             // 
-            this.textBoxN.Location = new System.Drawing.Point(46, 24);
+            this.textBoxN.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.textBoxN.Location = new System.Drawing.Point(47, 28);
             this.textBoxN.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxN.Name = "textBoxN";
             this.textBoxN.Size = new System.Drawing.Size(35, 29);
@@ -449,24 +456,24 @@ namespace Part1
             this.dataGridView.AllowUserToOrderColumns = true;
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle31.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            dataGridViewCellStyle31.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle31.ForeColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle31.SelectionBackColor = System.Drawing.SystemColors.HotTrack;
-            dataGridViewCellStyle31.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle31.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.HotTrack;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Cursor = System.Windows.Forms.Cursors.Hand;
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle32.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle32.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle32.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle32.SelectionBackColor = System.Drawing.Color.ForestGreen;
-            dataGridViewCellStyle32.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle32.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.ForestGreen;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView.EnableHeadersVisualStyles = false;
             this.dataGridView.Location = new System.Drawing.Point(21, 98);
             this.dataGridView.Name = "dataGridView";
@@ -647,11 +654,11 @@ namespace Part1
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Location = new System.Drawing.Point(4, 26);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Size = new System.Drawing.Size(748, 415);
+            this.tabPage1.Size = new System.Drawing.Size(754, 414);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Homepage";
             // 
@@ -725,7 +732,7 @@ namespace Part1
             this.groupBox2.Controls.Add(this.panel2);
             this.groupBox2.Controls.Add(this.panel3);
             this.groupBox2.Controls.Add(this.encodeBTN);
-            this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold);
             this.groupBox2.Location = new System.Drawing.Point(449, 159);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(290, 246);
@@ -739,12 +746,12 @@ namespace Part1
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.tabControl1.Location = new System.Drawing.Point(11, 11);
+            this.tabControl1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabControl1.Location = new System.Drawing.Point(11, 6);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(756, 444);
+            this.tabControl1.Size = new System.Drawing.Size(762, 444);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage3
@@ -753,11 +760,11 @@ namespace Part1
             this.tabPage3.Controls.Add(this.groupBox5);
             this.tabPage3.Controls.Add(this.groupBox4);
             this.tabPage3.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Location = new System.Drawing.Point(4, 26);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage3.Size = new System.Drawing.Size(748, 415);
+            this.tabPage3.Size = new System.Drawing.Size(754, 414);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Recently Deleted";
             // 
@@ -1125,24 +1132,24 @@ namespace Part1
             this.BinGridView.AllowUserToOrderColumns = true;
             this.BinGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.BinGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle33.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            dataGridViewCellStyle33.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle33.ForeColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle33.SelectionBackColor = System.Drawing.SystemColors.HotTrack;
-            dataGridViewCellStyle33.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle33.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.BinGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.HotTrack;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.BinGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.BinGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.BinGridView.Cursor = System.Windows.Forms.Cursors.Hand;
-            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle34.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle34.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle34.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle34.SelectionBackColor = System.Drawing.Color.ForestGreen;
-            dataGridViewCellStyle34.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle34.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.BinGridView.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.ForestGreen;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.BinGridView.DefaultCellStyle = dataGridViewCellStyle4;
             this.BinGridView.EnableHeadersVisualStyles = false;
             this.BinGridView.Location = new System.Drawing.Point(22, 103);
             this.BinGridView.Name = "BinGridView";
@@ -1189,11 +1196,11 @@ namespace Part1
             this.tabPage2.Controls.Add(this.groupBox6);
             this.tabPage2.Cursor = System.Windows.Forms.Cursors.Default;
             this.tabPage2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Location = new System.Drawing.Point(4, 26);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(748, 415);
+            this.tabPage2.Size = new System.Drawing.Size(754, 414);
             this.tabPage2.TabIndex = 3;
             this.tabPage2.Text = "Setting";
             // 
@@ -1230,11 +1237,11 @@ namespace Part1
             // RBFullscreen
             // 
             this.RBFullscreen.AutoSize = true;
-            this.RBFullscreen.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.RBFullscreen.Location = new System.Drawing.Point(149, 21);
+            this.RBFullscreen.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.RBFullscreen.Location = new System.Drawing.Point(157, 21);
             this.RBFullscreen.Margin = new System.Windows.Forms.Padding(2);
             this.RBFullscreen.Name = "RBFullscreen";
-            this.RBFullscreen.Size = new System.Drawing.Size(107, 24);
+            this.RBFullscreen.Size = new System.Drawing.Size(99, 23);
             this.RBFullscreen.TabIndex = 3;
             this.RBFullscreen.TabStop = true;
             this.RBFullscreen.Text = "Full Screen";
@@ -1244,22 +1251,22 @@ namespace Part1
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.label22.Location = new System.Drawing.Point(2, 21);
             this.label22.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(58, 21);
+            this.label22.Size = new System.Drawing.Size(52, 19);
             this.label22.TabIndex = 1;
             this.label22.Text = "Mode:";
             // 
             // RBWindow
             // 
             this.RBWindow.AutoSize = true;
-            this.RBWindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.RBWindow.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.RBWindow.Location = new System.Drawing.Point(65, 21);
             this.RBWindow.Margin = new System.Windows.Forms.Padding(2);
             this.RBWindow.Name = "RBWindow";
-            this.RBWindow.Size = new System.Drawing.Size(83, 24);
+            this.RBWindow.Size = new System.Drawing.Size(82, 23);
             this.RBWindow.TabIndex = 2;
             this.RBWindow.TabStop = true;
             this.RBWindow.Text = "Window";
@@ -1275,7 +1282,7 @@ namespace Part1
             this.panel16.Location = new System.Drawing.Point(16, 237);
             this.panel16.Margin = new System.Windows.Forms.Padding(2);
             this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(358, 65);
+            this.panel16.Size = new System.Drawing.Size(401, 65);
             this.panel16.TabIndex = 8;
             // 
             // Opacity
@@ -1293,22 +1300,33 @@ namespace Part1
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.label20.Location = new System.Drawing.Point(2, 21);
             this.label20.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(73, 21);
+            this.label20.Size = new System.Drawing.Size(65, 19);
             this.label20.TabIndex = 1;
             this.label20.Text = "Opacity:";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.label32.Location = new System.Drawing.Point(84, 25);
+            this.label32.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(37, 19);
+            this.label32.TabIndex = 7;
+            this.label32.Text = "50%";
             // 
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.label26.Location = new System.Drawing.Point(246, 18);
+            this.label26.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.label26.Location = new System.Drawing.Point(246, 25);
             this.label26.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(71, 30);
+            this.label26.Size = new System.Drawing.Size(45, 19);
             this.label26.TabIndex = 7;
             this.label26.Text = "100%";
             // 
@@ -1326,6 +1344,7 @@ namespace Part1
             // 
             // Height
             // 
+            this.Height.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.Height.Location = new System.Drawing.Point(261, 16);
             this.Height.Maximum = new decimal(new int[] {
             10000,
@@ -1338,7 +1357,7 @@ namespace Part1
             0,
             0});
             this.Height.Name = "Height";
-            this.Height.Size = new System.Drawing.Size(120, 34);
+            this.Height.Size = new System.Drawing.Size(120, 25);
             this.Height.TabIndex = 3;
             this.Height.Value = new decimal(new int[] {
             500,
@@ -1349,6 +1368,7 @@ namespace Part1
             // 
             // Width
             // 
+            this.Width.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.Width.Location = new System.Drawing.Point(108, 16);
             this.Width.Maximum = new decimal(new int[] {
             10000,
@@ -1361,7 +1381,7 @@ namespace Part1
             0,
             0});
             this.Width.Name = "Width";
-            this.Width.Size = new System.Drawing.Size(120, 34);
+            this.Width.Size = new System.Drawing.Size(120, 25);
             this.Width.TabIndex = 3;
             this.Width.Value = new decimal(new int[] {
             800,
@@ -1373,11 +1393,11 @@ namespace Part1
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.label13.Location = new System.Drawing.Point(2, 21);
             this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(96, 21);
+            this.label13.Size = new System.Drawing.Size(83, 19);
             this.label13.TabIndex = 1;
             this.label13.Text = "Resolution:";
             // 
@@ -1400,17 +1420,17 @@ namespace Part1
             this.panel4.Location = new System.Drawing.Point(16, 41);
             this.panel4.Margin = new System.Windows.Forms.Padding(2);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(227, 43);
+            this.panel4.Size = new System.Drawing.Size(401, 43);
             this.panel4.TabIndex = 4;
             // 
             // RBdarkmodeOff
             // 
             this.RBdarkmodeOff.AutoSize = true;
-            this.RBdarkmodeOff.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.RBdarkmodeOff.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.RBdarkmodeOff.Location = new System.Drawing.Point(173, 12);
             this.RBdarkmodeOff.Margin = new System.Windows.Forms.Padding(2);
             this.RBdarkmodeOff.Name = "RBdarkmodeOff";
-            this.RBdarkmodeOff.Size = new System.Drawing.Size(49, 24);
+            this.RBdarkmodeOff.Size = new System.Drawing.Size(48, 23);
             this.RBdarkmodeOff.TabIndex = 3;
             this.RBdarkmodeOff.TabStop = true;
             this.RBdarkmodeOff.Text = "Off";
@@ -1420,22 +1440,22 @@ namespace Part1
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold);
+            this.label11.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.label11.Location = new System.Drawing.Point(2, 11);
             this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(117, 24);
+            this.label11.Size = new System.Drawing.Size(88, 19);
             this.label11.TabIndex = 1;
             this.label11.Text = "Dark Mode:";
             // 
             // RBdarkmodeON
             // 
             this.RBdarkmodeON.AutoSize = true;
-            this.RBdarkmodeON.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.RBdarkmodeON.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.RBdarkmodeON.Location = new System.Drawing.Point(119, 12);
             this.RBdarkmodeON.Margin = new System.Windows.Forms.Padding(2);
             this.RBdarkmodeON.Name = "RBdarkmodeON";
-            this.RBdarkmodeON.Size = new System.Drawing.Size(48, 24);
+            this.RBdarkmodeON.Size = new System.Drawing.Size(46, 23);
             this.RBdarkmodeON.TabIndex = 2;
             this.RBdarkmodeON.TabStop = true;
             this.RBdarkmodeON.Text = "On";
@@ -1444,7 +1464,7 @@ namespace Part1
             // 
             // SetDefaultBtn
             // 
-            this.SetDefaultBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.SetDefaultBtn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SetDefaultBtn.Location = new System.Drawing.Point(16, 350);
             this.SetDefaultBtn.Margin = new System.Windows.Forms.Padding(2);
             this.SetDefaultBtn.Name = "SetDefaultBtn";
@@ -1452,7 +1472,7 @@ namespace Part1
             this.SetDefaultBtn.TabIndex = 0;
             this.SetDefaultBtn.Text = "Reset to Default";
             this.SetDefaultBtn.UseVisualStyleBackColor = true;
-            this.SetDefaultBtn.Click += new System.EventHandler(this.LogOutBtn_Click);
+            this.SetDefaultBtn.Click += new System.EventHandler(this.ResetSetting_Click);
             // 
             // groupBox6
             // 
@@ -1591,14 +1611,14 @@ namespace Part1
             // EmailIn4
             // 
             this.EmailIn4.AcceptsTab = true;
-            this.EmailIn4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
+            this.EmailIn4.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Italic);
             this.EmailIn4.ForeColor = System.Drawing.SystemColors.WindowText;
             this.EmailIn4.Location = new System.Drawing.Point(13, 25);
             this.EmailIn4.Margin = new System.Windows.Forms.Padding(2);
             this.EmailIn4.Multiline = true;
             this.EmailIn4.Name = "EmailIn4";
             this.EmailIn4.ReadOnly = true;
-            this.EmailIn4.Size = new System.Drawing.Size(203, 23);
+            this.EmailIn4.Size = new System.Drawing.Size(201, 23);
             this.EmailIn4.TabIndex = 1;
             // 
             // label23
@@ -1625,7 +1645,7 @@ namespace Part1
             // 
             // UpdateInfoBtn
             // 
-            this.UpdateInfoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.UpdateInfoBtn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UpdateInfoBtn.Location = new System.Drawing.Point(11, 234);
             this.UpdateInfoBtn.Margin = new System.Windows.Forms.Padding(2);
             this.UpdateInfoBtn.Name = "UpdateInfoBtn";
@@ -1633,11 +1653,11 @@ namespace Part1
             this.UpdateInfoBtn.TabIndex = 0;
             this.UpdateInfoBtn.Text = "Update Information";
             this.UpdateInfoBtn.UseVisualStyleBackColor = true;
-            this.UpdateInfoBtn.Click += new System.EventHandler(this.LogOutBtn_Click);
+            this.UpdateInfoBtn.Click += new System.EventHandler(this.UpdateAccInfo_Click);
             // 
             // ChangePwBtn
             // 
-            this.ChangePwBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.ChangePwBtn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ChangePwBtn.Location = new System.Drawing.Point(11, 270);
             this.ChangePwBtn.Margin = new System.Windows.Forms.Padding(2);
             this.ChangePwBtn.Name = "ChangePwBtn";
@@ -1645,11 +1665,11 @@ namespace Part1
             this.ChangePwBtn.TabIndex = 0;
             this.ChangePwBtn.Text = "Change Password";
             this.ChangePwBtn.UseVisualStyleBackColor = true;
-            this.ChangePwBtn.Click += new System.EventHandler(this.LogOutBtn_Click);
+            this.ChangePwBtn.Click += new System.EventHandler(this.ChangePw_Click);
             // 
             // LogOutBtn
             // 
-            this.LogOutBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.LogOutBtn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LogOutBtn.Location = new System.Drawing.Point(11, 307);
             this.LogOutBtn.Margin = new System.Windows.Forms.Padding(2);
             this.LogOutBtn.Name = "LogOutBtn";
@@ -1661,7 +1681,7 @@ namespace Part1
             // 
             // DeleteAccBtn
             // 
-            this.DeleteAccBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.DeleteAccBtn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DeleteAccBtn.Location = new System.Drawing.Point(11, 341);
             this.DeleteAccBtn.Margin = new System.Windows.Forms.Padding(2);
             this.DeleteAccBtn.Name = "DeleteAccBtn";
@@ -1677,17 +1697,18 @@ namespace Part1
             this.tabPage4.Controls.Add(this.groupBox8);
             this.tabPage4.Controls.Add(this.groupBox9);
             this.tabPage4.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Location = new System.Drawing.Point(4, 26);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(748, 415);
+            this.tabPage4.Size = new System.Drawing.Size(754, 414);
             this.tabPage4.TabIndex = 4;
-            this.tabPage4.Text = "tabPage4";
+            this.tabPage4.Text = "Admin";
             // 
             // groupBox8
             // 
             this.groupBox8.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.groupBox8.Controls.Add(this.button1);
+            this.groupBox8.Controls.Add(this.DeleteUserAcc);
+            this.groupBox8.Controls.Add(this.panel17);
             this.groupBox8.Controls.Add(this.panel11);
             this.groupBox8.Controls.Add(this.panel12);
             this.groupBox8.Controls.Add(this.panel13);
@@ -1701,24 +1722,70 @@ namespace Part1
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Account (ID: ? )";
             // 
-            // button1
+            // DeleteUserAcc
             // 
-            this.button1.BackColor = System.Drawing.Color.LightCoral;
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.LightCoral;
-            this.button1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.button1.Location = new System.Drawing.Point(5, 350);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(213, 32);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "Delete";
-            this.button1.UseVisualStyleBackColor = false;
+            this.DeleteUserAcc.BackColor = System.Drawing.Color.LightCoral;
+            this.DeleteUserAcc.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.DeleteUserAcc.FlatAppearance.BorderColor = System.Drawing.Color.LightCoral;
+            this.DeleteUserAcc.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.DeleteUserAcc.Location = new System.Drawing.Point(5, 350);
+            this.DeleteUserAcc.Margin = new System.Windows.Forms.Padding(2);
+            this.DeleteUserAcc.Name = "DeleteUserAcc";
+            this.DeleteUserAcc.Size = new System.Drawing.Size(213, 32);
+            this.DeleteUserAcc.TabIndex = 17;
+            this.DeleteUserAcc.Text = "Delete";
+            this.DeleteUserAcc.UseVisualStyleBackColor = false;
+            this.DeleteUserAcc.Click += new System.EventHandler(this.DeleteUserAcc_Click);
+            // 
+            // panel17
+            // 
+            this.panel17.Controls.Add(this.AccRecordTB);
+            this.panel17.Controls.Add(this.label33);
+            this.panel17.Controls.Add(this.button13);
+            this.panel17.Location = new System.Drawing.Point(5, 230);
+            this.panel17.Name = "panel17";
+            this.panel17.Size = new System.Drawing.Size(217, 32);
+            this.panel17.TabIndex = 10;
+            // 
+            // AccRecordTB
+            // 
+            this.AccRecordTB.AcceptsTab = true;
+            this.AccRecordTB.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
+            this.AccRecordTB.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.AccRecordTB.Location = new System.Drawing.Point(114, 2);
+            this.AccRecordTB.Margin = new System.Windows.Forms.Padding(2);
+            this.AccRecordTB.Multiline = true;
+            this.AccRecordTB.Name = "AccRecordTB";
+            this.AccRecordTB.ReadOnly = true;
+            this.AccRecordTB.Size = new System.Drawing.Size(99, 23);
+            this.AccRecordTB.TabIndex = 1;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Font = new System.Drawing.Font("Segoe UI", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))));
+            this.label33.Location = new System.Drawing.Point(2, 2);
+            this.label33.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(100, 19);
+            this.label33.TabIndex = 4;
+            this.label33.Text = "Total Records";
+            // 
+            // button13
+            // 
+            this.button13.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button13.Location = new System.Drawing.Point(-1000, -1000);
+            this.button13.Margin = new System.Windows.Forms.Padding(2);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(41, 28);
+            this.button13.TabIndex = 2;
+            this.button13.Text = "⇧";
+            this.button13.UseVisualStyleBackColor = true;
             // 
             // panel11
             // 
-            this.panel11.Controls.Add(this.textBox6);
-            this.panel11.Controls.Add(this.textBox7);
+            this.panel11.Controls.Add(this.AccDateTB);
+            this.panel11.Controls.Add(this.AccTimeTB);
             this.panel11.Controls.Add(this.label24);
             this.panel11.Controls.Add(this.button4);
             this.panel11.Location = new System.Drawing.Point(5, 157);
@@ -1726,31 +1793,31 @@ namespace Part1
             this.panel11.Size = new System.Drawing.Size(217, 57);
             this.panel11.TabIndex = 10;
             // 
-            // textBox6
+            // AccDateTB
             // 
-            this.textBox6.AcceptsTab = true;
-            this.textBox6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
-            this.textBox6.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBox6.Location = new System.Drawing.Point(115, 22);
-            this.textBox6.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox6.Multiline = true;
-            this.textBox6.Name = "textBox6";
-            this.textBox6.ReadOnly = true;
-            this.textBox6.Size = new System.Drawing.Size(99, 23);
-            this.textBox6.TabIndex = 1;
+            this.AccDateTB.AcceptsTab = true;
+            this.AccDateTB.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
+            this.AccDateTB.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.AccDateTB.Location = new System.Drawing.Point(115, 22);
+            this.AccDateTB.Margin = new System.Windows.Forms.Padding(2);
+            this.AccDateTB.Multiline = true;
+            this.AccDateTB.Name = "AccDateTB";
+            this.AccDateTB.ReadOnly = true;
+            this.AccDateTB.Size = new System.Drawing.Size(99, 23);
+            this.AccDateTB.TabIndex = 1;
             // 
-            // textBox7
+            // AccTimeTB
             // 
-            this.textBox7.AcceptsTab = true;
-            this.textBox7.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
-            this.textBox7.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBox7.Location = new System.Drawing.Point(13, 22);
-            this.textBox7.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox7.Multiline = true;
-            this.textBox7.Name = "textBox7";
-            this.textBox7.ReadOnly = true;
-            this.textBox7.Size = new System.Drawing.Size(99, 23);
-            this.textBox7.TabIndex = 1;
+            this.AccTimeTB.AcceptsTab = true;
+            this.AccTimeTB.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
+            this.AccTimeTB.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.AccTimeTB.Location = new System.Drawing.Point(13, 22);
+            this.AccTimeTB.Margin = new System.Windows.Forms.Padding(2);
+            this.AccTimeTB.Multiline = true;
+            this.AccTimeTB.Name = "AccTimeTB";
+            this.AccTimeTB.ReadOnly = true;
+            this.AccTimeTB.Size = new System.Drawing.Size(99, 23);
+            this.AccTimeTB.TabIndex = 1;
             // 
             // label24
             // 
@@ -1776,7 +1843,7 @@ namespace Part1
             // 
             // panel12
             // 
-            this.panel12.Controls.Add(this.textBox9);
+            this.panel12.Controls.Add(this.AccNameTB);
             this.panel12.Controls.Add(this.label25);
             this.panel12.Controls.Add(this.button8);
             this.panel12.Location = new System.Drawing.Point(5, 36);
@@ -1784,18 +1851,18 @@ namespace Part1
             this.panel12.Size = new System.Drawing.Size(217, 58);
             this.panel12.TabIndex = 10;
             // 
-            // textBox9
+            // AccNameTB
             // 
-            this.textBox9.AcceptsTab = true;
-            this.textBox9.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
-            this.textBox9.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBox9.Location = new System.Drawing.Point(13, 23);
-            this.textBox9.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox9.Multiline = true;
-            this.textBox9.Name = "textBox9";
-            this.textBox9.ReadOnly = true;
-            this.textBox9.Size = new System.Drawing.Size(203, 23);
-            this.textBox9.TabIndex = 1;
+            this.AccNameTB.AcceptsTab = true;
+            this.AccNameTB.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
+            this.AccNameTB.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.AccNameTB.Location = new System.Drawing.Point(13, 23);
+            this.AccNameTB.Margin = new System.Windows.Forms.Padding(2);
+            this.AccNameTB.Multiline = true;
+            this.AccNameTB.Name = "AccNameTB";
+            this.AccNameTB.ReadOnly = true;
+            this.AccNameTB.Size = new System.Drawing.Size(203, 23);
+            this.AccNameTB.TabIndex = 1;
             // 
             // label25
             // 
@@ -1821,7 +1888,7 @@ namespace Part1
             // 
             // panel13
             // 
-            this.panel13.Controls.Add(this.textBox10);
+            this.panel13.Controls.Add(this.AccEmailTB);
             this.panel13.Controls.Add(this.label27);
             this.panel13.Controls.Add(this.button9);
             this.panel13.Location = new System.Drawing.Point(5, 94);
@@ -1829,18 +1896,18 @@ namespace Part1
             this.panel13.Size = new System.Drawing.Size(217, 58);
             this.panel13.TabIndex = 10;
             // 
-            // textBox10
+            // AccEmailTB
             // 
-            this.textBox10.AcceptsTab = true;
-            this.textBox10.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
-            this.textBox10.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBox10.Location = new System.Drawing.Point(13, 25);
-            this.textBox10.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox10.Multiline = true;
-            this.textBox10.Name = "textBox10";
-            this.textBox10.ReadOnly = true;
-            this.textBox10.Size = new System.Drawing.Size(203, 23);
-            this.textBox10.TabIndex = 1;
+            this.AccEmailTB.AcceptsTab = true;
+            this.AccEmailTB.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic);
+            this.AccEmailTB.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.AccEmailTB.Location = new System.Drawing.Point(13, 25);
+            this.AccEmailTB.Margin = new System.Windows.Forms.Padding(2);
+            this.AccEmailTB.Multiline = true;
+            this.AccEmailTB.Name = "AccEmailTB";
+            this.AccEmailTB.ReadOnly = true;
+            this.AccEmailTB.Size = new System.Drawing.Size(203, 23);
+            this.AccEmailTB.TabIndex = 1;
             // 
             // label27
             // 
@@ -1872,8 +1939,8 @@ namespace Part1
             this.groupBox9.Controls.Add(this.label30);
             this.groupBox9.Controls.Add(this.comboBox4);
             this.groupBox9.Controls.Add(this.textBox11);
-            this.groupBox9.Controls.Add(this.button10);
-            this.groupBox9.Controls.Add(this.dataGridView1);
+            this.groupBox9.Controls.Add(this.DeleteAllUserAcc);
+            this.groupBox9.Controls.Add(this.AccGridView);
             this.groupBox9.Controls.Add(this.statusStrip2);
             this.groupBox9.Controls.Add(this.label31);
             this.groupBox9.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1945,50 +2012,52 @@ namespace Part1
             this.textBox11.Size = new System.Drawing.Size(364, 29);
             this.textBox11.TabIndex = 19;
             // 
-            // button10
+            // DeleteAllUserAcc
             // 
-            this.button10.BackColor = System.Drawing.Color.LightCoral;
-            this.button10.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button10.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.button10.Location = new System.Drawing.Point(22, 336);
-            this.button10.Margin = new System.Windows.Forms.Padding(2);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(104, 27);
-            this.button10.TabIndex = 15;
-            this.button10.Text = "Delete All";
-            this.button10.UseVisualStyleBackColor = false;
+            this.DeleteAllUserAcc.BackColor = System.Drawing.Color.LightCoral;
+            this.DeleteAllUserAcc.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.DeleteAllUserAcc.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.DeleteAllUserAcc.Location = new System.Drawing.Point(22, 336);
+            this.DeleteAllUserAcc.Margin = new System.Windows.Forms.Padding(2);
+            this.DeleteAllUserAcc.Name = "DeleteAllUserAcc";
+            this.DeleteAllUserAcc.Size = new System.Drawing.Size(104, 27);
+            this.DeleteAllUserAcc.TabIndex = 15;
+            this.DeleteAllUserAcc.Text = "Delete All";
+            this.DeleteAllUserAcc.UseVisualStyleBackColor = false;
+            this.DeleteAllUserAcc.Click += new System.EventHandler(this.DeleteAllUserAcc_Click);
             // 
-            // dataGridView1
+            // AccGridView
             // 
-            this.dataGridView1.AllowUserToOrderColumns = true;
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle35.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            dataGridViewCellStyle35.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle35.ForeColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle35.SelectionBackColor = System.Drawing.SystemColors.HotTrack;
-            dataGridViewCellStyle35.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle35.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle35;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dataGridView1.Cursor = System.Windows.Forms.Cursors.Hand;
-            dataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle36.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle36.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle36.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle36.SelectionBackColor = System.Drawing.Color.ForestGreen;
-            dataGridViewCellStyle36.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle36.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle36;
-            this.dataGridView1.EnableHeadersVisualStyles = false;
-            this.dataGridView1.Location = new System.Drawing.Point(22, 103);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersWidth = 62;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(438, 227);
-            this.dataGridView1.TabIndex = 17;
+            this.AccGridView.AllowUserToOrderColumns = true;
+            this.AccGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.AccGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.HotTrack;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.AccGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            this.AccGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.AccGridView.Cursor = System.Windows.Forms.Cursors.Hand;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.ForestGreen;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.AccGridView.DefaultCellStyle = dataGridViewCellStyle6;
+            this.AccGridView.EnableHeadersVisualStyles = false;
+            this.AccGridView.Location = new System.Drawing.Point(22, 103);
+            this.AccGridView.Name = "AccGridView";
+            this.AccGridView.ReadOnly = true;
+            this.AccGridView.RowHeadersWidth = 62;
+            this.AccGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.AccGridView.Size = new System.Drawing.Size(438, 227);
+            this.AccGridView.TabIndex = 17;
+            this.AccGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.AccGridView_CellClick);
             // 
             // statusStrip2
             // 
@@ -2027,23 +2096,12 @@ namespace Part1
             this.entityCommand1.EnablePlanCaching = true;
             this.entityCommand1.Transaction = null;
             // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.label32.Location = new System.Drawing.Point(76, 18);
-            this.label32.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(58, 30);
-            this.label32.TabIndex = 7;
-            this.label32.Text = "50%";
-            // 
             // GUI_InputForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(780, 464);
+            this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.tabControl1);
             this.ForeColor = System.Drawing.Color.IndianRed;
             this.Name = "GUI_InputForm";
@@ -2100,6 +2158,8 @@ namespace Part1
             this.panel15.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
+            this.panel17.ResumeLayout(false);
+            this.panel17.PerformLayout();
             this.panel11.ResumeLayout(false);
             this.panel11.PerformLayout();
             this.panel12.ResumeLayout(false);
@@ -2108,7 +2168,7 @@ namespace Part1
             this.panel13.PerformLayout();
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AccGridView)).EndInit();
             this.statusStrip2.ResumeLayout(false);
             this.statusStrip2.PerformLayout();
             this.ResumeLayout(false);
@@ -2127,7 +2187,6 @@ namespace Part1
         private Label wrnLb1;
         private GroupBox groupBox1;
         private TabPage tabPage1;
-        private TabControl tabControl1;
         private Label CountLbl;
         private Panel panel1;
         private RadioButton radioButtonOther;
@@ -2218,18 +2277,16 @@ namespace Part1
         private System.Data.Entity.Core.EntityClient.EntityCommand entityCommand1;
         private TabPage tabPage4;
         private GroupBox groupBox8;
-        private Button button1;
+        private Button DeleteUserAcc;
         private Panel panel11;
-        private TextBox textBox6;
-        private TextBox textBox7;
         private Label label24;
         private Button button4;
         private Panel panel12;
-        private TextBox textBox9;
+        private TextBox AccNameTB;
         private Label label25;
         private Button button8;
         private Panel panel13;
-        private TextBox textBox10;
+        private TextBox AccEmailTB;
         private Label label27;
         private Button button9;
         private GroupBox groupBox9;
@@ -2238,12 +2295,11 @@ namespace Part1
         private Label label30;
         protected ComboBox comboBox4;
         private TextBox textBox11;
-        private Button button10;
-        private DataGridView dataGridView1;
+        private Button DeleteAllUserAcc;
+        private DataGridView AccGridView;
         private StatusStrip statusStrip2;
         private ToolStripStatusLabel toolStripStatusLabel3;
         private Label label31;
-        private Panel panel8;
         private Label label15;
         private Button button2;
         private Panel panel14;
@@ -2252,8 +2308,6 @@ namespace Part1
         private Panel panel15;
         private Label label23;
         private Button button12;
-        public TextBox DateIn4;
-        public TextBox TimeIn4;
         public TextBox UsernameIn4;
         public TextBox EmailIn4;
         private RadioButton RBFullscreen;
@@ -2265,5 +2319,15 @@ namespace Part1
         public NumericUpDown Width;
         private TrackBar Opacity;
         private Label label32;
+        public TextBox AccDateTB;
+        public TextBox AccTimeTB;
+        public TextBox DateIn4;
+        public TextBox TimeIn4;
+        public Panel panel8;
+        private Panel panel17;
+        public TextBox AccRecordTB;
+        private Label label33;
+        private Button button13;
+        private TabControl tabControl1;
     }
 }

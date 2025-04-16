@@ -29,109 +29,146 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.SeeCfPwCheck = new System.Windows.Forms.CheckBox();
+            this.seePwCheck = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.CfPwTxt = new System.Windows.Forms.TextBox();
             this.PwTxt = new System.Windows.Forms.TextBox();
             this.EmailTxt = new System.Windows.Forms.TextBox();
             this.UserameTxt = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.CfPwWrn = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label5 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.PwWrn = new System.Windows.Forms.Label();
+            this.EmailWrn = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.UsernameWrn = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.SeeCfPwCheck);
+            this.groupBox1.Controls.Add(this.seePwCheck);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.CfPwTxt);
             this.groupBox1.Controls.Add(this.PwTxt);
             this.groupBox1.Controls.Add(this.EmailTxt);
             this.groupBox1.Controls.Add(this.UserameTxt);
-            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.CfPwWrn);
             this.groupBox1.Controls.Add(this.linkLabel1);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.PwWrn);
+            this.groupBox1.Controls.Add(this.EmailWrn);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.UsernameWrn);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(8, 8);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(612, 515);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Size = new System.Drawing.Size(408, 335);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Registation";
             // 
+            // SeeCfPwCheck
+            // 
+            this.SeeCfPwCheck.AutoSize = true;
+            this.SeeCfPwCheck.Location = new System.Drawing.Point(368, 205);
+            this.SeeCfPwCheck.Name = "SeeCfPwCheck";
+            this.SeeCfPwCheck.Size = new System.Drawing.Size(15, 14);
+            this.SeeCfPwCheck.TabIndex = 7;
+            this.SeeCfPwCheck.UseVisualStyleBackColor = true;
+            this.SeeCfPwCheck.CheckedChanged += new System.EventHandler(this.SeeCfPwCheck_CheckedChanged);
+            // 
+            // seePwCheck
+            // 
+            this.seePwCheck.AutoSize = true;
+            this.seePwCheck.Location = new System.Drawing.Point(368, 157);
+            this.seePwCheck.Name = "seePwCheck";
+            this.seePwCheck.Size = new System.Drawing.Size(15, 14);
+            this.seePwCheck.TabIndex = 6;
+            this.seePwCheck.UseVisualStyleBackColor = true;
+            this.seePwCheck.CheckedChanged += new System.EventHandler(this.SeePwCheck_CheckedChanged);
+            // 
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.button1.Location = new System.Drawing.Point(412, 441);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(174, 46);
+            this.button1.Location = new System.Drawing.Point(275, 287);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
+            this.button1.Name = "SignUp";
+            this.button1.Size = new System.Drawing.Size(116, 30);
             this.button1.TabIndex = 5;
             this.button1.Text = "Sign Up";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.SignUp_Click);
             // 
             // CfPwTxt
             // 
             this.CfPwTxt.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CfPwTxt.Location = new System.Drawing.Point(216, 304);
+            this.CfPwTxt.Location = new System.Drawing.Point(144, 198);
+            this.CfPwTxt.Margin = new System.Windows.Forms.Padding(2);
             this.CfPwTxt.Name = "CfPwTxt";
             this.CfPwTxt.PasswordChar = '*';
-            this.CfPwTxt.Size = new System.Drawing.Size(352, 39);
+            this.CfPwTxt.Size = new System.Drawing.Size(218, 29);
             this.CfPwTxt.TabIndex = 4;
+            this.CfPwTxt.TextChanged += new System.EventHandler(this.CfPwTxt_TextChanged);
             // 
             // PwTxt
             // 
             this.PwTxt.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PwTxt.Location = new System.Drawing.Point(216, 227);
+            this.PwTxt.Location = new System.Drawing.Point(144, 148);
+            this.PwTxt.Margin = new System.Windows.Forms.Padding(2);
             this.PwTxt.Name = "PwTxt";
             this.PwTxt.PasswordChar = '*';
-            this.PwTxt.Size = new System.Drawing.Size(352, 39);
+            this.PwTxt.Size = new System.Drawing.Size(218, 29);
             this.PwTxt.TabIndex = 4;
+            this.PwTxt.TextChanged += new System.EventHandler(this.PwTxt_TextChanged);
             // 
             // EmailTxt
             // 
             this.EmailTxt.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EmailTxt.Location = new System.Drawing.Point(213, 150);
+            this.EmailTxt.Location = new System.Drawing.Point(142, 98);
+            this.EmailTxt.Margin = new System.Windows.Forms.Padding(2);
             this.EmailTxt.Name = "EmailTxt";
-            this.EmailTxt.Size = new System.Drawing.Size(352, 39);
+            this.EmailTxt.Size = new System.Drawing.Size(236, 29);
             this.EmailTxt.TabIndex = 3;
+            this.EmailTxt.TextChanged += new System.EventHandler(this.EmailTxt_TextChanged);
             // 
             // UserameTxt
             // 
             this.UserameTxt.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.UserameTxt.Location = new System.Drawing.Point(213, 73);
+            this.UserameTxt.Location = new System.Drawing.Point(142, 47);
+            this.UserameTxt.Margin = new System.Windows.Forms.Padding(2);
             this.UserameTxt.Name = "UserameTxt";
-            this.UserameTxt.Size = new System.Drawing.Size(352, 39);
+            this.UserameTxt.Size = new System.Drawing.Size(236, 29);
             this.UserameTxt.TabIndex = 3;
+            this.UserameTxt.TextChanged += new System.EventHandler(this.UserameTxt_TextChanged);
             // 
-            // label6
+            // CfPwWrn
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.label6.Location = new System.Drawing.Point(215, 346);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(97, 21);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "CfPwWrnLbl";
+            this.CfPwWrn.AutoSize = true;
+            this.CfPwWrn.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.CfPwWrn.Location = new System.Drawing.Point(143, 225);
+            this.CfPwWrn.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.CfPwWrn.Name = "CfPwWrn";
+            this.CfPwWrn.Size = new System.Drawing.Size(70, 13);
+            this.CfPwWrn.TabIndex = 1;
+            this.CfPwWrn.Text = "CfPwWrnLbl";
             // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
-            this.linkLabel1.Location = new System.Drawing.Point(14, 402);
+            this.linkLabel1.Location = new System.Drawing.Point(9, 261);
+            this.linkLabel1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(304, 21);
+            this.linkLabel1.Size = new System.Drawing.Size(209, 13);
             this.linkLabel1.TabIndex = 2;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Already have an account? Sign in here!";
@@ -141,39 +178,43 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(6, 304);
+            this.label5.Location = new System.Drawing.Point(4, 198);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(204, 32);
+            this.label5.Size = new System.Drawing.Size(137, 21);
             this.label5.TabIndex = 1;
             this.label5.Text = "Confirm Password";
             // 
-            // label3
+            // PwWrn
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.label3.Location = new System.Drawing.Point(215, 269);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(82, 21);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "PwWrnLbl";
+            this.PwWrn.AutoSize = true;
+            this.PwWrn.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.PwWrn.Location = new System.Drawing.Point(143, 175);
+            this.PwWrn.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.PwWrn.Name = "PwWrn";
+            this.PwWrn.Size = new System.Drawing.Size(59, 13);
+            this.PwWrn.TabIndex = 1;
+            this.PwWrn.Text = "PwWrnLbl";
             // 
-            // label8
+            // EmailWrn
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.label8.Location = new System.Drawing.Point(216, 192);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(99, 21);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "EmailWrnLbl";
+            this.EmailWrn.AutoSize = true;
+            this.EmailWrn.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.EmailWrn.Location = new System.Drawing.Point(144, 125);
+            this.EmailWrn.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.EmailWrn.Name = "EmailWrn";
+            this.EmailWrn.Size = new System.Drawing.Size(71, 13);
+            this.EmailWrn.TabIndex = 0;
+            this.EmailWrn.Text = "EmailWrnLbl";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(99, 230);
+            this.label2.Location = new System.Drawing.Point(66, 150);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(111, 32);
+            this.label2.Size = new System.Drawing.Size(76, 21);
             this.label2.TabIndex = 1;
             this.label2.Text = "Password";
             // 
@@ -181,39 +222,43 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(136, 157);
+            this.label7.Location = new System.Drawing.Point(91, 102);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(71, 32);
+            this.label7.Size = new System.Drawing.Size(48, 21);
             this.label7.TabIndex = 0;
             this.label7.Text = "Email";
             // 
-            // label4
+            // UsernameWrn
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.label4.Location = new System.Drawing.Point(212, 115);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(103, 21);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "NameWrnLbl";
+            this.UsernameWrn.AutoSize = true;
+            this.UsernameWrn.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.UsernameWrn.Location = new System.Drawing.Point(141, 75);
+            this.UsernameWrn.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.UsernameWrn.Name = "UsernameWrn";
+            this.UsernameWrn.Size = new System.Drawing.Size(73, 13);
+            this.UsernameWrn.TabIndex = 0;
+            this.UsernameWrn.Text = "NameWrnLbl";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(86, 80);
+            this.label1.Location = new System.Drawing.Point(57, 52);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(121, 32);
+            this.label1.Size = new System.Drawing.Size(81, 21);
             this.label1.TabIndex = 0;
             this.label1.Text = "Username";
             // 
-            // SignUp_Form
+            // GUI_SignUpForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(644, 537);
+            this.ClientSize = new System.Drawing.Size(429, 349);
             this.Controls.Add(this.groupBox1);
-            this.Name = "SignUp_Form";
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Name = "GUI_SignUpForm";
             this.Text = "SignUp_Form";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -228,15 +273,17 @@
         private System.Windows.Forms.TextBox PwTxt;
         private System.Windows.Forms.TextBox UserameTxt;
         private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label PwWrn;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label UsernameWrn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox CfPwTxt;
         private System.Windows.Forms.TextBox EmailTxt;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label CfPwWrn;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label EmailWrn;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox SeeCfPwCheck;
+        private System.Windows.Forms.CheckBox seePwCheck;
     }
 }

@@ -31,5 +31,70 @@ namespace Part1
             GUI_SignUpForm signUpForm = new GUI_SignUpForm();
             signUpForm.Show();
         }
+
+        private void SeePWcheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (SeePWcheck.Checked)
+            {
+                // Nếu checkbox được chọn, hiển thị mật khẩu
+                PwTxt.PasswordChar = '\0';  // \0 là ký tự null, nghĩa là không ẩn mật khẩu nữa
+            }
+            else
+            {
+                // Nếu checkbox không được chọn, ẩn mật khẩu bằng dấu *
+                PwTxt.PasswordChar = '*';
+            }
+        }
+
+        private void UsernameTxt_TextChanged(object sender, EventArgs e)
+        {
+            string username = UsernameTxt.Text.Trim();
+
+            // Kiểm tra xem username có khoảng cách không
+            if (username.Contains(" "))
+            {
+                LoginUsernameWrn.Text = "Username cannot contain spaces";
+                LoginUsernameWrn.ForeColor = Color.Red;
+            }
+            // Kiểm tra xem username có chỉ chứa ký tự a-z hay không
+            else if (!username.All(c => char.IsLetterOrDigit(c)))
+            {
+                LoginUsernameWrn.Text = "Username must only contain letters (a-z)";
+                LoginUsernameWrn.ForeColor = Color.Red;
+            }
+            // Kiểm tra xem username đã tồn tại trong DB chưa
+            else if (AccountRepository.IsUsernameTaken(username))
+            {
+                LoginUsernameWrn.Text = "Username is valid";
+                LoginUsernameWrn.ForeColor = Color.Green;
+            }
+            else
+            {
+                LoginUsernameWrn.Text = "This Username isn't existed";
+                LoginUsernameWrn.ForeColor = Color.Red;
+            }
+        }
+
+        private void PwTxt_TextChanged(object sender, EventArgs e)
+        {
+            string pw = PwTxt.Text;
+
+            // Kiểm tra độ dài mật khẩu
+            if (pw.Length < 6)
+            {
+                LoginPwWrn.Text = "Password must be at least 6 characters";
+                LoginPwWrn.ForeColor = Color.Red;
+            }
+            else if (pw.Length > 20)
+            {
+                LoginPwWrn.Text = "Password must be at most 20 characters";
+                LoginPwWrn.ForeColor = Color.Red;
+            }
+            else
+            {
+                LoginPwWrn.Text = "Password is valid";
+                LoginPwWrn.ForeColor = Color.Green;
+            }
+        }
     }
 }

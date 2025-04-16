@@ -14,6 +14,8 @@
           <Property Name="Email" Type="nvarchar" MaxLength="255" />
           <Property Name="Password" Type="nvarchar" MaxLength="255" />
           <Property Name="IsLogin" Type="bit" Nullable="false" />
+          <Property Name="Role" Type="nchar" MaxLength="10" />
+          <Property Name="CreatedTime" Type="datetime" />
         </EntityType>
         <EntityType Name="RecycleBin">
           <Key>
@@ -38,6 +40,16 @@
           <Property Name="AccId" Type="int" />
           <Property Name="HistoryId" Type="int" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <Association Name="FK_RecycleBin_Account">
           <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
           <End Role="RecycleBin" Type="Self.RecycleBin" Multiplicity="*" />
@@ -54,6 +66,7 @@
           <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecycleBin" EntityType="Self.RecycleBin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StringProcessing" EntityType="Self.StringProcessing" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_RecycleBin_Account" Association="Self.FK_RecycleBin_Account">
             <End Role="Account" EntitySet="Account" />
             <End Role="RecycleBin" EntitySet="RecycleBin" />
@@ -67,6 +80,7 @@
           <EntitySet Name="Accounts" EntityType="Part1DBModel.Account" />
           <EntitySet Name="RecycleBins" EntityType="Part1DBModel.RecycleBin" />
           <EntitySet Name="StringProcessings" EntityType="Part1DBModel.StringProcessing" />
+          <EntitySet Name="sysdiagrams" EntityType="Part1DBModel.sysdiagram" />
           <AssociationSet Name="FK_RecycleBin_Account" Association="Part1DBModel.FK_RecycleBin_Account">
             <End Role="Account" EntitySet="Accounts" />
             <End Role="RecycleBin" EntitySet="RecycleBins" />
@@ -81,6 +95,8 @@
           <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="IsLogin" Type="Boolean" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="RecycleBins" Relationship="Part1DBModel.FK_RecycleBin_Account" FromRole="Account" ToRole="RecycleBin" />
         </EntityType>
         <EntityType Name="RecycleBin">
@@ -107,6 +123,16 @@
           <Property Name="AccId" Type="Int32" />
           <Property Name="HistoryId" Type="Int32" />
         </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <Association Name="FK_RecycleBin_Account">
           <End Type="Part1DBModel.Account" Role="Account" Multiplicity="0..1" />
           <End Type="Part1DBModel.RecycleBin" Role="RecycleBin" Multiplicity="*" />
@@ -128,6 +154,8 @@
           <EntitySetMapping Name="Accounts">
             <EntityTypeMapping TypeName="Part1DBModel.Account">
               <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="IsLogin" ColumnName="IsLogin" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -158,6 +186,17 @@
                 <ScalarProperty Name="InputN" ColumnName="InputN" />
                 <ScalarProperty Name="InputS" ColumnName="InputS" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Part1DBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

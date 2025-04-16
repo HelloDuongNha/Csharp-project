@@ -367,5 +367,7 @@ namespace Part1
             bin.Display(BinGridView);
             MessageBox.Show("All records have been successfully restored!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+
     }
 }

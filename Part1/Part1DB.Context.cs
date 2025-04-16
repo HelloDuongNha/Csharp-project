@@ -28,5 +28,6 @@ namespace Part1
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<RecycleBin> RecycleBins { get; set; }
         public virtual DbSet<StringProcessing> StringProcessings { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }

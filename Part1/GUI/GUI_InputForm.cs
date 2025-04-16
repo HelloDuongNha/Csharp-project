@@ -4,26 +4,49 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Part1.GUI;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Part1
 {
     public partial class GUI_InputForm : Form
     {
+        private TabPage adminTabPage;
         public GUI_InputForm()
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;
+
+            var acc = AccountRepository.GetLoggedInAccount();
+            MessageBox.Show("Role is: " + acc.Role);
+            this.tabControl1.Controls.Remove(this.tabPage4);
+            if (acc.Role.Trim().ToLower() == "admin")
+            {
+                this.tabControl1.TabPages.Add(this.tabPage4);
+                DeleteAccBtn.Location = new Point(-1000, -1000);
+            } else
+            {
+                DeleteAccBtn.Location = new Point(11, 341);
+            }
+
+
+
+
+
+
+                this.StartPosition = FormStartPosition.CenterScreen;
             this.comboBox1.SelectedIndex = 1;
             this.comboBox2.SelectedIndex = 1;
             uppercaseBTN.Location = new Point(-1000, -1000);
             DeleteBTN.Location = new Point(-1000, -1000);
             RcvBTN.Location = new Point(-1000, -1000);
             DltBTN.Location = new Point(-1000, -1000);
+            
             List<TextBox> textBoxesInput = new List<TextBox>
                 {
                     UsernameIn4,
                     EmailIn4,
+                    TimeIn4,
+                    DateIn4,
                 };
             AccountService.BindLoggedInAccountToTextBoxes(textBoxesInput);
 
@@ -37,6 +60,9 @@ namespace Part1
 
             RecycleBinService.SetupDataGridView(BinGridView);
             RecycleBinService.LoadAllDataFromDB(BinGridView);
+
+            AccountService.SetupDataGridView(AccGridView);
+            AccountService.LoadDataToGridView(AccGridView);
 
             SettingService.LoadSettings();
             var res = SettingRepository.Load();
@@ -53,10 +79,45 @@ namespace Part1
 
         }
 
+
+        public static void Logout()
+        {
+            AccountRepository.LogOutCurrentUser();
+        }
+
+        public static void BindLoggedInAccountToTextBoxes(List<TextBox> textBoxes)
+        {
+            var account = AccountRepository.GetLoggedInAccount();
+            if (account != null)
+            {
+                string createdDate = account.CreatedTime?.ToString("yyyy-MM-dd") ?? "";
+                MessageBox.Show(createdDate);
+                string createdTime = account.CreatedTime?.ToString().Split(' ')[0];
+                MessageBox.Show(createdTime);
+
+                if (textBoxes.Count > 0) textBoxes[0].Text = account.Username;
+                if (textBoxes.Count > 1) textBoxes[1].Text = account.Email;
+                if (textBoxes.Count > 2) textBoxes[2].Text = createdDate;
+                if (textBoxes.Count > 3) textBoxes[3].Text = createdTime;
+
+
+            }
+            else
+            {
+                MessageBox.Show("Thiếu TextBox hoặc account null!");
+            }
+
+        }
         private void ClearBinTextBoxes()
         {
             List<TextBox> textBoxes = new List<TextBox> { BinS_Textbox, BinN_Textbox, CreatedTimeTB, CreatedDateTB, DeletedTimeTB, DeletedDateTB };
             RecycleBinService.ClearTextboxes(textBoxes);
+        }
+
+        private void ClearAccTextBoxes()
+        {
+            List<TextBox> textBoxes = new List<TextBox> { AccNameTB, AccEmailTB, AccTimeTB, AccDateTB, AccRecordTB };
+            AccountService.ClearTextboxes(textBoxes);
         }
 
         private void UpdateNumberRadios()
@@ -74,6 +135,15 @@ namespace Part1
                 CreatedDateTB, DeletedDateTB
             };
             RecycleBinService.AddBinding(textBoxes, BinGridView);
+        }
+
+        private void AccBindingData()
+        {
+            List<TextBox> textBoxes = new List<TextBox>
+            {
+            AccNameTB, AccEmailTB, AccTimeTB, AccDateTB, AccRecordTB
+            };
+            AccountService.AddBinding(textBoxes, AccGridView);
         }
 
         private void ShowBinToolButtons()
@@ -164,6 +234,7 @@ namespace Part1
             StringService.EncodingString(textBoxS, textBoxN);
             StringService.LoadAllDataFromDB(dataGridView);
             StringService.CountRecords(toolStripStatusLabel1);
+            AccountService.LoadDataToGridView(AccGridView);
         }
 
         private void UppercaseBTN_Click(object sender, EventArgs e)
@@ -277,6 +348,29 @@ namespace Part1
                 isBinBinding = false; // end binding
             }
         }
+
+        private void AccGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                isBinBinding = true; // start binding
+                ClearAccTextBoxes();
+
+                if (AccGridView.SelectedRows.Count > 0)
+                {
+                    AccBindingData();
+                    //RecycleBinService.UpdateGroupTitle(groupBox5, BinGridView);
+                }
+                else
+                {
+                    ClearBinTextBoxes();
+                    //RecycleBinService.ClearGroupTitle(groupBox5);
+                }
+                //ShowBinToolButtons();
+                isBinBinding = false; // end binding
+            }
+        }
+
 
         private void RcvBTN_Click(object sender, EventArgs e)
         {
@@ -424,6 +518,45 @@ namespace Part1
 
             // Cập nhật opacity cho form ngay lập tức
             SettingService.ApplyOpacity(this); // this là form hiện tại
+        }
+
+        private void ResetSetting_Click(object sender, EventArgs e)
+        {
+            SettingService.ResetToDefault(this, new TabPage[] { tabPage1, tabPage2 },
+                               RBdarkmodeOff,RBWindow, Width, Height, Opacity);
+        }
+
+        private void UpdateAccInfo_Click(object sender, EventArgs e)
+        {
+            AccountService.OpenUpdateInfoForm(this);
+            AccountService.LoadDataToGridView(AccGridView);
+        }
+
+        private void ChangePw_Click(object sender, EventArgs e)
+        {
+            GUI_ChangePasswordForm changePwForm = new GUI_ChangePasswordForm();
+            changePwForm.Show();
+        }
+
+        private void DeleteUserAcc_Click(object sender, EventArgs e)
+        {
+            var confirm = MessageBox.Show("Are you sure to delete this user account, can't recover back!", "Confirm", MessageBoxButtons.YesNo);
+            if (confirm == DialogResult.Yes)
+            {
+                int ID = (int)AccGridView.SelectedRows[0].Cells["ID"].Value;
+                AccountService.DeleteUserAccByAdmin(ID);
+                AccountService.LoadDataToGridView(AccGridView);
+            }
+        }
+
+        private void DeleteAllUserAcc_Click(object sender, EventArgs e)
+        {
+            var confirm = MessageBox.Show("Are you sure to delete all user account, can't recover back!", "Confirm", MessageBoxButtons.YesNo);
+            if (confirm == DialogResult.Yes)
+            {
+                AccountService.DeleteAllUserAcc();
+                AccountService.LoadDataToGridView(AccGridView);
+            }
         }
     }
 }

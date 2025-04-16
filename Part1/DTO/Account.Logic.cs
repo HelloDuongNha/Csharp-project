@@ -29,21 +29,26 @@ namespace Part1
             }
         }
 
-        [Column("N")] // ánh xạ tới cột N trong DB
         public string N
         {
             get => _username;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("Error: Username cannot be empty or whitespace.");
+                    throw new ArgumentException("Error: The string cannot be null or contain only whitespace.");
+
+                if (value.Any(char.IsWhiteSpace))
+                    throw new ArgumentException("Error: The string cannot contain spaces or whitespace.");
+
+                if (!value.All(c => c >= 'A' && c <= 'Z'))
+                    throw new ArgumentException("Error: The string must contain only uppercase letters from A to Z.");
+
                 if (value.Length > 30)
                     throw new ArgumentException("Error: Username cannot exceed 30 characters.");
                 _username = value;
             }
         }
 
-        [Column("E")] // ánh xạ tới cột E
         public string E
         {
             get => _email;
@@ -57,7 +62,6 @@ namespace Part1
             }
         }
 
-        [Column("P")] // ánh xạ tới cột P
         public string P
         {
             get => _password;
@@ -71,17 +75,15 @@ namespace Part1
             }
         }
 
-        [Column("I")] // ánh xạ tới cột I
         public bool I
         {
             get => _isLogin;
             set => _isLogin = value;
         }
 
-        // Constructor không tham số
-        //public UserAccount() { }
 
-        // Constructor đầy đủ
+
+        // Constructor 
         public Account(int id, string username, string email, string password, bool isLogin = false)
         {
             Id = id;
@@ -89,6 +91,7 @@ namespace Part1
             E = email;
             P = password;
             I = isLogin;
+            CreatedTime = DateTime.Now;
         }
 
 

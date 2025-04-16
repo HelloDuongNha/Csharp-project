@@ -287,6 +287,35 @@ namespace Part1
             }
         }
 
+        public static void ResetToDefault(Form form, TabPage[] tabPages,
+                                  RadioButton radioOff, RadioButton windowMode,
+                                  NumericUpDown widthBox, NumericUpDown heightBox,
+                                  TrackBar opacityBar)
+        {
+            _setting = new Setting
+            {
+                Width = 800,
+                Height = 500,
+                Mode = "Window",
+                DarkMode = false,
+                Opacity = 100
+            };
+
+            SaveSettings(); // Lưu lại Setting.txt
+
+            // Cập nhật lại UI
+            ApplyMode(form, widthBox, heightBox);            // Đặt lại chế độ Window
+            ApplyDarkMode(tabPages, false, form);            // Tắt dark mode
+            ApplyOpacity(form);                              // Đặt lại opacity
+            CenterTabControl(form);                          // Căn giữa lại nội dung
+
+            // Cập nhật controls
+            radioOff.Checked = true;
+            windowMode.Checked = true;
+            widthBox.Value = 800;
+            heightBox.Value = 500;
+            opacityBar.Value = 100;
+        }
     }
 }
 
