@@ -36,7 +36,7 @@ namespace Part1.GUI
                 return;
             }
 
-            bool result = AccountService.ChangePassword(currentPassword, newPassword);
+            bool result = AccountService.isCorrectToChangePassword(currentPassword, newPassword);
 
             if (result)
             {
@@ -51,7 +51,7 @@ namespace Part1.GUI
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var account = AccountRepository.GetLoggedInAccount();
+            var account = AccountService.GetLoggedInAccDetails();
             if (account != null)
             {
                 MessageBox.Show($"Mật khẩu hiện tại của bạn là: {account.Password}", "Mật khẩu hiện tại", MessageBoxButtons.OK, MessageBoxIcon.Information);

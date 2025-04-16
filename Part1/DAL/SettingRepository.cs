@@ -10,8 +10,10 @@ namespace Part1
 {
     public static class SettingRepository
     {
+        // ##### FILE PATH FOR SETTINGS STORAGE #####
         private const string FilePath = @"C:/Users/hoang/source/repos/Part1/Part1/Resources/Settings.txt";
 
+        // ##### LOAD SETTINGS FROM FILE #####
         public static Setting Load()
         {
             var setting = new Setting();
@@ -65,7 +67,7 @@ namespace Part1
             return setting;
         }
 
-
+        // ##### SAVE SETTINGS TO FILE #####
         public static void Save(Setting setting)
         {
             var lines = new List<string>
@@ -78,9 +80,5 @@ namespace Part1
             };
             File.WriteAllLines(FilePath, lines);
         }
- 
-
-
-
     }
 }

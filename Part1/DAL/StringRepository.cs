@@ -9,12 +9,15 @@ namespace Part1
 {
     public static class StringRepository
     {
+        // attribute and method for history data
         private static List<object> HistoryData = new List<object>();
         public static void SetData(List<object> data) { HistoryData = data; }
         public static List<object> GetAllData() { return HistoryData; }
 
 
         #region method
+
+// ################ GET DATA ######################
         public static int GetLoggedInAccountId()
         {
             using (var db = new Part1DB_Entities())
@@ -43,13 +46,54 @@ namespace Part1
             }
         }
 
+        public static int GenerateUniqueID(int id)
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                var allIDs = db.StringProcessings.Select(x => x.Id).ToList();
+
+                while (allIDs.Contains(id))
+                {
+                    id++;
+                }
+            }
+            return id;
+        }
+
+        public static int GetNextID()
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                int maxId = 0;
+
+                foreach (var record in db.StringProcessings)
+                {
+                    if (record.Id > maxId)
+                    {
+                        maxId = record.Id;
+                    }
+                }
+
+                return maxId + 1;
+            }
+        }
+
+        public static int CountRecord()
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                int count = db.StringProcessings.Count();
+                return count;
+            }
+        }
+
+// ################# LOAD DATA ######################
         public static void Load_Data(DataGridView dataGridView)
         {
             dataGridView.Rows.Clear();
             HistoryData.Clear();
 
             int? loggedInAccId = GetLoggedInAccountId();
-            //MessageBox.Show(loggedInAccId.ToString());
 
             if (loggedInAccId == null)
             {
@@ -74,47 +118,8 @@ namespace Part1
             }
         }
 
-        public static int GenerateUniqueID(int id)
-        {
-            using (var db = new Part1DB_Entities())
-            {
-                var allIDs = db.StringProcessings.Select(x => x.Id).ToList();
 
-                while (allIDs.Contains(id)) 
-                {
-                    id++;
-                }
-            }
-            return id;
-        }
-
-        public static int GetNextID()
-        {
-            using (var db = new Part1DB_Entities())
-            {
-                int maxId = 0;
-
-                foreach (var record in db.StringProcessings)
-                {
-                    if (record.Id > maxId)
-                    {
-                        maxId = record.Id; 
-                    }
-                }
-
-                return maxId + 1;
-            }
-        }
-
-        public static int CountRecord()
-        {
-            using (var db = new Part1DB_Entities())
-            {
-                int count = db.StringProcessings.Count();
-                return count;
-            }
-        }
-
+// ################# ADD DATA ######################
         public static void Add_Data(int nextID, String S, String N, DateTime time)
         {
             using (var db = new Part1DB_Entities())
@@ -136,6 +141,8 @@ namespace Part1
             }
         }
 
+
+// ################# DELELTE DATA ######################
         public static void Delete_Data(int historyId)
         {
             var accId = GetLoggedInAccountId();
@@ -174,9 +181,6 @@ namespace Part1
                 db.SaveChanges();
             }
         }
-
-
-
         #endregion
     }
 }

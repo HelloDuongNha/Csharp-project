@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
@@ -40,8 +42,8 @@ namespace Part1
                 if (value.Any(char.IsWhiteSpace))
                     throw new ArgumentException("Error: The string cannot contain spaces or whitespace.");
 
-                if (!value.All(c => c >= 'A' && c <= 'Z'))
-                    throw new ArgumentException("Error: The string must contain only uppercase letters from A to Z.");
+                if (!value.All(c => char.IsLetterOrDigit(c)))
+                    throw new ArgumentException("Error: The string must contain only letters from a to z and number.");
 
                 if (value.Length > 30)
                     throw new ArgumentException("Error: Username cannot exceed 30 characters.");
@@ -96,6 +98,11 @@ namespace Part1
 
 
         // Method
+        public void Display(DataGridView AccGridView)
+        {
+            AccountRepository.Load_Data(AccGridView);
+        }
+
         public int GetNextAccId()
         {
             return AccountRepository.GetNextAccountID();
@@ -104,6 +111,61 @@ namespace Part1
         public void Add_Account(int nextId, String username, String email, String password)
         {
             AccountRepository.Add_Account(nextId, username, email, password);
+        }
+
+        public Account CheckLoginPassword(string input, string password)
+        {
+            return AccountRepository.GetAccountByCredentials(input, password);
+        }
+
+        public void Login(string name)
+        {
+            AccountRepository.SetLoginStatus(name, true);
+        }
+
+        public void Logout()
+        {
+            AccountRepository.LogOutCurrentUser();
+        }
+
+        public Account GetLoggedInAccountDetails()
+        {
+            return AccountRepository.GetLoggedInAccount();
+        }
+
+        public void DeleteThisAccount()
+        {
+            AccountRepository.DeleteAccountByLogin();         
+        }
+
+        public void AdminDeleteAllAccounts()
+        {
+            AccountRepository.DeleteAllUserAccounts();
+        }
+
+        public void AdminDeleteAccountById(int id)
+        {
+            AccountRepository.DeleteAccountById(id);
+        }
+
+        public void EditAccount(string newUsername, string newEmail)
+        {
+            AccountRepository.UpdateLoggedInAccountInfo(newUsername, newEmail);
+        }
+
+        public bool ChangePassword(string currentPassword, string newPassword)
+        {
+            return AccountRepository.ChangePasswordForLoggedInUser(currentPassword, newPassword);
+        }
+
+        public bool CheckUsernameExisted(string username)
+        {
+            return AccountRepository.IsUsernameTaken(username);
+        }
+
+        public DateTime? GetCreatedTimebById(int id)
+        {
+            return AccountRepository.GetCreatedTimeById(id);
         }
     }
 }

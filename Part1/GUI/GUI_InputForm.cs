@@ -17,7 +17,7 @@ namespace Part1
             InitializeComponent();
 
             var acc = AccountRepository.GetLoggedInAccount();
-            MessageBox.Show("Role is: " + acc.Role);
+            //MessageBox.Show("Role is: " + acc.Role);
             this.tabControl1.Controls.Remove(this.tabPage4);
             if (acc.Role.Trim().ToLower() == "admin")
             {
@@ -33,7 +33,7 @@ namespace Part1
 
 
 
-                this.StartPosition = FormStartPosition.CenterScreen;
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.comboBox1.SelectedIndex = 1;
             this.comboBox2.SelectedIndex = 1;
             uppercaseBTN.Location = new Point(-1000, -1000);

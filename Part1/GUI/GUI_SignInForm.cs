@@ -63,7 +63,7 @@ namespace Part1
                 LoginUsernameWrn.ForeColor = Color.Red;
             }
             // Kiểm tra xem username đã tồn tại trong DB chưa
-            else if (AccountRepository.IsUsernameTaken(username))
+            else if (AccountService.isUsernameExist(username))
             {
                 LoginUsernameWrn.Text = "Username is valid";
                 LoginUsernameWrn.ForeColor = Color.Green;

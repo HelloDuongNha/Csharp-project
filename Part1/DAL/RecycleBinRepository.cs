@@ -4,18 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Part1
 {
     public static class RecycleBinRepository
     {
         private static List<object> DeletedData = new List<object>();
+
+        // ##### SET AND GET DATA LIST IN MEMORY #####
         public static void SetData(List<object> data) { DeletedData = data; }
         public static List<object> GetAllData() { return DeletedData; }
 
-
         #region method
+
+        // ##### GET CURRENT LOGGED IN ACCOUNT ID #####
         public static int? GetLoggedInAccountId()
         {
             using (var db = new Part1DB_Entities())
@@ -31,6 +33,7 @@ namespace Part1
             return null;
         }
 
+        // ##### LOAD RECYCLE BIN DATA TO GRIDVIEW #####
         public static void Load_Data(DataGridView BinGridView)
         {
             BinGridView.Rows.Clear();
@@ -40,7 +43,7 @@ namespace Part1
 
             if (loggedInAccId == null)
             {
-                MessageBox.Show("Không tìm thấy tài khoản nào đang đăng nhập.");
+                MessageBox.Show("Cannot find a logged-in account.");
                 return;
             }
 
@@ -61,21 +64,19 @@ namespace Part1
             }
         }
 
+        // ##### ID GENERATION METHODS #####
         public static int GenerateUniqueID(int id)
         {
             using (var db = new Part1DB_Entities())
             {
                 var allIDs = db.RecycleBins.Select(x => x.Id).ToList();
-
-                while (allIDs.Contains(id)) 
+                while (allIDs.Contains(id))
                 {
-                    id++; 
+                    id++;
                 }
             }
             return id;
         }
-
-
 
         public static int GetNextID()
         {
@@ -101,14 +102,15 @@ namespace Part1
             }
         }
 
+        // ##### ADD DATA #####
         public static void Add_Data(int nextID, String textBoxS, String textBoxN, DateTime encodedTime)
         {
             using (var db = new Part1DB_Entities())
-
             {
                 int? loggedInAccId = GetLoggedInAccountId();
                 DateTime DT = DateTime.Now;
-                RecycleBin recycleBin = new RecycleBin(nextID, textBoxS, textBoxN, encodedTime, DT) 
+
+                RecycleBin recycleBin = new RecycleBin(nextID, textBoxS, textBoxN, encodedTime, DT)
                 {
                     Id = nextID,
                     InputS = textBoxS,
@@ -117,16 +119,18 @@ namespace Part1
                     DeletedTime = DT,
                     AccId = loggedInAccId
                 };
+
                 db.RecycleBins.Add(recycleBin);
                 db.SaveChanges();
             }
         }
 
+        // ##### DELETE DATA #####
         public static void Delete_Data(int id)
         {
             using (var db = new Part1DB_Entities())
             {
-                var record = db.RecycleBins.FirstOrDefault(r => r.Id == id); 
+                var record = db.RecycleBins.FirstOrDefault(r => r.Id == id);
 
                 if (record == null)
                 {
@@ -138,25 +142,29 @@ namespace Part1
             }
         }
 
+        // ##### RESTORE DATA FROM RECYCLE BIN #####
         public static void RestoreData(int id)
         {
             using (var db = new Part1DB_Entities())
             {
                 int? loggedInAccId = GetLoggedInAccountId();
                 var record = db.RecycleBins.FirstOrDefault(r => r.Id == id);
+
                 db.StringProcessings.Add(new StringProcessing
                 {
                     Id = (int)record.Id,
                     InputS = record.InputS,
-                    InputN = record.InputN??0,
+                    InputN = record.InputN ?? 0,
                     Time = record.Time,
                     AccId = loggedInAccId
                 });
+
                 db.RecycleBins.Remove(record);
                 db.SaveChanges();
             }
         }
 
+        // ##### TRUNCATE / CLEAR RECYCLE BIN TABLE #####
         public static void TruncateTable()
         {
             using (var db = new Part1DB_Entities())

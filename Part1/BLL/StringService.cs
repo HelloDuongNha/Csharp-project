@@ -86,8 +86,6 @@ namespace Part1
 
         public static string Sort(string s)
         {
-            //s = s.Trim();
-            //s = s.Replace(" ", "");
             char[] charArray = s.ToCharArray();
             Array.Sort(charArray);
             return new string(charArray);
@@ -95,8 +93,6 @@ namespace Part1
 
         public static int[] InputCode(string s)
         {
-            //s = s.Trim();
-            //s = s.Replace(" ", "");
             int[] asciiValues = new int[s.Length];
             for (int i = 0; i < s.Length; i++)
             {
@@ -140,7 +136,6 @@ namespace Part1
 
         public static void ValidateInput(string input, Label statusLabel)
         {
-            //input = input.Trim();
             if (string.IsNullOrWhiteSpace(input))
             {
                 statusLabel.ForeColor = System.Drawing.Color.Red;
@@ -263,8 +258,6 @@ namespace Part1
                 decreaseBTN.Enabled = true;
             }
         }
-
-        // update the appropriate radio button
         public static void UpdateRadioButton(int value, List<RadioButton> radioButtons)
         {
             if (radioButtons == null || radioButtons.Count < 4)
@@ -453,7 +446,6 @@ namespace Part1
                 }
             }
 
-            // Add filtered data to DataGridView
             foreach (var row in filteredData)
             {
                 dataGridView.Rows.Add(row.HistoryID, row.S, row.N, row.T);

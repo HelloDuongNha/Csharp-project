@@ -13,5 +13,22 @@ namespace Part1
         public int Height { get; set; }
         public string Mode { get; set; }
         public float Opacity { get; set; }
+
+        public void LoadSetting()
+        {
+            SettingRepository.Load();
+        }
+
+        public Setting GetCurrentSetting()
+        {
+            return SettingRepository.Load();
+        }
+
+        public void SaveSetting(Setting setting)
+        {
+            SettingRepository.Save(setting);
+        }
+
+
     }
 }

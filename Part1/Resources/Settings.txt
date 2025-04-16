@@ -1,4 +1,4 @@
-DarkMode=False
+DarkMode=True
 Width=800
 Height=500
 Mode=Window

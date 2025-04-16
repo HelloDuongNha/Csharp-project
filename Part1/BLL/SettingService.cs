@@ -12,28 +12,62 @@ namespace Part1
     {
         private static Setting _setting;
 
-        // Gọi hàm này khi app chạy lần đầu
+// ################ LOAD & SAVE SETTINGS ################
         public static void LoadSettings()
         {
-            _setting = SettingRepository.Load();
+            Setting setting = new Setting();
+            setting.LoadSetting();
         }
 
         public static void SaveSettings()
         {
-            SettingRepository.Save(_setting);
+            Setting setting = new Setting();
+            setting.SaveSetting(_setting);
         }
 
-        //public static void ToggleDarkMode(bool enabled, TabPage[] tabPages, Form inputForm)
-        //{
-        //    _setting.DarkMode = enabled;
-        //    SaveSettings(); // Cập nhật Settings.txt
-        //    ApplyDarkMode(tabPages, enabled, inputForm); // Đổi lại màu
-        //}
+// ################# BIND SETTINGS TO CONTROLS ################
+        public static void BindSettingToControls(RadioButton radioOn, RadioButton radioOff, RadioButton window, RadioButton fullscreen, NumericUpDown widthBox, NumericUpDown heightBox, TrackBar opacity)
+        {
+            Setting s = new Setting();
+            var setting = s.GetCurrentSetting();
+            _setting = s.GetCurrentSetting();
 
+            // Bind dark mode
+            if (setting.DarkMode)
+            {
+                radioOn.Checked = true;
+                radioOff.Checked = false;
+            }
+            else
+            {
+                radioOff.Checked = true;
+                radioOn.Checked = false;
+            }
+
+            // Bind resolution
+            widthBox.Value = setting.Width;
+            heightBox.Value = setting.Height;
+            opacity.Value = Convert.ToInt32(setting.Opacity);  
+
+            // Bind mode
+            if (setting.Mode == "Fullscreen")
+            {
+                fullscreen.Checked = true;
+                window.Checked = false;
+            }
+            else
+            {
+                window.Checked = true;
+                fullscreen.Checked = false;
+            }
+        }
+
+// ################# DARK MODE #####################
         public static void ApplyDarkMode(TabPage[] tabPages, bool enabled, Form inputForm)
         {
             _setting.DarkMode = enabled;
-            SaveSettings(); // Cập nhật Settings.txt
+            SaveSettings();
+
             // DARK MODE MÀU
             Color formBackColor = enabled ? Color.FromArgb(30, 30, 30) : SystemColors.Control;
             Color tabBackColor = enabled ? Color.FromArgb(50, 50, 50) : SystemColors.ActiveCaption;
@@ -45,16 +79,16 @@ namespace Part1
             Color gridHeaderBackColor = enabled ? Color.FromArgb(40, 40, 40) : Color.LightGray;
             Color gridHeaderTextColor = enabled ? Color.White : Color.Black;
 
-            // Cập nhật màu Form
+            // Update form background color
             inputForm.BackColor = formBackColor;
 
-            // Duyệt các Tab
+            // Loop through each TabPage
             foreach (TabPage tab in tabPages)
             {
                 tab.BackColor = tabBackColor;
                 tab.ForeColor = textColor;
 
-                // Duyệt từng GroupBox trong Tab
+                // GroupBox in Tab
                 foreach (Control control in tab.Controls)
                 {
                     if (control is GroupBox groupBox)
@@ -90,22 +124,25 @@ namespace Part1
                                 else
                                 {
                                     // LIGHT MODE
-                                    // Đặt lại màu sắc cho DataGridView ở chế độ Light Mode theo màu đã chỉ định
-                                    dgv.BackgroundColor = Color.White; // Màu nền sáng
-                                    dgv.DefaultCellStyle.BackColor = Color.White; // Màu nền của các ô
-                                    dgv.DefaultCellStyle.ForeColor = Color.Black; // Màu chữ đen
-                                    dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy; // Màu nền header sáng
-                                    dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White; // Màu chữ header trắng
-                                    dgv.EnableHeadersVisualStyles = false; // Bắt buộc để áp dụng header style
+                                    dgv.BackgroundColor = Color.White; 
+                                    dgv.DefaultCellStyle.BackColor = Color.White; 
+                                    dgv.DefaultCellStyle.ForeColor = Color.Black; 
+                                    dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy; 
+                                    dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                                    dgv.EnableHeadersVisualStyles = false;
 
-                                    // Gọi hàm setup DataGridView tương ứng
-                                    if (dgv.Name == "dgvString")
+                                    // DataGridView setup
+                                    if (dgv.Name == "dataGridView")
                                     {
-                                        StringService.SetupDataGridView(dgv); // Cấu hình lại String DataGridView
+                                        StringService.SetupDataGridView(dgv);
                                     }
-                                    else if (dgv.Name == "dgvRecycleBin")
+                                    else if (dgv.Name == "BinGridview")
                                     {
-                                        RecycleBinService.SetupDataGridView(dgv); // Cấu hình lại Recycle Bin DataGridView
+                                        RecycleBinService.SetupDataGridView(dgv);
+                                    }
+                                    else if (dgv.Name == "AccGridview")
+                                    {
+                                        AccountService.SetupDataGridView(dgv);
                                     }
                                 }
                             }
@@ -115,59 +152,16 @@ namespace Part1
             }
         }
 
-        public static bool IsDarkModeEnabled()
-        {
-            return _setting.DarkMode;
-        }
-
-
-        public static void BindSettingToControls(RadioButton radioOn, RadioButton radioOff, RadioButton window, RadioButton fullscreen, NumericUpDown widthBox, NumericUpDown heightBox, TrackBar opacity)
-        {
-            var setting = SettingRepository.Load();
-            _setting = setting;
-
-            // Bind dark mode
-            if (setting.DarkMode)
-            {
-                radioOn.Checked = true;
-                radioOff.Checked = false;
-            }
-            else
-            {
-                radioOff.Checked = true;
-                radioOn.Checked = false;
-            }
-
-            // Bind resolution
-            widthBox.Value = setting.Width;
-            heightBox.Value = setting.Height;
-            opacity.Value = Convert.ToInt32(setting.Opacity);  // Convert opacity to range 0-100
-
-            // Bind mode
-            if (setting.Mode == "Fullscreen")
-            {
-                fullscreen.Checked = true;
-                window.Checked = false;
-            }
-            else
-            {
-                window.Checked = true;
-                fullscreen.Checked = false;
-            }
-        }
-
-        // Lưu độ phân giải vào _setting
+// ################## RESOLUTION #####################
         public static void LoadResolution(int width, int height, Form formToResize)
         {
             _setting.Width = width;
             _setting.Height = height;
             SaveSettings();
 
-            // Cập nhật lại form size
             formToResize.Width = width;
             formToResize.Height = height;
 
-            // Gọi lại CenterContent sau khi resize
             CenterTabControl(formToResize);
         }
 
@@ -175,16 +169,16 @@ namespace Part1
         {
             _setting.Width = width;
 
-            // Chỉ chuyển chế độ nếu đang ở Window
+            // Only change mode if currently in Window mode
             if (_setting.Mode == "Window")
             {
-                // Chuyển sang chế độ Window và cập nhật lại form
+                // change to Window mode and update the form
                 form.FormBorderStyle = FormBorderStyle.Sizable;
                 form.WindowState = FormWindowState.Normal;
                 form.TopMost = false;
             }
 
-            // Lưu và cập nhật độ phân giải
+            // save and update the resolution
             SaveSettings();
             LoadResolution(_setting.Width, _setting.Height, form);
         }
@@ -193,16 +187,16 @@ namespace Part1
         {
             _setting.Height = height;
 
-            // Chỉ chuyển chế độ nếu đang ở Window
+            //only change mode if currently in Window mode
             if (_setting.Mode == "Window")
             {
-                // Chuyển sang chế độ Window và cập nhật lại form
+                // change to Window mode and update the form
                 form.FormBorderStyle = FormBorderStyle.Sizable;
                 form.WindowState = FormWindowState.Normal;
                 form.TopMost = false;
             }
 
-            // Lưu và cập nhật độ phân giải
+            // save and update the resolution
             SaveSettings();
             LoadResolution(_setting.Width, _setting.Height, form);
         }
@@ -223,22 +217,24 @@ namespace Part1
             }
         }
 
+
+// ################# MODE #########################
         public static void ApplyMode(Form form, NumericUpDown widthBox, NumericUpDown heightBox)
         {
             if (_setting.Mode == "Fullscreen")
             {
-                // Fullscreen Mode: Mở rộng toàn màn hình, cập nhật kích thước từ setting
-                form.FormBorderStyle = FormBorderStyle.Sizable; // vẫn có thanh tiêu đề
-                form.WindowState = FormWindowState.Maximized;   // full màn hình
+                // Fullscreen Mode
+                form.FormBorderStyle = FormBorderStyle.Sizable; 
+                form.WindowState = FormWindowState.Maximized;   
                 form.TopMost = true;
 
-                // Cập nhật tỷ lệ độ phân giải
+                // update the form size to the screen size
                 int screenWidth = Screen.PrimaryScreen.WorkingArea.Width;
                 int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
 
                 LoadResolution(screenWidth, screenHeight, form);
 
-                // Chuyển các NumericUpDown thành readonly
+                // change the NumericUpDown to readonly
                 widthBox.ReadOnly = true;
                 heightBox.ReadOnly = true;
                 widthBox.Enabled = false;
@@ -246,15 +242,15 @@ namespace Part1
             }
             else
             {
-                // Window Mode: Chế độ cửa sổ bình thường, về kích thước 800x500
+                // Window Mode
                 form.FormBorderStyle = FormBorderStyle.Sizable;
                 form.TopMost = false;
                 form.WindowState = FormWindowState.Normal;
 
-                // Khi trở lại window, giữ lại kích thước mặc định (800 x 500)
+                //default resolution
                 LoadResolution(800, 500, form);
 
-                // Bỏ readonly cho các NumericUpDown khi về chế độ Window
+                // remove the readonly property
                 widthBox.ReadOnly = false;
                 heightBox.ReadOnly = false;
                 widthBox.Enabled = true;
@@ -262,23 +258,19 @@ namespace Part1
             }
         }
 
-
         public static void SaveMode(string mode)
         {
             _setting.Mode = mode;
             SaveSettings();
         }
 
-        // Hàm để lưu opacity
-        // Lưu giá trị opacity
+// ################ OPACITY ######################
         public static void SaveOpacity(int opacityValue)
         {
-            // Chuyển opacity từ 0-100 thành 0.0 - 1.0
             _setting.Opacity = opacityValue;
             SaveSettings();
         }
 
-        // Áp dụng opacity cho form
         public static void ApplyOpacity(Form form)
         {
             if (_setting.Opacity >= 0 && _setting.Opacity <= 100)
@@ -287,6 +279,8 @@ namespace Part1
             }
         }
 
+
+// ################ RESET ######################
         public static void ResetToDefault(Form form, TabPage[] tabPages,
                                   RadioButton radioOff, RadioButton windowMode,
                                   NumericUpDown widthBox, NumericUpDown heightBox,
@@ -301,15 +295,15 @@ namespace Part1
                 Opacity = 100
             };
 
-            SaveSettings(); // Lưu lại Setting.txt
+            SaveSettings(); 
 
-            // Cập nhật lại UI
-            ApplyMode(form, widthBox, heightBox);            // Đặt lại chế độ Window
-            ApplyDarkMode(tabPages, false, form);            // Tắt dark mode
-            ApplyOpacity(form);                              // Đặt lại opacity
-            CenterTabControl(form);                          // Căn giữa lại nội dung
+            // update the form
+            ApplyMode(form, widthBox, heightBox);           
+            ApplyDarkMode(tabPages, false, form);            
+            ApplyOpacity(form);                              
+            CenterTabControl(form);
 
-            // Cập nhật controls
+            // update the controls
             radioOff.Checked = true;
             windowMode.Checked = true;
             widthBox.Value = 800;

@@ -35,28 +35,25 @@ namespace Part1
             idColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             AccGridView.Columns.Add(idColumn);
 
-            // S column
+            // Username column
             DataGridViewTextBoxColumn inputSColumn = new DataGridViewTextBoxColumn();
             inputSColumn.Name = "Username";
             inputSColumn.HeaderText = "Username";
             inputSColumn.MinimumWidth = 130;
-            //inputSColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            //inputSColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             inputSColumn.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             inputSColumn.Resizable = DataGridViewTriState.False;
 
             AccGridView.Columns.Add(inputSColumn);
 
-            // N column
+            // Email column
             DataGridViewTextBoxColumn inputNColumn = new DataGridViewTextBoxColumn();
             inputNColumn.Name = "Email";
             inputNColumn.HeaderText = "Email";
             inputNColumn.Width = 130;
             inputNColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            //inputNColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             AccGridView.Columns.Add(inputNColumn);
 
-            // Dtime column
+            // Record column
             DataGridViewTextBoxColumn deletedAtColumn = new DataGridViewTextBoxColumn();
             deletedAtColumn.Name = "Record";
             deletedAtColumn.HeaderText = "Records";
@@ -77,13 +74,22 @@ namespace Part1
 
         public static void LoadDataToGridView(DataGridView AccGridView)
         {
-            AccountRepository.Load_Data(AccGridView);
+            Account acc = new Account();
+            acc.Display(AccGridView);
             AccGridView.ClearSelection();
+        }
+
+        public static Account GetLoggedInAccDetails()
+        {
+            Account acc = new Account();
+            var account = acc.GetLoggedInAccountDetails();
+            return account;
         }
 
         private static int GetNextAccId()
         {
-            int nextId = AccountRepository.GetNextAccountID();
+            Account acc = new Account();
+            int nextId = acc.GetNextAccId();
             return nextId;
         }
 
@@ -103,38 +109,41 @@ namespace Part1
             newAccount.Add_Account(nextId, username, email, password);
         }
 
-        public static bool isCorrect(string input, string password)
+        public static bool isCorrect(string name, string password)
         {
-            var account = AccountRepository.GetAccountByCredentials(input, password);
+            Account acc = new Account();
+            var account = acc.CheckLoginPassword(name, password);
             if (account != null)
             {
-                AccountRepository.SetLoginStatus(input, true);
+                acc.Login(name);
                 return true;
             }
             return false;
         }
 
-        public static void Logout(string usernameOrEmail)
+        public static bool isUsernameExist(string username)
         {
-            AccountRepository.SetLoginStatus(usernameOrEmail, false);
+            Account acc = new Account();
+            return acc.CheckUsernameExisted(username);
         }
 
         public static void Login(List<TextBox> textBoxes, Form CurrenForm)
         {
-            string input = textBoxes[0].Text.Trim(); // Username hoặc Email
+            string input = textBoxes[0].Text.Trim();
             string password = textBoxes[1].Text.Trim();
 
             if (string.IsNullOrWhiteSpace(input) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Vui lòng nhập Username hoặc Email và Password!");
+                MessageBox.Show("Please enter Username or Email and Password!");
                 return;
             }
             bool IsCorrect = isCorrect(input, password);
 
             if (IsCorrect)
             {
-                MessageBox.Show("Đăng nhập thành công!");
-                AccountRepository.SetLoginStatus(input, true);
+                MessageBox.Show("Login successful!");
+                Account acc = new Account();
+                acc.Login(input);
 
                 CurrenForm.Hide();
                 GUI_InputForm inputForm = new GUI_InputForm();
@@ -150,18 +159,19 @@ namespace Part1
             }
             else
             {
-                MessageBox.Show("Sai Username/Email hoặc Password!");
+                MessageBox.Show("Incorrect Username/Email or Password!");
             }
         }
 
         public static void Logout()
         {
-            AccountRepository.LogOutCurrentUser();
+            Account acc = new Account();
+            acc.Logout();
         }
 
         public static void BindLoggedInAccountToTextBoxes(List<TextBox> textBoxes)
         {
-            var account = AccountRepository.GetLoggedInAccount();
+            var account = GetLoggedInAccDetails();
             if (account != null)
             {
                 if (textBoxes.Count > 0) textBoxes[0].Text = account.Username;
@@ -173,57 +183,62 @@ namespace Part1
 
         public static void DeleteAndLogoutCurrentAccount(Form currentForm)
         {
-            AccountRepository.DeleteAccountByLogin();
+            Account acc = new Account();
+            acc.DeleteThisAccount();
 
-            // Sau khi xóa, mở lại form đăng nhập
+            // After deletion, open the login form again
             GUI_SignInForm signIn = new GUI_SignInForm();
             signIn.Show();
 
-            // Ẩn form hiện tại
-            currentForm.Hide();
+            // Close the current form
+            currentForm.Close();
         }
 
         public static void DeleteAllUserAcc()
         {
-            AccountRepository.DeleteAllUserAccounts();
+            Account acc = new Account();
+            acc.AdminDeleteAllAccounts();
         }
 
         public static void DeleteUserAccByAdmin(int UserId)
         {
-            AccountRepository.DeleteAccountById(UserId);
+            Account acc = new Account();
+            acc.AdminDeleteAccountById(UserId);
         }
 
         public static void OpenUpdateInfoForm(GUI_InputForm inputForm)
         {
-            var account = AccountRepository.GetLoggedInAccount();
+            var account = GetLoggedInAccDetails();
 
             if (account != null)
             {
-
                 GUI_UpdateAccInfoForm updateForm = new GUI_UpdateAccInfoForm(inputForm);
-                // Gọi method để binding dữ liệu
+                // Call method to bind data
                 updateForm.TBUpdateUsername.Text = account.Username;
-                updateForm.TBUpdateEmail.Text = account.Email; 
+                updateForm.TBUpdateEmail.Text = account.Email;
 
                 updateForm.ShowDialog();
             }
             else
             {
-                MessageBox.Show("Không tìm thấy tài khoản đang đăng nhập!");
+                MessageBox.Show("No logged-in account found!");
             }
         }
 
         public static void SaveUpdatedAccountInfo(string newUsername, string newEmail, List<TextBox> boundTextBoxes)
         {
-            AccountRepository.UpdateLoggedInAccountInfo(newUsername, newEmail);
+            Account acc = new Account();
+            acc.EditAccount(newUsername, newEmail);
             BindLoggedInAccountToTextBoxes(boundTextBoxes);
-            MessageBox.Show("Cập nhật thông tin thành công!");
+            MessageBox.Show("Account information updated successfully!");
         }
 
-        public static bool ChangePassword(string currentPassword, string newPassword)
+        public static bool isCorrectToChangePassword(string currentPassword, string newPassword)
         {
-            return AccountRepository.ChangePasswordForLoggedInUser(currentPassword, newPassword);
+            Account acc = new Account();
+            return acc.ChangePassword(currentPassword, newPassword);
         }
+
         public static void ClearTextboxes(List<TextBox> textBoxes)
         {
             foreach (var textBox in textBoxes)
@@ -244,7 +259,9 @@ namespace Part1
 
             // Time Binding
             int ID = (int)AccGridView.SelectedRows[0].Cells["ID"].Value;
-            DateTime CreatedTime = AccountRepository.GetCreatedTimeById(ID) ?? DateTime.Now;
+
+            Account acc = new Account();
+            DateTime CreatedTime = acc.GetCreatedTimebById(ID) ?? DateTime.Now;
             textBoxes[2].Text = CreatedTime.ToString().Split(' ')[1]; // Time
             textBoxes[3].Text = CreatedTime.ToString().Split(' ')[0]; // Date
 
