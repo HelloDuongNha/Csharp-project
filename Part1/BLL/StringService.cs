@@ -347,7 +347,7 @@ namespace Part1
             if (hasLowercase)
             {
                 // Show the button to the right location
-                uppercaseBTN.Location = new Point(220, 20);
+                uppercaseBTN.Location = new Point(240, 57);
                 uppercaseBTN.Visible = true;
                 uppercaseBTN.BringToFront();
             }
@@ -366,7 +366,7 @@ namespace Part1
             if (hasSelection)
             {
                 // show
-                deleteBTN.Location = new Point(330, 329);
+                deleteBTN.Location = new Point(2,2);
                 deleteBTN.Visible = true;
                 deleteBTN.BringToFront();
             }
@@ -395,6 +395,7 @@ namespace Part1
         {
             StringProcessing history = new StringProcessing();
             history.Display(dataGridView);
+            dataGridView.ClearSelection();
         }
 
         public static void addBinding(TextBox textBoxS, TextBox textBoxN, DataGridView dataGridView)

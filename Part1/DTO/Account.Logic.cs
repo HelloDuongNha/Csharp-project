@@ -100,6 +100,11 @@ namespace Part1
             AccountRepository.Load_Data(AccGridView);
         }
 
+        public int CountUserAccounts()
+        {
+            return AccountRepository.CountUserAccounts();
+        }
+
         public int GetNextAccId()
         {
             return AccountRepository.GetNextAccountID();

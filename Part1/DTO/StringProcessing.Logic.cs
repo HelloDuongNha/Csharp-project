@@ -114,7 +114,6 @@ namespace Part1
         public void Display(DataGridView table)
         {
             StringRepository.Load_Data(table);
-            table.ClearSelection();
         }
 
         public List<object> GetAllData()

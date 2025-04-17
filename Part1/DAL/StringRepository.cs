@@ -113,7 +113,6 @@ namespace Part1
                     dataGridView.Rows.Add(item.HistoryID, item.S, item.N, item.T);
                     HistoryData.Add(item);
                 }
-
                 SetData(HistoryData);
             }
         }

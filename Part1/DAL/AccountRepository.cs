@@ -57,6 +57,16 @@ namespace Part1
             }
         }
 
+        // ################ GET TOTAL NUMBER OF RECORDS IN ACCOUNT ################
+        public static int CountUserAccounts()
+        {
+            using (var db = new Part1DB_Entities())
+            {
+                return db.Accounts.Count(acc => acc.Role == "User");
+            }
+        }
+
+
         // ################ GET NEXT AVAILABLE ACCOUNT ID ###############
         public static int GetNextAccountID()
         {

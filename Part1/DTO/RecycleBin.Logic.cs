@@ -30,7 +30,6 @@ namespace Part1
         {
             // Display the recycle bin data in the DataGridView
             RecycleBinRepository.Load_Data(table);
-            table.ClearSelection();
         }
 
         public List<object> GetAllData()

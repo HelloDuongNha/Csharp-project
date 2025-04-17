@@ -7,8 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Part1.GUI;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Part1
 {
@@ -77,6 +75,12 @@ namespace Part1
             Account acc = new Account();
             acc.Display(AccGridView);
             AccGridView.ClearSelection();
+        }
+
+        public static void CountRecords(ToolStripLabel toolStripStatusLabel3)
+        {
+            Account acc = new Account();
+            toolStripStatusLabel3.Text = $"Total record: {acc.CountUserAccounts()}";
         }
 
         public static Account GetLoggedInAccDetails()
@@ -151,7 +155,7 @@ namespace Part1
                 Account acc = new Account();
                 acc.Login(input);
 
-                CurrenForm.Hide();
+                CurrenForm.Close();
                 GUI_InputForm inputForm = new GUI_InputForm();
                 inputForm.Show();
                 List<TextBox> textBoxesInput = new List<TextBox>
@@ -162,6 +166,7 @@ namespace Part1
                         inputForm.DateIn4
                     };
                 BindLoggedInAccountToTextBoxes(textBoxesInput);
+                UpdateAccIDTitle(inputForm.groupBox6);
             }
             else
             {
@@ -185,6 +190,31 @@ namespace Part1
                 if (textBoxes.Count > 2) textBoxes[2].Text = account.CreatedTime?.ToString().Split(' ')[1];
                 if (textBoxes.Count > 3) textBoxes[3].Text = account.CreatedTime?.ToString().Split(' ')[0];
             }
+        }
+
+        public static void UpdateGroupTitle(GroupBox groupBox, DataGridView accGridView)
+        {
+            if (accGridView.SelectedRows.Count > 0)
+            {
+                int originalID = Convert.ToInt32(accGridView.SelectedRows[0].Cells["ID"].Value);
+                groupBox.Text = $"Account (ID: {originalID} )"; 
+            }
+            else
+            {
+                ClearGroupTitle(groupBox);
+            }
+        }
+
+        public static void UpdateAccIDTitle(GroupBox groupBox)
+        {
+            Account account = new Account();
+            var acc = account.GetLoggedInAccountDetails();
+            groupBox.Text = $"Account (ID: {acc.ID} )";
+        }
+
+        public static void ClearGroupTitle(GroupBox groupBox)
+        {
+            groupBox.Text = "Account (ID: ? )";
         }
 
         public static void DeleteAndLogoutCurrentAccount(Form currentForm)
@@ -243,6 +273,26 @@ namespace Part1
         {
             Account acc = new Account();
             return acc.ChangePassword(currentPassword, newPassword);
+        }
+
+        public static void CheckAndUpdateAdminButtons(DataGridView AccGridView, List<Button> buttons)
+        {
+            bool hasSelection = AccGridView.SelectedRows.Count > 0;
+
+            foreach (var button in buttons)
+            {
+                button.Visible = hasSelection;
+
+                if (!hasSelection)
+                {
+                    button.Location = new Point(-1000, -1000);
+                }
+            }
+
+            if (hasSelection)
+            {
+                buttons[0].Location = new Point(6, 2); // DeleteAccBTN
+            }
         }
 
         public static void CheckUsernameEmailExists(TextBox input, Label warningLabel, string type)

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.SeePWcheck = new System.Windows.Forms.CheckBox();
             this.SignInBtn = new System.Windows.Forms.Button();
             this.PwTxt = new System.Windows.Forms.TextBox();
             this.UsernameTxt = new System.Windows.Forms.TextBox();
@@ -37,7 +38,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.LoginUsernameWrn = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.SeePWcheck = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,19 +54,30 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(8, 8);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(356, 227);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Log in";
             // 
+            // SeePWcheck
+            // 
+            this.SeePWcheck.AutoSize = true;
+            this.SeePWcheck.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.SeePWcheck.Location = new System.Drawing.Point(293, 114);
+            this.SeePWcheck.Name = "SeePWcheck";
+            this.SeePWcheck.Size = new System.Drawing.Size(15, 14);
+            this.SeePWcheck.TabIndex = 6;
+            this.SeePWcheck.UseVisualStyleBackColor = true;
+            this.SeePWcheck.CheckedChanged += new System.EventHandler(this.SeePWcheck_CheckedChanged);
+            // 
             // SignInBtn
             // 
             this.SignInBtn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.SignInBtn.Location = new System.Drawing.Point(217, 190);
-            this.SignInBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SignInBtn.Margin = new System.Windows.Forms.Padding(2);
             this.SignInBtn.Name = "SignInBtn";
             this.SignInBtn.Size = new System.Drawing.Size(116, 30);
             this.SignInBtn.TabIndex = 5;
@@ -78,7 +89,7 @@
             // 
             this.PwTxt.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PwTxt.Location = new System.Drawing.Point(99, 106);
-            this.PwTxt.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PwTxt.Margin = new System.Windows.Forms.Padding(2);
             this.PwTxt.MaxLength = 40;
             this.PwTxt.Name = "PwTxt";
             this.PwTxt.PasswordChar = '*';
@@ -90,7 +101,7 @@
             // 
             this.UsernameTxt.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UsernameTxt.Location = new System.Drawing.Point(99, 43);
-            this.UsernameTxt.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.UsernameTxt.Margin = new System.Windows.Forms.Padding(2);
             this.UsernameTxt.Name = "UsernameTxt";
             this.UsernameTxt.Size = new System.Drawing.Size(189, 29);
             this.UsernameTxt.TabIndex = 3;
@@ -153,26 +164,15 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Username";
             // 
-            // SeePWcheck
-            // 
-            this.SeePWcheck.AutoSize = true;
-            this.SeePWcheck.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.SeePWcheck.Location = new System.Drawing.Point(293, 114);
-            this.SeePWcheck.Name = "SeePWcheck";
-            this.SeePWcheck.Size = new System.Drawing.Size(15, 14);
-            this.SeePWcheck.TabIndex = 6;
-            this.SeePWcheck.UseVisualStyleBackColor = true;
-            this.SeePWcheck.CheckedChanged += new System.EventHandler(this.SeePWcheck_CheckedChanged);
-            // 
             // GUI_SignInForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(374, 243);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "GUI_SignInForm";
-            this.Text = "Login_Form";
+            this.Text = "SIGN IN";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

@@ -101,7 +101,7 @@
             this.button1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.button1.Location = new System.Drawing.Point(275, 287);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "SignUp";
+            this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(116, 30);
             this.button1.TabIndex = 5;
             this.button1.Text = "Sign Up";
@@ -259,7 +259,7 @@
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "GUI_SignUpForm";
-            this.Text = "SignUp_Form";
+            this.Text = "SIGN UP";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

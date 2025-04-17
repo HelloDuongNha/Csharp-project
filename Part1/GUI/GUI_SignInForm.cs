@@ -26,7 +26,7 @@ namespace Part1
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.Hide(); 
+            this.Close(); 
 
             GUI_SignUpForm signUpForm = new GUI_SignUpForm();
             signUpForm.Show();

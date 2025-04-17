@@ -44,6 +44,9 @@ namespace Part1
 
                 AccountService.CreateAccountFromForm(inputList);
                 MessageBox.Show("Account created successfully!");
+                this.Close();
+                GUI_SignInForm signInForm = new GUI_SignInForm();
+                signInForm.Show();
             }
             catch (Exception ex)
             {
@@ -53,7 +56,7 @@ namespace Part1
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.Hide();
+            this.Close();
 
             GUI_SignInForm signInForm = new GUI_SignInForm();
             signInForm.Show();

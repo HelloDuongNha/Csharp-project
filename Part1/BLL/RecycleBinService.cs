@@ -125,6 +125,7 @@ namespace Part1
         {
             RecycleBin bin = new RecycleBin();
             bin.Display(binGridView);
+            binGridView.ClearSelection();
         }
 
         public static int CountRecords()
@@ -154,6 +155,12 @@ namespace Part1
             bin.Display(BinGridView);
         }
 
+        public static void CountRecords(ToolStripLabel toolStripStatusLabel2)
+        {
+            RecycleBin bin = new RecycleBin();
+            toolStripStatusLabel2.Text = $"Total record: {bin.CountRecord()}";
+        }
+
         public static void CheckAndUpdateRecycleBinButtons(DataGridView BinGridView, List<Button> buttons)
         {
             bool hasSelection = BinGridView.SelectedRows.Count > 0;
@@ -170,8 +177,8 @@ namespace Part1
 
             if (hasSelection)
             {
-                buttons[0].Location = new Point(10, 310); // RecoveryBTN
-                buttons[1].Location = new Point(10, 350); // BinDeleteBTN
+                buttons[0].Location = new Point(6, 0); // RecoveryBTN
+                buttons[1].Location = new Point(6, 40); // BinDeleteBTN
             }
         }
 
@@ -190,7 +197,6 @@ namespace Part1
         public static void ClearGroupTitle(GroupBox groupBox)
         {
             groupBox.Text = "Details (ID: ? )";
-
         }
 
         public static void UpdateGroupTitle(GroupBox groupBox, DataGridView binGridView)
